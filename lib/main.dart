@@ -74,23 +74,23 @@ class MyApp extends StatelessWidget {
         splashColor: Colors.transparent,
         hoverColor: Colors.transparent,
         highlightColor: Colors.transparent,
-        appBarTheme: const AppBarTheme(
-          titleTextStyle: TextStyle(
-            color: whiteColor,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.transparent,
-            shadowColor: Colors.transparent,
-            minimumSize: Size.zero,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(48),
-            ),
-          ),
-        ),
+        // appBarTheme: const AppBarTheme(
+        //   titleTextStyle: TextStyle(
+        //     color: whiteColor,
+        //     fontSize: 18,
+        //     fontWeight: FontWeight.w600,
+        //   ),
+        // ),
+        // elevatedButtonTheme: ElevatedButtonThemeData(
+        //   style: ElevatedButton.styleFrom(
+        //     backgroundColor: Colors.transparent,
+        //     shadowColor: Colors.transparent,
+        //     minimumSize: Size.zero,
+        //     shape: RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.circular(48),
+        //     ),
+        //   ),
+        // ),
       ),
       navigatorKey: NavigatorKey.navigatorKey,
       home: const Scaffold(),

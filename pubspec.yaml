@@ -38,8 +38,14 @@ dependencies:
   dio: ^5.7.0
   get: ^4.6.6
   get_storage: ^2.1.1
+  cached_network_image: ^3.4.1
+  url_launcher: ^6.3.1
+  share_plus: ^10.1.2
   purchases_flutter: ^8.3.0
+  in_app_review: ^2.0.10
   page_transition: ^2.1.0
+  flutter_svg: ^2.0.16
+  fadingpageview: ^1.0.0
 
 dev_dependencies:
   flutter_test:
