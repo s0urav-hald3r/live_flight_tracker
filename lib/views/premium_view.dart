@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:live_flight_tracker/components/plan_container.dart';
 import 'package:live_flight_tracker/components/premium_appbar.dart';
 import 'package:live_flight_tracker/components/premium_links.dart';
 import 'package:live_flight_tracker/config/colors.dart';
@@ -87,11 +88,7 @@ class _PremiumViewState extends State<PremiumView> {
                       ),
                     ),
                     SizedBox(height: 8.h),
-                    Container(
-                      margin: EdgeInsets.symmetric(
-                          horizontal: 24.w, vertical: 16.h),
-                      width: size.width,
-                    ),
+                    const PlanContainer(),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       height: 48.h,
