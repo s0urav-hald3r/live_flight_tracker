@@ -8,6 +8,7 @@ import 'package:live_flight_tracker/config/images.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/services/local_storage.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
+import 'package:live_flight_tracker/views/premium_view.dart';
 
 class OnboardingView extends StatefulWidget {
   const OnboardingView({super.key});
@@ -113,8 +114,8 @@ class _OnboardingViewState extends State<OnboardingView> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: controller.onboardingIndex == index
-                            ? whiteColor
-                            : whiteColor.withOpacity(.4),
+                            ? const Color(0xFFD2DDF4)
+                            : const Color(0xFF323558),
                       ),
                     );
                   });
@@ -157,7 +158,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                       pageController.next();
                     } else {
                       LocalStorage.addData(isOnboardingDone, false);
-                      NavigatorKey.pushReplacement(Container(),
+                      NavigatorKey.pushReplacement(const PremiumView(),
                           routeName: '/onboardingToPremium');
                     }
                   },

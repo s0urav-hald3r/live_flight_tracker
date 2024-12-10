@@ -7,6 +7,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
+import 'package:live_flight_tracker/controllers/settings_controller.dart';
 import 'package:live_flight_tracker/views/onboarding_view.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:live_flight_tracker/config/colors.dart';
@@ -49,6 +50,7 @@ void main() async {
 
   // Dependency injection
   Get.lazyPut(() => HomeController());
+  Get.put(SettingsController());
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
