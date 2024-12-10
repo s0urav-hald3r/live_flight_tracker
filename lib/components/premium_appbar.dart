@@ -5,6 +5,7 @@ import 'package:live_flight_tracker/config/extension.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/controllers/settings_controller.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
+import 'package:live_flight_tracker/views/home_view.dart';
 
 class PremiumAppBar extends StatelessWidget {
   const PremiumAppBar({super.key});
@@ -40,7 +41,7 @@ class PremiumAppBar extends StatelessWidget {
         InkWell(
           onTap: () {
             if (NavigatorKey.currentRoute == '/onboardingToPremium') {
-              NavigatorKey.pushReplacement(const Scaffold());
+              NavigatorKey.pushReplacement(const HomeView());
             } else {
               NavigatorKey.pop();
             }
