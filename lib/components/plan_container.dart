@@ -49,7 +49,9 @@ class PlanContainer extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 12.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: primaryColor),
+        border: Border.all(
+          color: cValue == gValue ? primaryColor : Colors.transparent,
+        ),
       ),
       child: Row(children: [
         SvgPicture.asset(icon),
