@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:live_flight_tracker/controllers/home_controller.dart';
+import 'package:live_flight_tracker/views/onboarding_view.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/constants.dart';
@@ -46,6 +48,7 @@ void main() async {
   // await _configureSDK();
 
   // Dependency injection
+  Get.lazyPut(() => HomeController());
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -81,19 +84,19 @@ class MyApp extends StatelessWidget {
         //     fontWeight: FontWeight.w600,
         //   ),
         // ),
-        // elevatedButtonTheme: ElevatedButtonThemeData(
-        //   style: ElevatedButton.styleFrom(
-        //     backgroundColor: Colors.transparent,
-        //     shadowColor: Colors.transparent,
-        //     minimumSize: Size.zero,
-        //     shape: RoundedRectangleBorder(
-        //       borderRadius: BorderRadius.circular(48),
-        //     ),
-        //   ),
-        // ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            minimumSize: Size.zero,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+          ),
+        ),
       ),
       navigatorKey: NavigatorKey.navigatorKey,
-      home: const Scaffold(),
+      home: const OnboardingView(),
     );
   }
 }
