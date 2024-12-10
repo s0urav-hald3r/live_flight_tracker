@@ -69,7 +69,10 @@ class _OnboardingViewState extends State<OnboardingView> {
                           fit: BoxFit.contain,
                         ),
                       ),
-                      SizedBox(height: 60.h),
+                      SizedBox(
+                        height: 60.h,
+                        child: Image.asset(onboardingShadow),
+                      ),
                       Text(
                         contentBody[itemIndex]['title']!,
                         style: const TextStyle(
