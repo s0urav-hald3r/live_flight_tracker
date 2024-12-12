@@ -11,6 +11,8 @@ enum Distance { MILES, KM, NM }
 
 enum Altitude { FEET, METER }
 
+enum MapMode { Dark, Light, Satelite }
+
 class HomeController extends GetxController {
   static HomeController get instance => Get.find();
 
@@ -23,6 +25,7 @@ class HomeController extends GetxController {
   final Rx<Speed> _selectedSpeed = Speed.KPH.obs;
   final Rx<Distance> _selectedDistance = Distance.KM.obs;
   final Rx<Altitude> _selectedAltitude = Altitude.METER.obs;
+  final Rx<MapMode> _selectedMapMode = MapMode.Dark.obs;
 
   // Getters
   int get onboardingIndex => _onboardingIndex.value;
@@ -31,6 +34,7 @@ class HomeController extends GetxController {
   Speed get selectedSpeed => _selectedSpeed.value;
   Distance get selectedDistance => _selectedDistance.value;
   Altitude get selectedAltitude => _selectedAltitude.value;
+  MapMode get selectedMapMode => _selectedMapMode.value;
 
   // Setters
   set onboardingIndex(value) => _onboardingIndex.value = value;
@@ -39,4 +43,5 @@ class HomeController extends GetxController {
   set selectedSpeed(value) => _selectedSpeed.value = value;
   set selectedDistance(value) => _selectedDistance.value = value;
   set selectedAltitude(value) => _selectedAltitude.value = value;
+  set selectedMapMode(value) => _selectedMapMode.value = value;
 }

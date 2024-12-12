@@ -7,6 +7,7 @@ import 'package:live_flight_tracker/utils/extension.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/utility_functions.dart';
+import 'package:live_flight_tracker/views/maps_view.dart';
 import 'package:live_flight_tracker/views/units_view.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -48,7 +49,9 @@ class SettingsView extends StatelessWidget {
                   settingsMap,
                   'Maps',
                   SvgPicture.asset(rightArrow),
-                  () {},
+                  () {
+                    NavigatorKey.push(const MapsView());
+                  },
                 ),
                 _items(
                   settingsPlane,
