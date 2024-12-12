@@ -7,6 +7,7 @@ import 'package:live_flight_tracker/controllers/settings_controller.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
 import 'package:live_flight_tracker/config/icons.dart';
+import 'package:live_flight_tracker/views/premium_view.dart';
 
 class UnitsView extends StatelessWidget {
   const UnitsView({super.key});
@@ -106,7 +107,9 @@ class UnitsView extends StatelessWidget {
             onTap: () {
               if (SettingsController.instance.isPremium) {
                 HomeController.instance.selectedSpeed = cValue;
+                return;
               }
+              NavigatorKey.push(const PremiumView());
             },
             child: Container(
               width: 24.w,
@@ -149,7 +152,9 @@ class UnitsView extends StatelessWidget {
             onTap: () {
               if (SettingsController.instance.isPremium) {
                 HomeController.instance.selectedDistance = cValue;
+                return;
               }
+              NavigatorKey.push(const PremiumView());
             },
             child: Container(
               width: 24.w,
@@ -192,7 +197,9 @@ class UnitsView extends StatelessWidget {
             onTap: () {
               if (SettingsController.instance.isPremium) {
                 HomeController.instance.selectedAltitude = cValue;
+                return;
               }
+              NavigatorKey.push(const PremiumView());
             },
             child: Container(
               width: 24.w,

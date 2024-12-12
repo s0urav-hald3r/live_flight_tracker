@@ -5,8 +5,10 @@ import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/config/images.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
+import 'package:live_flight_tracker/controllers/settings_controller.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
+import 'package:live_flight_tracker/views/premium_view.dart';
 
 class MapsView extends StatelessWidget {
   const MapsView({super.key});
@@ -68,7 +70,11 @@ class MapsView extends StatelessWidget {
   Widget _mapItem(BuildContext context, MapMode mode, String image) {
     return InkWell(
       onTap: () {
-        HomeController.instance.selectedMapMode = mode;
+        if (SettingsController.instance.isPremium) {
+          HomeController.instance.selectedMapMode = mode;
+          return;
+        }
+        NavigatorKey.push(const PremiumView());
       },
       child: Container(
         margin: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 8.h),
