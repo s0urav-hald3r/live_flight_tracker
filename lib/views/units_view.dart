@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:live_flight_tracker/config/colors.dart';
+import 'package:live_flight_tracker/controllers/home_controller.dart';
+import 'package:live_flight_tracker/controllers/settings_controller.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
 import 'package:live_flight_tracker/config/icons.dart';
@@ -10,52 +13,197 @@ class UnitsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = HomeController.instance;
+
     return Scaffold(
       body: SafeArea(
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          child: Column(children: [
-            Container(
-              padding: EdgeInsets.only(right: 16.w),
-              width: MediaQuery.of(context).size.width,
-              height: 48.h,
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () => NavigatorKey.pop(),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 16.w),
-                        child: SvgPicture.asset(leftArrow),
+          child: Obx(() {
+            return Column(children: [
+              Container(
+                padding: EdgeInsets.only(right: 16.w),
+                width: MediaQuery.of(context).size.width,
+                height: 48.h,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () => NavigatorKey.pop(),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.w),
+                          child: SvgPicture.asset(leftArrow),
+                        ),
                       ),
-                    ),
-                    const Text(
-                      'Units',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18,
-                        color: whiteColor,
+                      const Text(
+                        'Units',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
+                          color: whiteColor,
+                        ),
                       ),
-                    ),
-                    const Text(
-                      'Save',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        color: primaryColor,
+                      const Text(
+                        'Save',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          color: primaryColor,
+                        ),
                       ),
-                    ),
-                  ]),
-            ),
-            _menuHeader('Speed'),
-            Divider(height: 1.h, color: const Color(0xFF323558)),
-            _menuHeader('Distance'),
-            Divider(height: 1.h, color: const Color(0xFF323558)),
-            _menuHeader('Altitude'),
-          ]),
+                    ]),
+              ),
+              Expanded(
+                child: ListView(children: [
+                  _menuHeader('Speed'),
+                  _speedItems(Speed.MPH, controller.selectedSpeed),
+                  _speedItems(Speed.KPH, controller.selectedSpeed),
+                  _speedItems(Speed.KNOTS, controller.selectedSpeed),
+                  Divider(height: 1.h, color: const Color(0xFF323558)),
+                  _menuHeader('Distance'),
+                  _distanceItems(Distance.MILES, controller.selectedDistance),
+                  _distanceItems(Distance.KM, controller.selectedDistance),
+                  _distanceItems(Distance.NM, controller.selectedDistance),
+                  Divider(height: 1.h, color: const Color(0xFF323558)),
+                  _menuHeader('Altitude'),
+                  _altitudeItems(Altitude.FEET, controller.selectedAltitude),
+                  _altitudeItems(Altitude.METER, controller.selectedAltitude),
+                ]),
+              ),
+            ]);
+          }),
         ),
       ),
+    );
+  }
+
+  Widget _speedItems(Speed cValue, Speed gValue) {
+    return Container(
+      height: 64.h,
+      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Text(
+          cValue.name,
+          style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+            color: whiteColor,
+          ),
+        ),
+        if (cValue == gValue)
+          Container(
+            width: 24.w,
+            height: 24.w,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: primaryColor, width: 7.5),
+              color: whiteColor,
+            ),
+          )
+        else
+          InkWell(
+            onTap: () {
+              if (SettingsController.instance.isPremium) {
+                HomeController.instance.selectedSpeed = cValue;
+              }
+            },
+            child: Container(
+              width: 24.w,
+              height: 24.w,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: whiteColor),
+              ),
+            ),
+          )
+      ]),
+    );
+  }
+
+  Widget _distanceItems(Distance cValue, Distance gValue) {
+    return Container(
+      height: 64.h,
+      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Text(
+          cValue.name,
+          style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+            color: whiteColor,
+          ),
+        ),
+        if (cValue == gValue)
+          Container(
+            width: 24.w,
+            height: 24.w,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: primaryColor, width: 7.5),
+              color: whiteColor,
+            ),
+          )
+        else
+          InkWell(
+            onTap: () {
+              if (SettingsController.instance.isPremium) {
+                HomeController.instance.selectedDistance = cValue;
+              }
+            },
+            child: Container(
+              width: 24.w,
+              height: 24.w,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: whiteColor),
+              ),
+            ),
+          )
+      ]),
+    );
+  }
+
+  Widget _altitudeItems(Altitude cValue, Altitude gValue) {
+    return Container(
+      height: 64.h,
+      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Text(
+          cValue.name,
+          style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+            color: whiteColor,
+          ),
+        ),
+        if (cValue == gValue)
+          Container(
+            width: 24.w,
+            height: 24.w,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: primaryColor, width: 7.5),
+              color: whiteColor,
+            ),
+          )
+        else
+          InkWell(
+            onTap: () {
+              if (SettingsController.instance.isPremium) {
+                HomeController.instance.selectedAltitude = cValue;
+              }
+            },
+            child: Container(
+              width: 24.w,
+              height: 24.w,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: whiteColor),
+              ),
+            ),
+          )
+      ]),
     );
   }
 
@@ -71,11 +219,12 @@ class UnitsView extends StatelessWidget {
             color: whiteColor,
           ),
         ),
-        SizedBox(
-          width: 24,
-          height: 24,
-          child: SvgPicture.asset(premiumIcon),
-        )
+        if (!SettingsController.instance.isPremium)
+          SizedBox(
+            width: 24,
+            height: 24,
+            child: SvgPicture.asset(premiumIcon),
+          )
       ]),
     );
   }
