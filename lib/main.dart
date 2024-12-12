@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/controllers/settings_controller.dart';
+import 'package:live_flight_tracker/services/local_storage.dart';
+import 'package:live_flight_tracker/views/home_view.dart';
 import 'package:live_flight_tracker/views/onboarding_view.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:live_flight_tracker/config/colors.dart';
@@ -98,7 +100,9 @@ class MyApp extends StatelessWidget {
         ),
       ),
       navigatorKey: NavigatorKey.navigatorKey,
-      home: const OnboardingView(),
+      home: LocalStorage.getData(isOnboardingDone, KeyType.BOOL)
+          ? const HomeView()
+          : const OnboardingView(),
     );
   }
 }
