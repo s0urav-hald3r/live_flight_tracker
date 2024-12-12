@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/constants.dart';
-import 'package:live_flight_tracker/config/extension.dart';
+import 'package:live_flight_tracker/utils/extension.dart';
 import 'package:live_flight_tracker/config/images.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/services/local_storage.dart';
@@ -157,7 +157,7 @@ class _OnboardingViewState extends State<OnboardingView> {
 
                       pageController.next();
                     } else {
-                      LocalStorage.addData(isOnboardingDone, false);
+                      LocalStorage.addData(isOnboardingDone, true);
                       NavigatorKey.pushReplacement(const PremiumView(),
                           routeName: '/onboardingToPremium');
                     }

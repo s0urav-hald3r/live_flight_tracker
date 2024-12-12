@@ -3,9 +3,11 @@ import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/constants.dart';
-import 'package:live_flight_tracker/config/extension.dart';
+import 'package:live_flight_tracker/utils/extension.dart';
 import 'package:live_flight_tracker/config/icons.dart';
+import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/utility_functions.dart';
+import 'package:live_flight_tracker/views/units_view.dart';
 import 'package:share_plus/share_plus.dart';
 
 class SettingsView extends StatelessWidget {
@@ -22,6 +24,7 @@ class SettingsView extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               width: MediaQuery.of(context).size.width,
+              height: 48.h,
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -36,7 +39,7 @@ class SettingsView extends StatelessWidget {
                     SvgPicture.asset(premiumIcon)
                   ]),
             ),
-            SizedBox(height: 8.h),
+            SizedBox(height: 16.h),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               width: MediaQuery.of(context).size.width,
@@ -57,7 +60,9 @@ class SettingsView extends StatelessWidget {
                   settingsUnit,
                   'Units',
                   SvgPicture.asset(rightArrow),
-                  () {},
+                  () {
+                    NavigatorKey.push(const UnitsView());
+                  },
                 ),
                 _items(
                   settingsCompass,

@@ -18,3 +18,4 @@ const String settingsShare = 'assets/icons/settings_share.svg';
 const String settingsTerms = 'assets/icons/settings_terms.svg';
 const String settingsUnit = 'assets/icons/settings_unit.svg';
 const String rightArrow = 'assets/icons/right_arrow.svg';
+const String leftArrow = 'assets/icons/left_arrow.svg';
