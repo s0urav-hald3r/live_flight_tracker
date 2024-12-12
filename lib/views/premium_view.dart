@@ -67,7 +67,6 @@ class _PremiumViewState extends State<PremiumView> {
                   children: [
                     if (_showAppbar) const PremiumAppBar(),
                     const Spacer(),
-                    SvgPicture.asset(premiumBg),
                     SizedBox(height: 16.h),
                     const Text(
                       'Choose Your Plan',

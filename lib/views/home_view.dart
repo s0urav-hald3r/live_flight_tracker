@@ -5,6 +5,7 @@ import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/extension.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
+import 'package:live_flight_tracker/views/settings_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -24,7 +25,7 @@ class HomeView extends StatelessWidget {
               children: [
                 Container(),
                 Container(),
-                Container(),
+                const SettingsView(),
               ]),
           bottomNavigationBar: Container(
             height: 60 + bottomPadding,
