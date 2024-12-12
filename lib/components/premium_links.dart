@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:live_flight_tracker/config/constants.dart';
 import 'package:live_flight_tracker/controllers/settings_controller.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:live_flight_tracker/utils/utility_functions.dart';
 
 class PremiumLinks extends StatelessWidget {
   const PremiumLinks({super.key});
@@ -10,15 +10,8 @@ class PremiumLinks extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       InkWell(
-        onTap: () async {
-          try {
-            Uri uri = Uri.parse(termsOfUse);
-            if (!await launchUrl(uri)) {
-              throw Exception('Could not launch $uri');
-            }
-          } catch (e) {
-            debugPrint('error while launching: $e');
-          }
+        onTap: () {
+          UtilityFunctions.openUrl(termsOfUseUrl);
         },
         child: const Text(
           'Terms',
@@ -37,15 +30,8 @@ class PremiumLinks extends StatelessWidget {
         ),
       ),
       InkWell(
-        onTap: () async {
-          try {
-            Uri uri = Uri.parse(privacyPolicy);
-            if (!await launchUrl(uri)) {
-              throw Exception('Could not launch $uri');
-            }
-          } catch (e) {
-            debugPrint('error while launching: $e');
-          }
+        onTap: () {
+          UtilityFunctions.openUrl(privacyPolicyUrl);
         },
         child: const Text(
           'Privacy Policy',

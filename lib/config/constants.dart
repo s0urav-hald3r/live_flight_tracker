@@ -12,6 +12,6 @@ const String appleApiKey = '';
 
 // Required urls
 const String shareText = '';
-const String privacyPolicy = '';
-const String termsOfUse = '';
-const String support = '';
+const String privacyPolicyUrl = '';
+const String termsOfUseUrl = '';
+const String supportUrl = '';

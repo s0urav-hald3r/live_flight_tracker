@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:live_flight_tracker/config/colors.dart';
+import 'package:live_flight_tracker/config/constants.dart';
 import 'package:live_flight_tracker/config/extension.dart';
 import 'package:live_flight_tracker/config/icons.dart';
+import 'package:live_flight_tracker/utils/utility_functions.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -73,25 +76,37 @@ class SettingsView extends StatelessWidget {
                   settingsContact,
                   'Contact Us',
                   SvgPicture.asset(rightArrow),
-                  () {},
+                  () {
+                    UtilityFunctions.openUrl(supportUrl);
+                  },
                 ),
                 _items(
                   settingsPrivacy,
                   'Privacy Policy',
                   SvgPicture.asset(rightArrow),
-                  () {},
+                  () {
+                    UtilityFunctions.openUrl(privacyPolicyUrl);
+                  },
                 ),
                 _items(
                   settingsTerms,
                   'Terms of Use',
                   SvgPicture.asset(rightArrow),
-                  () {},
+                  () {
+                    UtilityFunctions.openUrl(termsOfUseUrl);
+                  },
                 ),
                 _items(
                   settingsShare,
                   'Share with friends',
                   SvgPicture.asset(rightArrow),
-                  () {},
+                  () async {
+                    try {
+                      await Share.share(shareText);
+                    } catch (e) {
+                      debugPrint('Faild to share with friends');
+                    }
+                  },
                 ),
               ]),
             )
