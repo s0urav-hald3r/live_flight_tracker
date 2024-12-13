@@ -20,3 +20,5 @@ const String settingsUnit = 'assets/icons/settings_unit.svg';
 const String rightArrow = 'assets/icons/right_arrow.svg';
 const String leftArrow = 'assets/icons/left_arrow.svg';
 const String mapTick = 'assets/icons/map_tick.svg';
+
+const String myFlightsPlane = 'assets/icons/my_flights_plane.svg';
