@@ -57,6 +57,7 @@ class HomeController extends GetxController {
   final RxInt _onboardingIndex = 0.obs;
   final RxInt _homeIndex = 0.obs;
   final RxInt _selectedPlaneIndex = 0.obs;
+  final RxInt _searchToggleIndex = 0.obs;
   final Rx<Plan> _selectedPlan = Plan.WEEKLY.obs;
   final Rx<Speed> _selectedSpeed = Speed.KPH.obs;
   final Rx<Distance> _selectedDistance = Distance.KM.obs;
@@ -67,6 +68,7 @@ class HomeController extends GetxController {
   int get onboardingIndex => _onboardingIndex.value;
   int get homeIndex => _homeIndex.value;
   int get selectedPlaneIndex => _selectedPlaneIndex.value;
+  int get searchToggleIndex => _searchToggleIndex.value;
   Plan get selectedPlan => _selectedPlan.value;
   Speed get selectedSpeed => _selectedSpeed.value;
   Distance get selectedDistance => _selectedDistance.value;
@@ -77,6 +79,7 @@ class HomeController extends GetxController {
   set onboardingIndex(value) => _onboardingIndex.value = value;
   set homeIndex(value) => _homeIndex.value = value;
   set selectedPlaneIndex(value) => _selectedPlaneIndex.value = value;
+  set searchToggleIndex(value) => _searchToggleIndex.value = value;
   set selectedPlan(value) => _selectedPlan.value = value;
   set selectedSpeed(value) => _selectedSpeed.value = value;
   set selectedDistance(value) => _selectedDistance.value = value;

@@ -7,6 +7,7 @@ import 'package:live_flight_tracker/controllers/settings_controller.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
 import 'package:live_flight_tracker/views/premium_view.dart';
+import 'package:live_flight_tracker/views/search_flights_view.dart';
 
 class MyFlightsView extends StatelessWidget {
   const MyFlightsView({super.key});
@@ -88,7 +89,9 @@ class MyFlightsView extends StatelessWidget {
                             color: whiteColor,
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          NavigatorKey.push(const SearchFlightsView());
+                        },
                       ),
                     ),
                   ]),
