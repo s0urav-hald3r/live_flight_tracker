@@ -2,6 +2,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:live_flight_tracker/components/flight_code_form.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
@@ -12,7 +13,7 @@ class RouteForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipPath(
-      clipper: TicketClipper(),
+      clipper: TicketClipper(hFactor: 0.61),
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: 217.5.h,
@@ -106,33 +107,4 @@ class RouteForm extends StatelessWidget {
       ),
     );
   }
-}
-
-class TicketClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-
-    path.lineTo(0.0, size.height);
-    path.lineTo(size.width, size.height);
-    path.lineTo(size.width, 0.0);
-
-    path.addOval(
-      Rect.fromCircle(
-        center: Offset(5.w, size.height * .61),
-        radius: 20,
-      ),
-    );
-    path.addOval(
-      Rect.fromCircle(
-        center: Offset(size.width - 5.w, size.height * .61),
-        radius: 20,
-      ),
-    );
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
