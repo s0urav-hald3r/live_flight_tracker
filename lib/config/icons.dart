@@ -22,3 +22,4 @@ const String leftArrow = 'assets/icons/left_arrow.svg';
 const String mapTick = 'assets/icons/map_tick.svg';
 
 const String myFlightsPlane = 'assets/icons/my_flights_plane.svg';
+const String calendar = 'assets/icons/calendar.svg';

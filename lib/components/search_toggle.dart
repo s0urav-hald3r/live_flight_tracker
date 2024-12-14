@@ -14,7 +14,6 @@ class SearchToggle extends StatelessWidget {
 
     return Obx(() {
       return AnimatedToggleSwitch<int>.size(
-        textDirection: TextDirection.rtl,
         current: controller.searchToggleIndex,
         values: const [0, 1],
         iconOpacity: .75,
@@ -25,7 +24,7 @@ class SearchToggle extends StatelessWidget {
         iconBuilder: (index) {
           return [
             const Text(
-              'By Flight Code',
+              'By Route',
               style: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 12,
@@ -33,7 +32,7 @@ class SearchToggle extends StatelessWidget {
               ),
             ),
             const Text(
-              'By Route',
+              'By Flight Code',
               style: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 12,

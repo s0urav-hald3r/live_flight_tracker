@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:live_flight_tracker/components/route_form.dart';
 import 'package:live_flight_tracker/components/search_toggle.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/icons.dart';
@@ -45,7 +46,9 @@ class SearchFlightsView extends StatelessWidget {
                 ]),
           ),
           SizedBox(height: 8.h),
-          const SearchToggle()
+          const SearchToggle(),
+          SizedBox(height: 4.h),
+          const RouteForm()
         ]),
       ),
     );
