@@ -1,7 +1,22 @@
 PODS:
   - Flutter (1.0.0)
+  - flutter_config (0.0.1):
+    - Flutter
   - flutter_native_splash (2.4.3):
     - Flutter
+  - geolocator_apple (1.2.0):
+    - Flutter
+  - Google-Maps-iOS-Utils (5.0.0):
+    - GoogleMaps (~> 8.0)
+  - google_maps_flutter_ios (0.0.1):
+    - Flutter
+    - Google-Maps-iOS-Utils (< 7.0, >= 5.0)
+    - GoogleMaps (< 10.0, >= 8.4)
+  - GoogleMaps (8.4.0):
+    - GoogleMaps/Maps (= 8.4.0)
+  - GoogleMaps/Base (8.4.0)
+  - GoogleMaps/Maps (8.4.0):
+    - GoogleMaps/Base
   - in_app_review (2.0.0):
     - Flutter
   - path_provider_foundation (0.0.1):
@@ -23,7 +38,10 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - flutter_config (from `.symlinks/plugins/flutter_config/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
+  - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - in_app_review (from `.symlinks/plugins/in_app_review/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - purchases_flutter (from `.symlinks/plugins/purchases_flutter/ios`)
@@ -33,14 +51,22 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Google-Maps-iOS-Utils
+    - GoogleMaps
     - PurchasesHybridCommon
     - RevenueCat
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  flutter_config:
+    :path: ".symlinks/plugins/flutter_config/ios"
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
+  geolocator_apple:
+    :path: ".symlinks/plugins/geolocator_apple/ios"
+  google_maps_flutter_ios:
+    :path: ".symlinks/plugins/google_maps_flutter_ios/ios"
   in_app_review:
     :path: ".symlinks/plugins/in_app_review/ios"
   path_provider_foundation:
@@ -56,7 +82,12 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_config: a0cd4b5996f2a1683657d14777c8fa57e04a40ea
   flutter_native_splash: 576fbd69b830a63594ae678396fa17e43abbc5f8
+  geolocator_apple: 1560c3c875af2a412242c7a923e15d0d401966ff
+  Google-Maps-iOS-Utils: 66d6de12be1ce6d3742a54661e7a79cb317a9321
+  google_maps_flutter_ios: 0291eb2aa252298a769b04d075e4a9d747ff7264
+  GoogleMaps: 8939898920281c649150e0af74aa291c60f2e77d
   in_app_review: 5596fe56fab799e8edb3561c03d053363ab13457
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
   purchases_flutter: c284e73e46f9334bec967ed9fb9223b8a3781bc2
@@ -66,6 +97,6 @@ SPEC CHECKSUMS:
   sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
   url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
 
-PODFILE CHECKSUM: a57f30d18f102dd3ce366b1d62a55ecbef2158e5
+PODFILE CHECKSUM: 1959d098c91d8a792531a723c4a9d7e9f6a01e38
 
 COCOAPODS: 1.16.2
