@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:live_flight_tracker/config/constants.dart';
 import 'package:live_flight_tracker/config/images.dart';
+import 'package:live_flight_tracker/services/local_storage.dart';
 
 enum Plan { WEEKLY, MONTHLY, YEARLY }
 
@@ -18,9 +20,17 @@ enum MapMode { Dark, Light, Satelite }
 class HomeController extends GetxController {
   static HomeController get instance => Get.find();
 
+  @override
+  void onInit() {
+    super.onInit();
+    turnOnCompass = LocalStorage.getData(isTurnOnCompass, KeyType.BOOL);
+  }
+
   final pageController = PageController();
 
   // Search flight input controllers
+  final searchPlace = TextEditingController();
+
   final departingFrom = TextEditingController();
   final arrivingAt = TextEditingController();
   final flightCode = TextEditingController();
@@ -76,6 +86,7 @@ class HomeController extends GetxController {
   final Rx<Distance> _selectedDistance = Distance.KM.obs;
   final Rx<Altitude> _selectedAltitude = Altitude.METER.obs;
   final Rx<MapMode> _selectedMapMode = MapMode.Dark.obs;
+  final RxBool _turnOnCompass = true.obs;
 
   final RxList<DateTime> _selectedDates = <DateTime>[].obs;
 
@@ -89,6 +100,7 @@ class HomeController extends GetxController {
   Distance get selectedDistance => _selectedDistance.value;
   Altitude get selectedAltitude => _selectedAltitude.value;
   MapMode get selectedMapMode => _selectedMapMode.value;
+  bool get turnOnCompass => _turnOnCompass.value;
 
   List<DateTime> get selectedDates => _selectedDates;
 
@@ -102,6 +114,7 @@ class HomeController extends GetxController {
   set selectedDistance(value) => _selectedDistance.value = value;
   set selectedAltitude(value) => _selectedAltitude.value = value;
   set selectedMapMode(value) => _selectedMapMode.value = value;
+  set turnOnCompass(value) => _turnOnCompass.value = value;
 
   set selectedDates(value) => _selectedDates.value = value;
 }

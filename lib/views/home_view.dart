@@ -5,6 +5,7 @@ import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
+import 'package:live_flight_tracker/views/live_planes_view.dart';
 import 'package:live_flight_tracker/views/my_flights_view.dart';
 import 'package:live_flight_tracker/views/settings_view.dart';
 
@@ -23,10 +24,10 @@ class HomeView extends StatelessWidget {
           body: PageView(
               controller: controller.pageController,
               physics: const NeverScrollableScrollPhysics(),
-              children: [
-                Container(),
-                const MyFlightsView(),
-                const SettingsView(),
+              children: const [
+                LivePlanesView(),
+                MyFlightsView(),
+                SettingsView(),
               ]),
           bottomNavigationBar: Container(
             height: 60 + bottomPadding,

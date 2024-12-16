@@ -4,7 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/constants.dart';
+import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/controllers/settings_controller.dart';
+import 'package:live_flight_tracker/services/local_storage.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
@@ -89,10 +91,13 @@ class SettingsView extends StatelessWidget {
                   AdvancedSwitch(
                     activeColor: primaryColor,
                     inactiveColor: Colors.grey,
-                    initialValue: true,
+                    initialValue: HomeController.instance.turnOnCompass,
                     width: 40.w,
                     height: 24.h,
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      LocalStorage.addData(isTurnOnCompass, value);
+                      HomeController.instance.turnOnCompass = value;
+                    },
                   ),
                   () {},
                 ),
