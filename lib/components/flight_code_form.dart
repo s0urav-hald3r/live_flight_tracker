@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:live_flight_tracker/components/date_picker_widget.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/icons.dart';
+import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
 
 class FlightCodeForm extends StatelessWidget {
@@ -30,6 +31,7 @@ class FlightCodeForm extends StatelessWidget {
                   height: 48.h,
                   margin: EdgeInsets.fromLTRB(16.w, 16.h, 4.w, 16.h),
                   child: CupertinoTextField(
+                    controller: HomeController.instance.flightCode,
                     decoration: BoxDecoration(
                       color: bgColor,
                       borderRadius: BorderRadius.circular(15),
@@ -55,6 +57,7 @@ class FlightCodeForm extends StatelessWidget {
                   height: 48.h,
                   margin: EdgeInsets.fromLTRB(4.w, 16.h, 16.w, 16.h),
                   child: CupertinoTextField(
+                    controller: HomeController.instance.flightNumber,
                     decoration: BoxDecoration(
                       color: bgColor,
                       borderRadius: BorderRadius.circular(15),
@@ -89,6 +92,7 @@ class FlightCodeForm extends StatelessWidget {
             height: 48.h,
             margin: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
             child: CupertinoTextField(
+              controller: HomeController.instance.date,
               readOnly: true,
               onTap: () {
                 showModalBottomSheet(

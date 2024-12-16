@@ -6,6 +6,7 @@ import 'package:live_flight_tracker/components/date_picker_widget.dart';
 import 'package:live_flight_tracker/components/flight_code_form.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/icons.dart';
+import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
 
 class RouteForm extends StatelessWidget {
@@ -28,6 +29,7 @@ class RouteForm extends StatelessWidget {
             height: 48.h,
             margin: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 0),
             child: CupertinoTextField(
+              controller: HomeController.instance.departingFrom,
               decoration: BoxDecoration(
                 color: bgColor,
                 borderRadius: BorderRadius.circular(15),
@@ -50,6 +52,7 @@ class RouteForm extends StatelessWidget {
             height: 48.h,
             margin: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 16.h),
             child: CupertinoTextField(
+              controller: HomeController.instance.arrivingAt,
               decoration: BoxDecoration(
                 color: bgColor,
                 borderRadius: BorderRadius.circular(15),
@@ -82,6 +85,7 @@ class RouteForm extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
             child: CupertinoTextField(
               readOnly: true,
+              controller: HomeController.instance.date,
               onTap: () {
                 showModalBottomSheet(
                     context: context,

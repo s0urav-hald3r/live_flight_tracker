@@ -51,9 +51,9 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
                 weekdaysSymbol: const Weekdays(
                   sunday: "Sun",
                   monday: "Mon",
-                  tuesday: "Tu",
+                  tuesday: "Tue",
                   wednesday: "Wed",
-                  thursday: "Th",
+                  thursday: "Thu",
                   friday: "Fri",
                   saturday: "Sat",
                 ),
@@ -169,7 +169,10 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
                         color: whiteColor,
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      controller.setSelectedDate();
+                      NavigatorKey.pop();
+                    },
                   ),
                 ),
               ])

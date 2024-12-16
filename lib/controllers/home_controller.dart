@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:live_flight_tracker/config/images.dart';
 
 enum Plan { WEEKLY, MONTHLY, YEARLY }
@@ -18,6 +19,18 @@ class HomeController extends GetxController {
   static HomeController get instance => Get.find();
 
   final pageController = PageController();
+
+  // Search flight input controllers
+  final departingFrom = TextEditingController();
+  final arrivingAt = TextEditingController();
+  final flightCode = TextEditingController();
+  final flightNumber = TextEditingController();
+  final date = TextEditingController();
+
+  void setSelectedDate() {
+    date.text = DateFormat("EEE, d MMM y")
+        .format(selectedDates.isEmpty ? DateTime.now() : selectedDates.first);
+  }
 
   List<Map<String, dynamic>> flightDetails = [
     {
