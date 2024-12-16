@@ -2,6 +2,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:live_flight_tracker/components/date_picker_widget.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
@@ -88,6 +89,15 @@ class FlightCodeForm extends StatelessWidget {
             height: 48.h,
             margin: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
             child: CupertinoTextField(
+              readOnly: true,
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (context) {
+                      return const DatePickerWidget();
+                    });
+              },
               decoration: BoxDecoration(
                 color: bgColor,
                 borderRadius: BorderRadius.circular(15),

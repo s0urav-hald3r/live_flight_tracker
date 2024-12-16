@@ -64,6 +64,8 @@ class HomeController extends GetxController {
   final Rx<Altitude> _selectedAltitude = Altitude.METER.obs;
   final Rx<MapMode> _selectedMapMode = MapMode.Dark.obs;
 
+  final RxList<DateTime> _selectedDates = <DateTime>[].obs;
+
   // Getters
   int get onboardingIndex => _onboardingIndex.value;
   int get homeIndex => _homeIndex.value;
@@ -75,6 +77,8 @@ class HomeController extends GetxController {
   Altitude get selectedAltitude => _selectedAltitude.value;
   MapMode get selectedMapMode => _selectedMapMode.value;
 
+  List<DateTime> get selectedDates => _selectedDates;
+
   // Setters
   set onboardingIndex(value) => _onboardingIndex.value = value;
   set homeIndex(value) => _homeIndex.value = value;
@@ -85,4 +89,6 @@ class HomeController extends GetxController {
   set selectedDistance(value) => _selectedDistance.value = value;
   set selectedAltitude(value) => _selectedAltitude.value = value;
   set selectedMapMode(value) => _selectedMapMode.value = value;
+
+  set selectedDates(value) => _selectedDates.value = value;
 }
