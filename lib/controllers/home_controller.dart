@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:live_flight_tracker/config/constants.dart';
 import 'package:live_flight_tracker/config/images.dart';
+import 'package:live_flight_tracker/models/place_search_model.dart';
 import 'package:live_flight_tracker/services/local_storage.dart';
 
 enum Plan { WEEKLY, MONTHLY, YEARLY }
@@ -27,9 +28,6 @@ class HomeController extends GetxController {
   }
 
   final pageController = PageController();
-
-  // Search flight input controllers
-  final searchPlace = TextEditingController();
 
   final departingFrom = TextEditingController();
   final arrivingAt = TextEditingController();
@@ -117,4 +115,18 @@ class HomeController extends GetxController {
   set turnOnCompass(value) => _turnOnCompass.value = value;
 
   set selectedDates(value) => _selectedDates.value = value;
+
+  /// [----------------------------------------------------------------]
+
+  final RxBool _loadingMap = false.obs;
+  final RxBool _isSearching = false.obs;
+  final RxList<PlaceSearchModel> _searchedPlaces = <PlaceSearchModel>[].obs;
+
+  bool get loadingMap => _loadingMap.value;
+  bool get isSearching => _isSearching.value;
+  List<PlaceSearchModel> get searchedPlaces => _searchedPlaces;
+
+  set loadingMap(status) => _loadingMap.value = status;
+  set isSearching(status) => _isSearching.value = status;
+  set searchedPlaces(value) => _searchedPlaces.value = value;
 }
