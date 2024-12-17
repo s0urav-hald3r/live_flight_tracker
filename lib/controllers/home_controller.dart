@@ -1,11 +1,17 @@
 // ignore_for_file: constant_identifier_names
 
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:live_flight_tracker/config/constants.dart';
 import 'package:live_flight_tracker/config/images.dart';
+import 'package:live_flight_tracker/models/flight_model.dart';
 import 'package:live_flight_tracker/models/place_search_model.dart';
+import 'package:live_flight_tracker/services/dio_client.dart';
 import 'package:live_flight_tracker/services/local_storage.dart';
 
 enum Plan { WEEKLY, MONTHLY, YEARLY }
@@ -20,6 +26,8 @@ enum MapMode { Dark, Light, Satelite }
 
 class HomeController extends GetxController {
   static HomeController get instance => Get.find();
+
+  final _dioClient = DioClient();
 
   @override
   void onInit() {
@@ -44,33 +52,37 @@ class HomeController extends GetxController {
     {
       'flightName': 'Cream White',
       'flightColor': Colors.white,
-      'flightImage': white
+      'flightImage': whitePlane
     },
     {
       'flightName': 'Ocean Blue',
       'flightColor': Colors.blue,
-      'flightImage': blue
+      'flightImage': bluePlane
     },
-    {'flightName': 'Ruby Red', 'flightColor': Colors.red, 'flightImage': red},
+    {
+      'flightName': 'Ruby Red',
+      'flightColor': Colors.red,
+      'flightImage': redPlane
+    },
     {
       'flightName': 'Sunset Orange',
       'flightColor': Colors.orange,
-      'flightImage': orange
+      'flightImage': orangePlane
     },
     {
       'flightName': 'Petal Pink',
       'flightColor': Colors.pink,
-      'flightImage': pink
+      'flightImage': pinkPlane
     },
     {
       'flightName': 'Seafoam Green',
       'flightColor': Colors.green,
-      'flightImage': green
+      'flightImage': greenPlane
     },
     {
       'flightName': 'Sunflower Yellow',
       'flightColor': Colors.yellow,
-      'flightImage': yellow
+      'flightImage': yellowPlane
     },
   ];
 
@@ -132,4 +144,26 @@ class HomeController extends GetxController {
   set havePermission(status) => _havePermission.value = status;
   set isSearching(status) => _isSearching.value = status;
   set searchedPlaces(value) => _searchedPlaces.value = value;
+
+  Future<List<FlightModel>> fetchLiveFlights() async {
+    final String apiKey = FlutterConfig.get('AVIAIONSTACK_API_KEY');
+    final String url =
+        'https://api.aviationstack.com/v1/flights?access_key=$apiKey&flight_status=active';
+
+    try {
+      final temp = <FlightModel>[];
+      final response = await _dioClient.get(url);
+
+      for (var flight in response.data['data']) {
+        temp.add(FlightModel.fromJson(flight));
+      }
+      return temp;
+    } on DioException catch (e) {
+      log('DioException Error: $e');
+      return [];
+    } catch (e) {
+      log('Unknown Error: $e');
+      return [];
+    }
+  }
 }

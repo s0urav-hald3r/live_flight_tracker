@@ -9,8 +9,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:live_flight_tracker/components/location_box.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/icons.dart';
+import 'package:live_flight_tracker/config/images.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/controllers/settings_controller.dart';
+import 'package:live_flight_tracker/models/flight_model.dart';
 import 'package:live_flight_tracker/models/place_model.dart';
 import 'package:live_flight_tracker/services/map_repository.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
@@ -39,21 +41,52 @@ class _LivePlanesViewState extends State<LivePlanesView> {
   void initState() {
     super.initState();
     getCurrentLoc();
+    fetchLiveFlights();
   }
 
-  setMarker() {
-    // setState(() {
-    //   markers.add(Marker(
-    //       markerId: const MarkerId('id-1'),
-    //       position: LatLng(initPos!.latitude, initPos!.longitude)));
-    // });
+  void fetchLiveFlights() async {
+    final flights = await controller.fetchLiveFlights();
+    _addFlightMarkers(flights);
+  }
+
+  // Method to add plane markers to the map
+  Future<void> _addFlightMarkers(List<FlightModel> flights) async {
+    final BitmapDescriptor planeIcon = await BitmapDescriptor.asset(
+      const ImageConfiguration(size: Size(48, 48)),
+      whitePlane,
+    );
+
+    Set<Marker> flightMarkers = flights
+        .map((flight) {
+          final live = flight.live;
+          if (live != null) {
+            return Marker(
+              markerId: MarkerId(
+                  flight.aircraft?.registration ?? UniqueKey().toString()),
+              position: LatLng(
+                live.latitude!.toDouble(),
+                live.longitude!.toDouble(),
+              ),
+              icon: planeIcon,
+              rotation: live.direction!
+                  .toDouble(), // Rotate marker based on direction
+            );
+          }
+          return null;
+        })
+        .where((marker) => marker != null)
+        .cast<Marker>()
+        .toSet();
+
+    setState(() {
+      markers = flightMarkers;
+    });
   }
 
   _onMapCreated(GoogleMapController controller) {
     setState(() {
       _controller = controller;
     });
-    setMarker();
   }
 
   getCurrentLoc() async {
@@ -282,11 +315,12 @@ class _LivePlanesViewState extends State<LivePlanesView> {
               return Expanded(
                 child: GoogleMap(
                   zoomControlsEnabled: true,
-                  // myLocationEnabled: true,
+                  myLocationEnabled: true,
                   buildingsEnabled: true,
                   myLocationButtonEnabled: false,
                   compassEnabled: controller.turnOnCompass,
                   indoorViewEnabled: true,
+                  zoomGesturesEnabled: true,
                   onMapCreated: _onMapCreated,
                   markers: markers,
                   onCameraMove: (CameraPosition pos) async {
@@ -295,7 +329,7 @@ class _LivePlanesViewState extends State<LivePlanesView> {
                   },
                   initialCameraPosition: CameraPosition(
                     target: initPos!,
-                    zoom: 17.4746,
+                    zoom: 10,
                   ),
                   mapType: MapType.terrain,
                 ),
