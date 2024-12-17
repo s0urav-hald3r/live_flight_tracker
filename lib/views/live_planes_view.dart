@@ -149,7 +149,7 @@ class _LivePlanesViewState extends State<LivePlanesView> {
                       Timer(const Duration(milliseconds: 300), () async {
                     if (controller.isSearching) {
                       controller.searchedPlaces =
-                          await MapRepository().getAutocomplete(value);
+                          await MapRepository.getAutocomplete(value);
                     }
                   });
                 },

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
+import 'package:live_flight_tracker/services/logger_interceptor.dart';
 
 class DioClient {
   late final Dio _dio;
@@ -9,7 +10,7 @@ class DioClient {
             contentType: Headers.jsonContentType,
             responseType: ResponseType.json,
           ),
-        );
+        )..interceptors.add(LoggerInterceptor());
 
   // GET METHOD
   Future<Response> get(String url) async {
