@@ -119,14 +119,17 @@ class HomeController extends GetxController {
   /// [----------------------------------------------------------------]
 
   final RxBool _loadingMap = false.obs;
+  final RxBool _havePermission = false.obs;
   final RxBool _isSearching = false.obs;
   final RxList<PlaceSearchModel> _searchedPlaces = <PlaceSearchModel>[].obs;
 
   bool get loadingMap => _loadingMap.value;
+  bool get havePermission => _havePermission.value;
   bool get isSearching => _isSearching.value;
   List<PlaceSearchModel> get searchedPlaces => _searchedPlaces;
 
   set loadingMap(status) => _loadingMap.value = status;
+  set havePermission(status) => _havePermission.value = status;
   set isSearching(status) => _isSearching.value = status;
   set searchedPlaces(value) => _searchedPlaces.value = value;
 }

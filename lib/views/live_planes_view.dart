@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:live_flight_tracker/components/location_box.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
@@ -66,17 +67,7 @@ class _LivePlanesViewState extends State<LivePlanesView> {
     permission = await Geolocator.checkPermission();
 
     if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        controller.loadingMap = false;
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      controller.loadingMap = false;
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+      await showPermissionBox();
     }
 
     Position position = await Geolocator.getCurrentPosition();
@@ -84,6 +75,43 @@ class _LivePlanesViewState extends State<LivePlanesView> {
     initPos = LatLng(position.latitude, position.longitude);
 
     controller.loadingMap = false;
+    controller.havePermission = true;
+  }
+
+  Future<void> showPermissionBox() async {
+    showModalBottomSheet(
+        context: context,
+        isDismissible: false,
+        builder: (context) {
+          return LocationBox(notnow: () {
+            controller.loadingMap = false;
+            controller.havePermission = false;
+            NavigatorKey.pop();
+          }, allow: () async {
+            LocationPermission permission;
+            permission = await Geolocator.requestPermission();
+            if (permission == LocationPermission.denied) {
+              controller.loadingMap = false;
+              controller.havePermission = false;
+              return Future.error('Location permissions are denied');
+            }
+            if (permission == LocationPermission.deniedForever) {
+              controller.loadingMap = false;
+              controller.havePermission = false;
+              return Future.error(
+                  'Location permissions are permanently denied, we cannot request permissions.');
+            }
+
+            Position position = await Geolocator.getCurrentPosition();
+
+            initPos = LatLng(position.latitude, position.longitude);
+
+            controller.loadingMap = false;
+            controller.havePermission = true;
+
+            NavigatorKey.pop();
+          });
+        });
   }
 
   @override
@@ -182,6 +210,32 @@ class _LivePlanesViewState extends State<LivePlanesView> {
                     child: CupertinoActivityIndicator(color: whiteColor),
                   ),
                 );
+              }
+
+              if (!controller.havePermission) {
+                return Expanded(
+                    child: Center(
+                  child: Container(
+                    height: 48.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: primaryColor,
+                    ),
+                    child: ElevatedButton(
+                      child: const Text(
+                        'Allow Location Permission',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: whiteColor,
+                        ),
+                      ),
+                      onPressed: () {
+                        showPermissionBox();
+                      },
+                    ),
+                  ),
+                ));
               }
 
               if (controller.isSearching) {

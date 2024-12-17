@@ -1,6 +1,7 @@
 const String close = 'assets/icons/close.svg';
 const String search = 'assets/icons/search.svg';
 const String compass = 'assets/icons/compass.svg';
+const String location = 'assets/icons/location.svg';
 const String premiumIcon = 'assets/icons/premiumIcon.svg';
 const String weeklyPlan = 'assets/icons/weeklyPlan.svg';
 const String monthlyPlan = 'assets/icons/monthlyPlan.svg';
