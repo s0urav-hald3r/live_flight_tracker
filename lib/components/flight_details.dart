@@ -91,122 +91,245 @@ class FlightDetails extends StatelessWidget {
               ),
               child: Column(children: [
                 SizedBox(height: 16.h),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(width: 16.w),
-                      Column(children: [
-                        Text(
-                          model.departure?.iata ?? 'NA',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
-                            color: whiteColor,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 4.w),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 150.w,
+                          color: Colors.transparent,
+                          child: Text(
+                            model.departure?.airport ?? 'NA',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(
+                              color: whiteColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
-                        SizedBox(height: 2.h),
-                        Text(
-                          DateFormat("H:m").format(
-                              model.departure?.scheduled ?? DateTime.now()),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            color: textColor,
-                          ),
-                        )
-                      ]),
-                      Column(children: [
-                        Text(
-                          model.arrival?.iata ?? 'NA',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
+                        const Text(
+                          '|',
+                          style: TextStyle(
                             color: whiteColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
-                        SizedBox(height: 2.h),
-                        Text(
-                          DateFormat("H:m").format(
-                              model.arrival?.scheduled ?? DateTime.now()),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            color: textColor,
+                        Container(
+                          width: 150.w,
+                          color: Colors.transparent,
+                          child: Text(
+                            model.arrival?.airport ?? 'NA',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.right,
+                            style: const TextStyle(
+                              color: whiteColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
-                        )
+                        ),
                       ]),
-                      SizedBox(width: 16.w),
-                    ]),
+                ),
+                SizedBox(height: 16.h),
+                Container(
+                  color: Colors.transparent,
+                  height: 68.h,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(width: 8.w),
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                model.departure?.iata ?? 'NA',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18,
+                                  color: whiteColor,
+                                ),
+                              ),
+                              SizedBox(height: 2.h),
+                              Text(
+                                DateFormat("H:m").format(
+                                    model.departure?.scheduled ??
+                                        DateTime.now()),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: textColor,
+                                ),
+                              )
+                            ]),
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 35,
+                                height: 35,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: textColor,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    controller.getDepCountryFlag(
+                                        model.departure?.iata ?? ''),
+                                    style: const TextStyle(fontSize: 26),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 4.h),
+                              Text(
+                                controller
+                                    .getDepCountry(model.departure?.iata ?? ''),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: whiteColor,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              )
+                            ]),
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 35,
+                                height: 35,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: textColor,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    controller.getArrCountryFlag(
+                                        model.arrival?.iata ?? ''),
+                                    style: const TextStyle(fontSize: 26),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 4.h),
+                              Text(
+                                controller
+                                    .getArrCountry(model.arrival?.iata ?? ''),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: whiteColor,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              )
+                            ]),
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                model.arrival?.iata ?? 'NA',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18,
+                                  color: whiteColor,
+                                ),
+                              ),
+                              SizedBox(height: 2.h),
+                              Text(
+                                DateFormat("H:m").format(
+                                    model.arrival?.scheduled ?? DateTime.now()),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: textColor,
+                                ),
+                              )
+                            ]),
+                        SizedBox(width: 8.w),
+                      ]),
+                ),
                 Divider(color: bgColor, height: 32.h),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(width: 16.w),
-                      Column(children: [
-                        const Text(
-                          'Speed',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            color: textColor,
-                          ),
-                        ),
-                        SizedBox(height: 2.h),
-                        Obx(() {
-                          return Text(
-                            '${controller.calculatedSpeed(model.live?.speedHorizontal ?? 0).toStringAsFixed(2)} ${controller.selectedSpeed.name}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14,
-                              color: whiteColor,
-                            ),
-                          );
-                        })
+                Container(
+                  color: Colors.transparent,
+                  height: 68.h,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(width: 8.w),
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Speed',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: textColor,
+                                ),
+                              ),
+                              SizedBox(height: 4.h),
+                              Obx(() {
+                                return Text(
+                                  '${controller.calculatedSpeed(model.live?.speedHorizontal ?? 0).toStringAsFixed(2)} ${controller.selectedSpeed.name}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14,
+                                    color: whiteColor,
+                                  ),
+                                );
+                              })
+                            ]),
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Altitude',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: textColor,
+                                ),
+                              ),
+                              SizedBox(height: 4.h),
+                              Obx(() {
+                                return Text(
+                                  '${controller.calculatedAltitude(model.live?.altitude ?? 0).toStringAsFixed(2)} ${controller.selectedAltitude.name}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14,
+                                    color: whiteColor,
+                                  ),
+                                );
+                              })
+                            ]),
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Distance',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: textColor,
+                                ),
+                              ),
+                              SizedBox(height: 4.h),
+                              Obx(() {
+                                return Text(
+                                  '${controller.haversine(model.departure?.iata ?? '', model.arrival?.iata ?? '').toStringAsFixed(2)} ${controller.selectedDistance.name}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14,
+                                    color: whiteColor,
+                                  ),
+                                );
+                              })
+                            ]),
+                        SizedBox(width: 8.w),
                       ]),
-                      Column(children: [
-                        const Text(
-                          'Altitude',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            color: textColor,
-                          ),
-                        ),
-                        SizedBox(height: 2.h),
-                        Obx(() {
-                          return Text(
-                            '${controller.calculatedAltitude(model.live?.altitude ?? 0).toStringAsFixed(2)} ${controller.selectedAltitude.name}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14,
-                              color: whiteColor,
-                            ),
-                          );
-                        })
-                      ]),
-                      Column(children: [
-                        const Text(
-                          'Distance',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            color: textColor,
-                          ),
-                        ),
-                        SizedBox(height: 2.h),
-                        Obx(() {
-                          return Text(
-                            '${controller.haversine(model.departure?.iata ?? '', model.arrival?.iata ?? '').toStringAsFixed(2)} ${controller.selectedDistance.name}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14,
-                              color: whiteColor,
-                            ),
-                          );
-                        })
-                      ]),
-                      SizedBox(width: 16.w),
-                    ]),
+                ),
                 SizedBox(height: 16.h),
               ]),
             ),

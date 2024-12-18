@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:live_flight_tracker/airports_data.dart';
 import 'package:live_flight_tracker/config/constants.dart';
 import 'package:live_flight_tracker/config/images.dart';
+import 'package:live_flight_tracker/country_data.dart';
 import 'package:live_flight_tracker/models/flight_model.dart';
 import 'package:live_flight_tracker/models/place_search_model.dart';
 import 'package:live_flight_tracker/services/dio_client.dart';
@@ -229,5 +230,31 @@ class HomeController extends GetxController {
       case Distance.NM:
         return R * c * 0.539957;
     }
+  }
+
+  String getDepCountryFlag(String depIATA) {
+    String countryName = airportsData
+        .firstWhere((airport) => airport['iata_code'] == depIATA)['country'];
+
+    return countryData
+        .firstWhere((country) => country['name'] == countryName)['flag'];
+  }
+
+  String getArrCountryFlag(String arrIATA) {
+    String countryName = airportsData
+        .firstWhere((airport) => airport['iata_code'] == arrIATA)['country'];
+
+    return countryData
+        .firstWhere((country) => country['name'] == countryName)['flag'];
+  }
+
+  String getDepCountry(String depIATA) {
+    return airportsData
+        .firstWhere((airport) => airport['iata_code'] == depIATA)['country'];
+  }
+
+  String getArrCountry(String arrIATA) {
+    return airportsData
+        .firstWhere((airport) => airport['iata_code'] == arrIATA)['country'];
   }
 }
