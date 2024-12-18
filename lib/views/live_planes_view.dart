@@ -84,6 +84,8 @@ class _LivePlanesViewState extends State<LivePlanesView> {
               onTap: () {
                 showModalBottomSheet(
                     context: context,
+                    isScrollControlled: true,
+                    useSafeArea: true,
                     builder: (context) {
                       return FlightDetails(model: flight);
                     });

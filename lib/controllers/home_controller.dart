@@ -257,4 +257,31 @@ class HomeController extends GetxController {
     return airportsData
         .firstWhere((airport) => airport['iata_code'] == arrIATA)['country'];
   }
+
+  double currentDistance(String depIATA, num cLat, num cLong) {
+    double lat1 = airportsData
+        .firstWhere((airport) => airport['iata_code'] == depIATA)['latitude'];
+    double long1 = airportsData
+        .firstWhere((airport) => airport['iata_code'] == depIATA)['longitude'];
+
+    double lat2 = cLat.toDouble();
+    double long2 = cLong.toDouble();
+
+    const R = 6371; // Earth's radius in km
+
+    // Convert degrees to radians
+    double toRadians(double degree) => degree * pi / 180;
+
+    double dLat = toRadians(lat2 - lat1);
+    double dLon = toRadians(long2 - long1);
+
+    lat1 = toRadians(lat1);
+    lat2 = toRadians(lat2);
+
+    double a =
+        pow(sin(dLat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dLon / 2), 2);
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    return R * c;
+  }
 }

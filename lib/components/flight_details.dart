@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:live_flight_tracker/components/distance_indicator.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/models/flight_model.dart';
@@ -23,7 +24,8 @@ class FlightDetails extends StatelessWidget {
           topRight: Radius.circular(20),
         ),
       ),
-      child: Column(children: [
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
+        // Bar indicator
         Container(
           width: 40.w,
           height: 4.h,
@@ -33,10 +35,12 @@ class FlightDetails extends StatelessWidget {
             color: whiteColor,
           ),
         ),
+
         Container(
           width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
           child: Column(children: [
+            // Flight ragistration details
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Container(
                 width: 250.w,
@@ -83,7 +87,10 @@ class FlightDetails extends StatelessWidget {
                 ),
               )
             ]),
+
             SizedBox(height: 16.h),
+
+            // Flight details
             Container(
               decoration: BoxDecoration(
                 color: const Color(0xFF323558),
@@ -333,9 +340,21 @@ class FlightDetails extends StatelessWidget {
                 SizedBox(height: 16.h),
               ]),
             ),
+
+            SizedBox(height: 16.h),
+
+            // Distance indicator
+            DistanceIndicator(
+              totalDistance: controller.haversine(
+                  model.departure?.iata ?? '', model.arrival?.iata ?? ''),
+              currentDistance: controller.currentDistance(
+                model.departure?.iata ?? '',
+                model.live?.latitude ?? 0,
+                model.live?.longitude ?? 0,
+              ),
+            )
           ]),
         ),
-        SizedBox(height: MediaQuery.of(context).padding.bottom)
       ]),
     );
   }
