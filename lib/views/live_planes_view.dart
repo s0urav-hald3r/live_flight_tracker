@@ -29,7 +29,8 @@ class LivePlanesView extends StatefulWidget {
   State<LivePlanesView> createState() => _LivePlanesViewState();
 }
 
-class _LivePlanesViewState extends State<LivePlanesView> {
+class _LivePlanesViewState extends State<LivePlanesView>
+    with AutomaticKeepAliveClientMixin<LivePlanesView> {
   StreamController<LatLng> locationController = StreamController();
   final controller = HomeController.instance;
   GoogleMapController? _controller;
@@ -168,7 +169,11 @@ class _LivePlanesViewState extends State<LivePlanesView> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context); // Required when using AutomaticKeepAliveClientMixin
     return Scaffold(
       floatingActionButton: Obx(() {
         if (controller.turnOnCompass) {
