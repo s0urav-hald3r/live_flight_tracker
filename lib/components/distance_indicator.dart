@@ -42,7 +42,8 @@ class _DistanceIndicatorState extends State<DistanceIndicator>
   }
 
   double getProgress() {
-    return widget.currentDistance / widget.totalDistance;
+    final progress = widget.currentDistance / widget.totalDistance;
+    return progress > 1 ? 1 : progress;
   }
 
   @override
@@ -62,7 +63,8 @@ class _DistanceIndicatorState extends State<DistanceIndicator>
                 Positioned(
                   left: _animation.value *
                       (getProgress() * MediaQuery.of(context).size.width -
-                          30.w), // Movement along the line
+                          32.w -
+                          (getProgress() * 70)), // Movement along the line
                   top: 1.h,
                   child: SvgPicture.asset(hPlane),
                 ),

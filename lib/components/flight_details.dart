@@ -5,6 +5,7 @@ import 'package:live_flight_tracker/components/distance_indicator.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/models/flight_model.dart';
+import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
 
 class FlightDetails extends StatelessWidget {
@@ -352,7 +353,35 @@ class FlightDetails extends StatelessWidget {
                 model.live?.latitude ?? 0,
                 model.live?.longitude ?? 0,
               ),
-            )
+            ),
+
+            SizedBox(height: 16.h),
+
+            // Show flight route button
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 42.h,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: primaryColor),
+                color: Colors.transparent,
+              ),
+              child: ElevatedButton(
+                child: const Text(
+                  'See Flight Route',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: primaryColor,
+                  ),
+                ),
+                onPressed: () {
+                  NavigatorKey.pop();
+                },
+              ),
+            ),
+
+            SizedBox(height: 16.h),
           ]),
         ),
       ]),

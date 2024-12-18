@@ -236,16 +236,20 @@ class HomeController extends GetxController {
     String countryName = airportsData
         .firstWhere((airport) => airport['iata_code'] == depIATA)['country'];
 
-    return countryData
-        .firstWhere((country) => country['name'] == countryName)['flag'];
+    return countryData.firstWhereOrNull((country) =>
+            country['name'] == countryName ||
+            country['name'].contains(countryName))?['flag'] ??
+        '';
   }
 
   String getArrCountryFlag(String arrIATA) {
     String countryName = airportsData
         .firstWhere((airport) => airport['iata_code'] == arrIATA)['country'];
 
-    return countryData
-        .firstWhere((country) => country['name'] == countryName)['flag'];
+    return countryData.firstWhereOrNull((country) =>
+            country['name'] == countryName ||
+            country['name'].contains(countryName))?['flag'] ??
+        '';
   }
 
   String getDepCountry(String depIATA) {
