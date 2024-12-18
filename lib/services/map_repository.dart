@@ -24,7 +24,7 @@ class MapRepository {
         .toList();
   }
 
-  Future<Place> getPlace(String placeId) async {
+  static Future<Place> getPlace(String placeId) async {
     final url =
         'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$key';
     var response = await dioClient.get(url);

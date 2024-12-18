@@ -81,7 +81,7 @@ class _LivePlanesViewState extends State<LivePlanesView>
               icon: planeIcon,
               // Rotate marker based on direction
               rotation: (live.direction ?? 0).toDouble(),
-              anchor: Offset.zero,
+              anchor: const Offset(0.5, 0.5),
               onTap: () {
                 showModalBottomSheet(
                     context: context,
@@ -315,7 +315,7 @@ class _LivePlanesViewState extends State<LivePlanesView>
                     return ListTile(
                       onTap: () async {
                         FocusManager.instance.primaryFocus?.unfocus();
-                        Place selectedPlace = await MapRepository().getPlace(
+                        Place selectedPlace = await MapRepository.getPlace(
                             controller.searchedPlaces[index].placeId!);
                         LatLng pos = LatLng(
                             selectedPlace.geometry!.location!.lat!,

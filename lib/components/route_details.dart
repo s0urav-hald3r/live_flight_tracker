@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:live_flight_tracker/components/distance_indicator.dart';
 import 'package:live_flight_tracker/config/colors.dart';
@@ -7,11 +6,10 @@ import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/models/flight_model.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
-import 'package:live_flight_tracker/views/flight_route_view.dart';
 
-class FlightDetails extends StatelessWidget {
+class RouteDetails extends StatelessWidget {
   final FlightModel model;
-  const FlightDetails({super.key, required this.model});
+  const RouteDetails({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -259,86 +257,6 @@ class FlightDetails extends StatelessWidget {
                         SizedBox(width: 8.w),
                       ]),
                 ),
-                Divider(color: bgColor, height: 32.h),
-                Container(
-                  color: Colors.transparent,
-                  height: 68.h,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(width: 8.w),
-                        Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                'Speed',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                  color: textColor,
-                                ),
-                              ),
-                              SizedBox(height: 4.h),
-                              Obx(() {
-                                return Text(
-                                  '${controller.calculatedSpeed(model.live?.speedHorizontal ?? 0).toStringAsFixed(2)} ${controller.selectedSpeed.name}',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 14,
-                                    color: whiteColor,
-                                  ),
-                                );
-                              })
-                            ]),
-                        Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                'Altitude',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                  color: textColor,
-                                ),
-                              ),
-                              SizedBox(height: 4.h),
-                              Obx(() {
-                                return Text(
-                                  '${controller.calculatedAltitude(model.live?.altitude ?? 0).toStringAsFixed(2)} ${controller.selectedAltitude.name}',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 14,
-                                    color: whiteColor,
-                                  ),
-                                );
-                              })
-                            ]),
-                        Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                'Distance',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                  color: textColor,
-                                ),
-                              ),
-                              SizedBox(height: 4.h),
-                              Obx(() {
-                                return Text(
-                                  '${controller.haversine(model.departure?.iata ?? '', model.arrival?.iata ?? '').toStringAsFixed(2)} ${controller.selectedDistance.name}',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 14,
-                                    color: whiteColor,
-                                  ),
-                                );
-                              })
-                            ]),
-                        SizedBox(width: 8.w),
-                      ]),
-                ),
                 SizedBox(height: 16.h),
               ]),
             ),
@@ -365,19 +283,19 @@ class FlightDetails extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(color: primaryColor),
-                color: Colors.transparent,
+                color: primaryColor,
               ),
               child: ElevatedButton(
                 child: const Text(
-                  'See Flight Route',
+                  'Add to My Flights',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: primaryColor,
+                    color: whiteColor,
                   ),
                 ),
                 onPressed: () {
-                  NavigatorKey.push(FlightRouteView(flight: model));
+                  NavigatorKey.pop();
                 },
               ),
             ),
