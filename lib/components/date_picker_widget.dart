@@ -27,7 +27,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
       return Container(
-        color: bgColor,
+        color: const Color(0xFF0E0F35),
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
         child: Column(
             mainAxisSize: MainAxisSize.min,

@@ -1,17 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:live_flight_tracker/components/flight_details.dart';
 import 'package:live_flight_tracker/components/location_box.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/config/images.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/controllers/settings_controller.dart';
+import 'package:live_flight_tracker/flights_data.dart';
 import 'package:live_flight_tracker/models/flight_model.dart';
 import 'package:live_flight_tracker/models/place_model.dart';
 import 'package:live_flight_tracker/services/map_repository.dart';
@@ -45,7 +48,14 @@ class _LivePlanesViewState extends State<LivePlanesView> {
   }
 
   void fetchLiveFlights() async {
-    final flights = await controller.fetchLiveFlights();
+    List<FlightModel> flights = [];
+    if (kReleaseMode) {
+      flights = await controller.fetchLiveFlights();
+    } else {
+      for (var flight in flightsData) {
+        flights.add(FlightModel.fromJson(flight));
+      }
+    }
     _addFlightMarkers(flights);
   }
 
@@ -64,12 +74,20 @@ class _LivePlanesViewState extends State<LivePlanesView> {
               markerId: MarkerId(
                   flight.aircraft?.registration ?? UniqueKey().toString()),
               position: LatLng(
-                live.latitude!.toDouble(),
-                live.longitude!.toDouble(),
+                (live.latitude ?? 0).toDouble(),
+                (live.longitude ?? 0).toDouble(),
               ),
               icon: planeIcon,
-              rotation: live.direction!
-                  .toDouble(), // Rotate marker based on direction
+              // Rotate marker based on direction
+              rotation: (live.direction ?? 0).toDouble(),
+              anchor: Offset.zero,
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return FlightDetails(model: flight);
+                    });
+              },
             );
           }
           return null;

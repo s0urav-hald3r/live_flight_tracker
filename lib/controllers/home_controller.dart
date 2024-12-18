@@ -1,12 +1,13 @@
 // ignore_for_file: constant_identifier_names
 
-import 'dart:developer';
+import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:live_flight_tracker/airports_data.dart';
 import 'package:live_flight_tracker/config/constants.dart';
 import 'package:live_flight_tracker/config/images.dart';
 import 'package:live_flight_tracker/models/flight_model.dart';
@@ -159,11 +160,74 @@ class HomeController extends GetxController {
       }
       return temp;
     } on DioException catch (e) {
-      log('DioException Error: $e');
+      debugPrint('DioException Error: $e');
       return [];
     } catch (e) {
-      log('Unknown Error: $e');
+      debugPrint('Unknown Error: $e');
       return [];
+    }
+  }
+
+  num calculatedSpeed(num speed) {
+    // as upcoming speed by default KPH
+    switch (selectedSpeed) {
+      case Speed.MPH:
+        return speed * 0.621371;
+      case Speed.KPH:
+        return speed;
+      case Speed.KNOTS:
+        return speed * 0.539957;
+    }
+  }
+
+  num calculatedAltitude(num altitude) {
+    // as upcoming altitude by default METER
+    switch (selectedAltitude) {
+      case Altitude.FEET:
+        return altitude * 3.28084;
+      case Altitude.METER:
+        return altitude;
+    }
+  }
+
+  double haversine(String depIATA, String arrIATA) {
+    if (depIATA.isEmpty || arrIATA.isEmpty) {
+      return 0.0;
+    }
+
+    double lat1 = airportsData
+        .firstWhere((airport) => airport['iata_code'] == depIATA)['latitude'];
+    double long1 = airportsData
+        .firstWhere((airport) => airport['iata_code'] == depIATA)['longitude'];
+
+    double lat2 = airportsData
+        .firstWhere((airport) => airport['iata_code'] == arrIATA)['latitude'];
+    double long2 = airportsData
+        .firstWhere((airport) => airport['iata_code'] == arrIATA)['longitude'];
+
+    const R = 6371; // Earth's radius in km
+
+    // Convert degrees to radians
+    double toRadians(double degree) => degree * pi / 180;
+
+    double dLat = toRadians(lat2 - lat1);
+    double dLon = toRadians(long2 - long1);
+
+    lat1 = toRadians(lat1);
+    lat2 = toRadians(lat2);
+
+    double a =
+        pow(sin(dLat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dLon / 2), 2);
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    // as upcoming distance by default KM
+    switch (selectedDistance) {
+      case Distance.MILES:
+        return R * c * 0.621371;
+      case Distance.KM:
+        return R * c;
+      case Distance.NM:
+        return R * c * 0.539957;
     }
   }
 }
