@@ -196,15 +196,19 @@ class HomeController extends GetxController {
       return 0.0;
     }
 
-    double lat1 = airportsData
-        .firstWhere((airport) => airport['iata_code'] == depIATA)['latitude'];
-    double long1 = airportsData
-        .firstWhere((airport) => airport['iata_code'] == depIATA)['longitude'];
+    double lat1 = double.parse(airportsData.firstWhere(
+            (airport) => airport['iata_code'] == depIATA)['latitude_deg'] ??
+        '0.0');
+    double long1 = double.parse(airportsData.firstWhere(
+            (airport) => airport['iata_code'] == depIATA)['longitude_deg'] ??
+        '0.0');
 
-    double lat2 = airportsData
-        .firstWhere((airport) => airport['iata_code'] == arrIATA)['latitude'];
-    double long2 = airportsData
-        .firstWhere((airport) => airport['iata_code'] == arrIATA)['longitude'];
+    double lat2 = double.parse(airportsData.firstWhere(
+            (airport) => airport['iata_code'] == arrIATA)['latitude_deg'] ??
+        '0.0');
+    double long2 = double.parse(airportsData.firstWhere(
+            (airport) => airport['iata_code'] == arrIATA)['longitude_deg'] ??
+        '0.0');
 
     const R = 6371; // Earth's radius in km
 
@@ -233,40 +237,52 @@ class HomeController extends GetxController {
   }
 
   String getDepCountryFlag(String depIATA) {
-    String countryName = airportsData
-        .firstWhere((airport) => airport['iata_code'] == depIATA)['country'];
+    String countryCode = airportsData.firstWhere(
+        (airport) => airport['iata_code'] == depIATA)['iso_country'];
 
     return countryData.firstWhereOrNull((country) =>
-            country['name'] == countryName ||
-            country['name'].contains(countryName))?['flag'] ??
+            country['code'] == countryCode ||
+            country['code'].contains(countryCode))?['flag'] ??
         '';
   }
 
   String getArrCountryFlag(String arrIATA) {
-    String countryName = airportsData
-        .firstWhere((airport) => airport['iata_code'] == arrIATA)['country'];
+    String countryCode = airportsData.firstWhere(
+        (airport) => airport['iata_code'] == arrIATA)['iso_country'];
 
     return countryData.firstWhereOrNull((country) =>
-            country['name'] == countryName ||
-            country['name'].contains(countryName))?['flag'] ??
+            country['code'] == countryCode ||
+            country['code'].contains(countryCode))?['flag'] ??
         '';
   }
 
   String getDepCountry(String depIATA) {
-    return airportsData
-        .firstWhere((airport) => airport['iata_code'] == depIATA)['country'];
+    String countryCode = airportsData.firstWhere(
+        (airport) => airport['iata_code'] == depIATA)['iso_country'];
+
+    return countryData.firstWhereOrNull((country) =>
+            country['code'] == countryCode ||
+            country['code'].contains(countryCode))?['name'] ??
+        '';
   }
 
   String getArrCountry(String arrIATA) {
-    return airportsData
-        .firstWhere((airport) => airport['iata_code'] == arrIATA)['country'];
+    String countryCode = airportsData.firstWhere(
+        (airport) => airport['iata_code'] == arrIATA)['iso_country'];
+
+    return countryData.firstWhereOrNull((country) =>
+            country['code'] == countryCode ||
+            country['code'].contains(countryCode))?['name'] ??
+        '';
   }
 
   double currentDistance(String depIATA, num cLat, num cLong) {
-    double lat1 = airportsData
-        .firstWhere((airport) => airport['iata_code'] == depIATA)['latitude'];
-    double long1 = airportsData
-        .firstWhere((airport) => airport['iata_code'] == depIATA)['longitude'];
+    double lat1 = double.parse(airportsData.firstWhere(
+            (airport) => airport['iata_code'] == depIATA)['latitude_deg'] ??
+        '0.0');
+    double long1 = double.parse(airportsData.firstWhere(
+            (airport) => airport['iata_code'] == depIATA)['longitude_deg'] ??
+        '0.0');
 
     double lat2 = cLat.toDouble();
     double long2 = cLong.toDouble();
