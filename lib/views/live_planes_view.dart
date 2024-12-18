@@ -178,7 +178,17 @@ class _LivePlanesViewState extends State<LivePlanesView>
       floatingActionButton: Obx(() {
         if (controller.turnOnCompass) {
           return FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              _controller?.animateCamera(
+                CameraUpdate.newCameraPosition(
+                  CameraPosition(
+                    target: initPos!, // Keep the current target
+                    zoom: 10, // Keep the same zoom level
+                    bearing: 0.0, // Reset orientation to north
+                  ),
+                ),
+              );
+            },
             shape: const CircleBorder(),
             backgroundColor: bgColor,
             child: SvgPicture.asset(compass),
@@ -343,7 +353,7 @@ class _LivePlanesViewState extends State<LivePlanesView>
                   myLocationEnabled: true,
                   buildingsEnabled: true,
                   myLocationButtonEnabled: false,
-                  compassEnabled: controller.turnOnCompass,
+                  compassEnabled: false,
                   indoorViewEnabled: true,
                   zoomGesturesEnabled: true,
                   onMapCreated: _onMapCreated,
