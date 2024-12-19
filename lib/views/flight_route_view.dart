@@ -87,11 +87,12 @@ class _FlightRouteViewState extends State<FlightRouteView> {
       Polyline(
         polylineId: const PolylineId("dottedLine"),
         points: [currentLocation, destination],
-        width: 4,
+        width: 3,
         color: primaryColor,
         visible: true,
         startCap: Cap.roundCap,
         endCap: Cap.roundCap,
+        patterns: const [PatternItem.dot],
       ),
     };
 
@@ -139,7 +140,7 @@ class _FlightRouteViewState extends State<FlightRouteView> {
                     markers: markers,
                     initialCameraPosition: CameraPosition(
                       target: currentLocation,
-                      zoom: 8,
+                      zoom: 5,
                     ),
                     polylines: _polylines,
                     mapType: MapType.terrain,

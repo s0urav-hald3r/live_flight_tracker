@@ -122,8 +122,19 @@ class FlightCard extends StatelessWidget {
                             fontSize: 14,
                             color: textColor,
                           ),
+                        ),
+                        SizedBox(height: 2.h),
+                        Text(
+                          DateFormat("EE dd-MM-yy").format(
+                              model.arrival?.scheduled ?? DateTime.now()),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            color: textColor,
+                          ),
                         )
                       ]),
+                  SizedBox(width: 4.h),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -152,6 +163,7 @@ class FlightCard extends StatelessWidget {
                           ),
                         )
                       ]),
+                  SizedBox(width: 4.h),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -180,6 +192,7 @@ class FlightCard extends StatelessWidget {
                           ),
                         )
                       ]),
+                  SizedBox(width: 4.h),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -194,6 +207,16 @@ class FlightCard extends StatelessWidget {
                         SizedBox(height: 2.h),
                         Text(
                           DateFormat("H:mm").format(
+                              model.arrival?.scheduled ?? DateTime.now()),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            color: textColor,
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+                        Text(
+                          DateFormat("EE dd-MM-yy").format(
                               model.arrival?.scheduled ?? DateTime.now()),
                           style: const TextStyle(
                             fontWeight: FontWeight.w400,
