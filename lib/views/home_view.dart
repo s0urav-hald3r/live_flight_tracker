@@ -9,13 +9,30 @@ import 'package:live_flight_tracker/views/live_planes_view.dart';
 import 'package:live_flight_tracker/views/my_flights_view.dart';
 import 'package:live_flight_tracker/views/settings_view.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  final controller = HomeController.instance;
+
+  final GlobalKey<LivePlanesViewState> mapViewKey =
+      GlobalKey<LivePlanesViewState>();
+
+  void changeMarkerIcon() {
+    mapViewKey.currentState?.changeMarkerIcon();
+  }
+
+  void changeMapType() {
+    mapViewKey.currentState?.changeMapType();
+  }
 
   @override
   Widget build(BuildContext context) {
     double bottomPadding = MediaQuery.of(context).padding.bottom;
-    final controller = HomeController.instance;
 
     return Obx(() {
       return Scaffold(
@@ -24,10 +41,10 @@ class HomeView extends StatelessWidget {
           body: PageView(
               controller: controller.pageController,
               physics: const NeverScrollableScrollPhysics(),
-              children: const [
-                LivePlanesView(),
-                MyFlightsView(),
-                SettingsView(),
+              children: [
+                LivePlanesView(key: mapViewKey),
+                const MyFlightsView(),
+                SettingsView(marker: changeMarkerIcon, map: changeMapType),
               ]),
           bottomNavigationBar: Container(
             height: 60 + bottomPadding,

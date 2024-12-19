@@ -18,7 +18,9 @@ import 'package:live_flight_tracker/views/units_view.dart';
 import 'package:share_plus/share_plus.dart';
 
 class SettingsView extends StatelessWidget {
-  const SettingsView({super.key});
+  final Function marker;
+  final Function map;
+  const SettingsView({super.key, required this.marker, required this.map});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,7 @@ class SettingsView extends StatelessWidget {
                   'Maps',
                   SvgPicture.asset(rightArrow),
                   () {
-                    NavigatorKey.push(const MapsView());
+                    NavigatorKey.push(MapsView(callBack: map));
                   },
                 ),
                 _items(
@@ -74,7 +76,7 @@ class SettingsView extends StatelessWidget {
                   'Planes',
                   SvgPicture.asset(rightArrow),
                   () {
-                    NavigatorKey.push(const PlanesView());
+                    NavigatorKey.push(PlanesView(callBack: marker));
                   },
                 ),
                 _items(

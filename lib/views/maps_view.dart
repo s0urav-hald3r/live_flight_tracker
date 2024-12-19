@@ -11,7 +11,8 @@ import 'package:live_flight_tracker/utils/extension.dart';
 import 'package:live_flight_tracker/views/premium_view.dart';
 
 class MapsView extends StatelessWidget {
-  const MapsView({super.key});
+  final Function callBack;
+  const MapsView({super.key, required this.callBack});
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +46,17 @@ class MapsView extends StatelessWidget {
                       color: whiteColor,
                     ),
                   ),
-                  const Text(
-                    'Save',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                      color: primaryColor,
+                  InkWell(
+                    onTap: () {
+                      callBack();
+                    },
+                    child: const Text(
+                      'Save',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        color: primaryColor,
+                      ),
                     ),
                   ),
                 ]),

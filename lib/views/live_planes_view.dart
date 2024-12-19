@@ -26,10 +26,10 @@ class LivePlanesView extends StatefulWidget {
   const LivePlanesView({super.key});
 
   @override
-  State<LivePlanesView> createState() => _LivePlanesViewState();
+  State<LivePlanesView> createState() => LivePlanesViewState();
 }
 
-class _LivePlanesViewState extends State<LivePlanesView>
+class LivePlanesViewState extends State<LivePlanesView>
     with AutomaticKeepAliveClientMixin<LivePlanesView> {
   StreamController<LatLng> locationController = StreamController();
   final controller = HomeController.instance;
@@ -46,6 +46,14 @@ class _LivePlanesViewState extends State<LivePlanesView>
     super.initState();
     getCurrentLoc();
     fetchLiveFlights();
+  }
+
+  changeMarkerIcon() {
+    debugPrint('called changeMarkerIcon function');
+  }
+
+  changeMapType() {
+    debugPrint('called changeMapType function');
   }
 
   void fetchLiveFlights() async {

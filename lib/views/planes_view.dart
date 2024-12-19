@@ -8,7 +8,8 @@ import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
 
 class PlanesView extends StatelessWidget {
-  const PlanesView({super.key});
+  final Function callBack;
+  const PlanesView({super.key, required this.callBack});
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +45,17 @@ class PlanesView extends StatelessWidget {
                       color: whiteColor,
                     ),
                   ),
-                  const Text(
-                    'Save',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                      color: primaryColor,
+                  InkWell(
+                    onTap: () {
+                      callBack();
+                    },
+                    child: const Text(
+                      'Save',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        color: primaryColor,
+                      ),
                     ),
                   ),
                 ]),
