@@ -50,8 +50,8 @@ class NavigatorKey {
     return navigatorKey.currentState?.canPop() ?? false;
   }
 
-  static void pop() {
+  static void pop([dynamic arguments]) {
     currentRoute = previousRoute;
-    return navigatorKey.currentState?.pop();
+    return navigatorKey.currentState?.pop(arguments);
   }
 }

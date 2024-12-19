@@ -136,16 +136,20 @@ class HomeController extends GetxController {
   final RxBool _havePermission = false.obs;
   final RxBool _isSearching = false.obs;
   final RxList<PlaceSearchModel> _searchedPlaces = <PlaceSearchModel>[].obs;
+  final RxList<Map<String, dynamic>> _filteredItems =
+      <Map<String, dynamic>>[].obs;
 
   bool get loadingMap => _loadingMap.value;
   bool get havePermission => _havePermission.value;
   bool get isSearching => _isSearching.value;
   List<PlaceSearchModel> get searchedPlaces => _searchedPlaces;
+  List<Map<String, dynamic>> get filteredItems => _filteredItems;
 
   set loadingMap(status) => _loadingMap.value = status;
   set havePermission(status) => _havePermission.value = status;
   set isSearching(status) => _isSearching.value = status;
   set searchedPlaces(value) => _searchedPlaces.value = value;
+  set filteredItems(value) => _filteredItems.value = value;
 
   Future<List<FlightModel>> fetchLiveFlights() async {
     final String apiKey = FlutterConfig.get('AVIAIONSTACK_API_KEY');
@@ -166,6 +170,16 @@ class HomeController extends GetxController {
     } catch (e) {
       debugPrint('Unknown Error: $e');
       return [];
+    }
+  }
+
+  void setField(String field, dynamic value) {
+    if (field == 'departingFrom') {
+      departingFrom.text = '${value['iata']} - ${value['name']}';
+    }
+
+    if (field == 'arrivingAt') {
+      arrivingAt.text = '${value['iata']} - ${value['name']}';
     }
   }
 

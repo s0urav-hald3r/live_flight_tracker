@@ -7,13 +7,17 @@ import 'package:live_flight_tracker/components/flight_code_form.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
+import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
+import 'package:live_flight_tracker/views/select_airports.dart';
 
 class RouteForm extends StatelessWidget {
   const RouteForm({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = HomeController.instance;
+
     return ClipPath(
       clipper: TicketClipper(hFactor: 0.61),
       child: Container(
@@ -30,11 +34,19 @@ class RouteForm extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 0),
             child: CupertinoTextField(
               controller: HomeController.instance.departingFrom,
+              readOnly: true,
+              onTap: () async {
+                final arguments =
+                    await NavigatorKey.push(const SelectAirports());
+                if (arguments != null) {
+                  controller.setField('departingFrom', arguments);
+                }
+              },
               decoration: BoxDecoration(
                 color: bgColor,
                 borderRadius: BorderRadius.circular(15),
               ),
-              padding: EdgeInsets.only(left: 16.w),
+              padding: EdgeInsets.only(left: 16.w, right: 16.w),
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
@@ -53,11 +65,19 @@ class RouteForm extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 16.h),
             child: CupertinoTextField(
               controller: HomeController.instance.arrivingAt,
+              readOnly: true,
+              onTap: () async {
+                final arguments =
+                    await NavigatorKey.push(const SelectAirports());
+                if (arguments != null) {
+                  controller.setField('arrivingAt', arguments);
+                }
+              },
               decoration: BoxDecoration(
                 color: bgColor,
                 borderRadius: BorderRadius.circular(15),
               ),
-              padding: EdgeInsets.only(left: 16.w),
+              padding: EdgeInsets.only(left: 16.w, right: 16.w),
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
