@@ -5,6 +5,7 @@ import 'package:live_flight_tracker/airports_data.dart';
 import 'package:live_flight_tracker/components/route_details.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/images.dart';
+import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/models/flight_model.dart';
 
 class FlightRouteView extends StatefulWidget {
@@ -22,6 +23,8 @@ class _FlightRouteViewState extends State<FlightRouteView> {
   late LatLng destination;
   bool loadingRouteMap = true;
 
+  late MapType currentMapType;
+
   Set<Polyline> _polylines = {};
   Set<Marker> markers = {};
 
@@ -29,6 +32,24 @@ class _FlightRouteViewState extends State<FlightRouteView> {
   void initState() {
     super.initState();
     _initializeLatLong();
+    changeMapType();
+  }
+
+  changeMapType() {
+    debugPrint('called changeMapType function');
+    setState(() {
+      switch (HomeController.instance.selectedMapMode) {
+        case MapMode.Dark:
+          currentMapType = MapType.hybrid;
+          break;
+        case MapMode.Light:
+          currentMapType = MapType.terrain;
+          break;
+        case MapMode.Satelite:
+          currentMapType = MapType.satellite;
+          break;
+      }
+    });
   }
 
   void _initializeLatLong() {
@@ -165,7 +186,7 @@ class _FlightRouteViewState extends State<FlightRouteView> {
                       zoom: 6,
                     ),
                     polylines: _polylines,
-                    mapType: MapType.terrain,
+                    mapType: currentMapType,
                   ),
                 ),
           Positioned(bottom: 0, child: RouteDetails(model: widget.flight))

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:live_flight_tracker/config/colors.dart';
+import 'package:live_flight_tracker/config/constants.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/config/images.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/controllers/settings_controller.dart';
+import 'package:live_flight_tracker/services/local_storage.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
 import 'package:live_flight_tracker/views/premium_view.dart';
@@ -48,7 +50,10 @@ class MapsView extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
+                      LocalStorage.addData(mapMode,
+                          HomeController.instance.selectedMapMode.name);
                       callBack();
+                      NavigatorKey.pop();
                     },
                     child: const Text(
                       'Save',

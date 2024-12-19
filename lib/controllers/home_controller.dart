@@ -36,6 +36,28 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     turnOnCompass = LocalStorage.getData(isTurnOnCompass, KeyType.BOOL);
+    setMapType();
+  }
+
+  void setMapType() {
+    String map = LocalStorage.getData(mapMode, KeyType.STR);
+
+    if (map == MapMode.Dark.name) {
+      selectedMapMode = MapMode.Dark;
+      return;
+    }
+
+    if (map == MapMode.Light.name) {
+      selectedMapMode = MapMode.Light;
+      return;
+    }
+
+    if (map == MapMode.Satelite.name) {
+      selectedMapMode = MapMode.Satelite;
+      return;
+    }
+
+    selectedMapMode = MapMode.Light;
   }
 
   final pageController = PageController();
@@ -99,7 +121,7 @@ class HomeController extends GetxController {
   final Rx<Speed> _selectedSpeed = Speed.KPH.obs;
   final Rx<Distance> _selectedDistance = Distance.KM.obs;
   final Rx<Altitude> _selectedAltitude = Altitude.METER.obs;
-  final Rx<MapMode> _selectedMapMode = MapMode.Dark.obs;
+  final Rx<MapMode> _selectedMapMode = MapMode.Light.obs;
   final RxBool _turnOnCompass = true.obs;
 
   final RxList<DateTime> _selectedDates = <DateTime>[].obs;

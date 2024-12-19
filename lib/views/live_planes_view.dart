@@ -41,11 +41,14 @@ class LivePlanesViewState extends State<LivePlanesView>
   // Declare a debounce timer
   Timer? _debounce;
 
+  late MapType currentMapType;
+
   @override
   void initState() {
     super.initState();
     getCurrentLoc();
     fetchLiveFlights();
+    changeMapType();
   }
 
   changeMarkerIcon() {
@@ -54,6 +57,19 @@ class LivePlanesViewState extends State<LivePlanesView>
 
   changeMapType() {
     debugPrint('called changeMapType function');
+    setState(() {
+      switch (controller.selectedMapMode) {
+        case MapMode.Dark:
+          currentMapType = MapType.hybrid;
+          break;
+        case MapMode.Light:
+          currentMapType = MapType.terrain;
+          break;
+        case MapMode.Satelite:
+          currentMapType = MapType.satellite;
+          break;
+      }
+    });
   }
 
   void fetchLiveFlights() async {
@@ -374,7 +390,7 @@ class LivePlanesViewState extends State<LivePlanesView>
                     target: initPos!,
                     zoom: 6,
                   ),
-                  mapType: MapType.terrain,
+                  mapType: currentMapType,
                 ),
               );
             })
