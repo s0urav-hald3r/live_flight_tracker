@@ -44,7 +44,8 @@ class HomeController extends GetxController {
   final arrivingAt = TextEditingController();
   final flightCode = TextEditingController();
   final flightNumber = TextEditingController();
-  final date = TextEditingController();
+  final date = TextEditingController(
+      text: DateFormat("EEE, d MMM y").format(DateTime.now()));
 
   void setSelectedDate() {
     date.text = DateFormat("EEE, d MMM y")
@@ -324,24 +325,24 @@ class HomeController extends GetxController {
   }
 
   void searchFlightsByRoute() async {
-    final String apiKey = FlutterConfig.get('AVIAIONSTACK_API_KEY');
-    final String departIATA = departingFrom.text.split('-')[0].trim();
-    final String arriveIATA = arrivingAt.text.split('-')[0].trim();
-
-    final String selectedDate = DateFormat("yyyy-MM-dd")
-        .format(DateFormat("EEE, d MMM y").parse(date.text));
-
-    String url;
-    if (SettingsController.instance.isPremium) {
-      url =
-          'https://api.aviationstack.com/v1/flights?access_key=$apiKey&flight_date=$selectedDate&dep_iata=$departIATA&arr_iata=$arriveIATA';
-    } else {
-      url =
-          'https://api.aviationstack.com/v1/flights?access_key=$apiKey&dep_iata=$departIATA&arr_iata=$arriveIATA';
-    }
-
     isSearching = true;
     try {
+      final String apiKey = FlutterConfig.get('AVIAIONSTACK_API_KEY');
+      final String departIATA = departingFrom.text.split('-')[0].trim();
+      final String arriveIATA = arrivingAt.text.split('-')[0].trim();
+
+      String url;
+      if (SettingsController.instance.isPremium) {
+        final String selectedDate = DateFormat("yyyy-MM-dd")
+            .format(DateFormat("EEE, d MMM y").parse(date.text));
+
+        url =
+            'https://api.aviationstack.com/v1/flights?access_key=$apiKey&flight_date=$selectedDate&dep_iata=$departIATA&arr_iata=$arriveIATA';
+      } else {
+        url =
+            'https://api.aviationstack.com/v1/flights?access_key=$apiKey&dep_iata=$departIATA&arr_iata=$arriveIATA';
+      }
+
       final temp = <FlightModel>[];
       final response = await _dioClient.get(url);
 
@@ -361,18 +362,18 @@ class HomeController extends GetxController {
   }
 
   void searchFlightsByCode() async {
-    final String apiKey = FlutterConfig.get('AVIAIONSTACK_API_KEY');
-    final String flightIATA =
-        '${flightCode.text.trim()} + ${flightNumber.text.trim()}';
-
-    final String selectedDate = DateFormat("YYYY-MM-DD")
-        .format(DateFormat("EEE, d MMM y").parse(date.text));
-
-    final String url =
-        'https://api.aviationstack.com/v1/flights?access_key=$apiKey&flight_date=$selectedDate&flight_iata=$flightIATA';
-
     isSearching = true;
     try {
+      final String apiKey = FlutterConfig.get('AVIAIONSTACK_API_KEY');
+      final String flightIATA =
+          '${flightCode.text.trim()} + ${flightNumber.text.trim()}';
+
+      final String selectedDate = DateFormat("YYYY-MM-DD")
+          .format(DateFormat("EEE, d MMM y").parse(date.text));
+
+      final String url =
+          'https://api.aviationstack.com/v1/flights?access_key=$apiKey&flight_date=$selectedDate&flight_iata=$flightIATA';
+
       final temp = <FlightModel>[];
       final response = await _dioClient.get(url);
 

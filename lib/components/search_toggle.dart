@@ -53,7 +53,6 @@ class SearchToggle extends StatelessWidget {
           );
         },
         onChanged: (i) {
-          controller.date.clear();
           controller.searchToggleIndex = i;
         },
       );
