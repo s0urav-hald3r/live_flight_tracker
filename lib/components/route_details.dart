@@ -287,7 +287,8 @@ class RouteDetails extends StatelessWidget {
               ),
               child: ElevatedButton(
                 child: const Text(
-                  'Add to My Flights',
+                  // 'Add to My Flights',
+                  'Back',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
