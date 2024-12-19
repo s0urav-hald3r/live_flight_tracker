@@ -62,7 +62,7 @@ class LivePlanesViewState extends State<LivePlanesView>
     setState(() {
       switch (controller.selectedMapMode) {
         case MapMode.Dark:
-          currentMapType == null;
+          currentMapType = null;
           DefaultAssetBundle.of(context)
               .loadString('assets/static/dark_mode.json')
               .then((value) {
