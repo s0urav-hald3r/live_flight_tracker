@@ -164,7 +164,7 @@ class RouteDetails extends StatelessWidget {
                               ),
                               SizedBox(height: 2.h),
                               Text(
-                                DateFormat("H:m").format(
+                                DateFormat("H:mm").format(
                                     model.departure?.scheduled ??
                                         DateTime.now()),
                                 style: const TextStyle(
@@ -245,7 +245,7 @@ class RouteDetails extends StatelessWidget {
                               ),
                               SizedBox(height: 2.h),
                               Text(
-                                DateFormat("H:m").format(
+                                DateFormat("H:mm").format(
                                     model.arrival?.scheduled ?? DateTime.now()),
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w400,

@@ -6,7 +6,10 @@ import 'package:live_flight_tracker/components/date_picker_widget.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
+import 'package:live_flight_tracker/controllers/settings_controller.dart';
+import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
+import 'package:live_flight_tracker/views/premium_view.dart';
 
 class FlightCodeForm extends StatelessWidget {
   const FlightCodeForm({super.key});
@@ -43,6 +46,7 @@ class FlightCodeForm extends StatelessWidget {
                       color: whiteColor,
                     ),
                     placeholder: 'AA',
+                    textCapitalization: TextCapitalization.characters,
                     placeholderStyle: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -69,6 +73,7 @@ class FlightCodeForm extends StatelessWidget {
                       color: whiteColor,
                     ),
                     placeholder: '1234',
+                    keyboardType: TextInputType.number,
                     placeholderStyle: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -95,12 +100,16 @@ class FlightCodeForm extends StatelessWidget {
               controller: HomeController.instance.date,
               readOnly: true,
               onTap: () {
-                showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    builder: (context) {
-                      return const DatePickerWidget();
-                    });
+                if (SettingsController.instance.isPremium) {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (context) {
+                        return const DatePickerWidget();
+                      });
+                } else {
+                  NavigatorKey.push(const PremiumView());
+                }
               },
               decoration: BoxDecoration(
                 color: bgColor,

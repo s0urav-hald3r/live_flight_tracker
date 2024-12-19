@@ -366,13 +366,19 @@ class HomeController extends GetxController {
     try {
       final String apiKey = FlutterConfig.get('AVIAIONSTACK_API_KEY');
       final String flightIATA =
-          '${flightCode.text.trim()} + ${flightNumber.text.trim()}';
+          '${flightCode.text.trim()}${flightNumber.text.trim()}';
 
-      final String selectedDate = DateFormat("YYYY-MM-DD")
-          .format(DateFormat("EEE, d MMM y").parse(date.text));
+      String url;
+      if (SettingsController.instance.isPremium) {
+        final String selectedDate = DateFormat("yyyy-MM-dd")
+            .format(DateFormat("EEE, d MMM y").parse(date.text));
 
-      final String url =
-          'https://api.aviationstack.com/v1/flights?access_key=$apiKey&flight_date=$selectedDate&flight_iata=$flightIATA';
+        url =
+            'https://api.aviationstack.com/v1/flights?access_key=$apiKey&flight_iata=$flightIATA&flight_date=$selectedDate';
+      } else {
+        url =
+            'https://api.aviationstack.com/v1/flights?access_key=$apiKey&flight_iata=$flightIATA';
+      }
 
       final temp = <FlightModel>[];
       final response = await _dioClient.get(url);
