@@ -97,7 +97,7 @@ class _FlightRouteViewState extends State<FlightRouteView> {
 
   void _serMarker() async {
     final BitmapDescriptor planeIcon = await BitmapDescriptor.asset(
-      const ImageConfiguration(size: Size(48, 48)),
+      const ImageConfiguration(size: Size(36, 36)),
       whitePlane,
     );
 

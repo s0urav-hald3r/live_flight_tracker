@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:live_flight_tracker/components/plane_card.dart';
 import 'package:live_flight_tracker/config/colors.dart';
+import 'package:live_flight_tracker/config/constants.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
+import 'package:live_flight_tracker/services/local_storage.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
 
@@ -47,7 +49,10 @@ class PlanesView extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
+                      LocalStorage.addData(planeIndex,
+                          HomeController.instance.selectedPlaneIndex);
                       callBack();
+                      NavigatorKey.pop();
                     },
                     child: const Text(
                       'Save',

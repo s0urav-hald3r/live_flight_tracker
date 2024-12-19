@@ -37,6 +37,11 @@ class HomeController extends GetxController {
     super.onInit();
     turnOnCompass = LocalStorage.getData(isTurnOnCompass, KeyType.BOOL);
     setMapType();
+    setPlaneIndex();
+  }
+
+  void setPlaneIndex() {
+    selectedPlaneIndex = LocalStorage.getData(planeIndex, KeyType.INT);
   }
 
   void setMapType() {

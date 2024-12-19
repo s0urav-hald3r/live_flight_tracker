@@ -4,7 +4,7 @@ const String isPremiumUser = 'isPremiumUser';
 const String isTurnOnCompass = 'isTurnOnCompass';
 
 const String mapMode = 'mapMode';
-const String planeType = 'planeType';
+const String planeIndex = 'planeIndex';
 
 // TO DO: add the entitlement ID from the RevenueCat dashboard that is activated upon successful in-app purchase for the duration of the purchase.
 const String entitlementID = 'premium_access';

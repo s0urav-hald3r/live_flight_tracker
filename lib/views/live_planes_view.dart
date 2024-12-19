@@ -11,7 +11,6 @@ import 'package:live_flight_tracker/components/flight_details.dart';
 import 'package:live_flight_tracker/components/location_box.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/icons.dart';
-import 'package:live_flight_tracker/config/images.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/controllers/settings_controller.dart';
 import 'package:live_flight_tracker/flights_data.dart';
@@ -53,8 +52,24 @@ class LivePlanesViewState extends State<LivePlanesView>
     changeMapType();
   }
 
-  changeMarkerIcon() {
+  changeMarkerIcon() async {
     debugPrint('called changeMarkerIcon function');
+    final updatedMarkerIcon = await BitmapDescriptor.asset(
+      const ImageConfiguration(size: Size(36, 36)),
+      // Replace with your new custom marker image path
+      controller.flightDetails[controller.selectedPlaneIndex]['flightImage'],
+    );
+
+    setState(() {
+      markers = markers
+          .map((marker) {
+            return marker.copyWith(
+              iconParam: updatedMarkerIcon,
+            );
+          })
+          .cast<Marker>()
+          .toSet();
+    });
   }
 
   changeMapType() {
@@ -97,8 +112,8 @@ class LivePlanesViewState extends State<LivePlanesView>
   // Method to add plane markers to the map
   Future<void> _addFlightMarkers(List<FlightModel> flights) async {
     final BitmapDescriptor planeIcon = await BitmapDescriptor.asset(
-      const ImageConfiguration(size: Size(48, 48)),
-      whitePlane,
+      const ImageConfiguration(size: Size(36, 36)),
+      controller.flightDetails[controller.selectedPlaneIndex]['flightImage'],
     );
 
     Set<Marker> flightMarkers = flights
