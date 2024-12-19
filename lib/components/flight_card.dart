@@ -17,7 +17,7 @@ class FlightCard extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        if (model.flightStatus == 'active') {
+        if (model.flightStatus == 'active' && model.live != null) {
           NavigatorKey.push(FlightRouteView(flight: model));
         }
       },
@@ -49,7 +49,7 @@ class FlightCard extends StatelessWidget {
                 ),
               ),
             ),
-            if (model.flightStatus == 'active')
+            if (model.flightStatus == 'active' && model.live != null)
               const Text('Tap to view live',
                   style: TextStyle(color: Colors.red))
           ]),
