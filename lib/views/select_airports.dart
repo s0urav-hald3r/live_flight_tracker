@@ -27,8 +27,10 @@ class _SelectAirportsState extends State<SelectAirports> {
 
   void _filterList(String query) {
     controller.filteredItems = airportsData
-        .where(
-            (item) => item["name"].toLowerCase().contains(query.toLowerCase()))
+        .where((item) =>
+            item["name"].toLowerCase().contains(query.toLowerCase()) ||
+            item["municipality"].toLowerCase().contains(query.toLowerCase()) ||
+            item["iata_code"].toLowerCase().contains(query.toLowerCase()))
         .toList();
   }
 

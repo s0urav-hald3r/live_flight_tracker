@@ -107,7 +107,8 @@ class RouteDetails extends StatelessWidget {
                           width: 150.w,
                           color: Colors.transparent,
                           child: Text(
-                            model.departure?.airport ?? 'NA',
+                            controller
+                                .getAirportName(model.departure?.iata ?? 'NA'),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.left,
@@ -130,7 +131,8 @@ class RouteDetails extends StatelessWidget {
                           width: 150.w,
                           color: Colors.transparent,
                           child: Text(
-                            model.arrival?.airport ?? 'NA',
+                            controller
+                                .getAirportName(model.arrival?.iata ?? 'NA'),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.right,
@@ -186,7 +188,7 @@ class RouteDetails extends StatelessWidget {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    controller.getDepCountryFlag(
+                                    controller.getCountryFlag(
                                         model.departure?.iata ?? ''),
                                     style: const TextStyle(fontSize: 26),
                                   ),
@@ -194,8 +196,8 @@ class RouteDetails extends StatelessWidget {
                               ),
                               SizedBox(height: 4.h),
                               Text(
-                                controller
-                                    .getDepCountry(model.departure?.iata ?? ''),
+                                controller.getCountryName(
+                                    model.departure?.iata ?? ''),
                                 style: const TextStyle(
                                   fontSize: 14,
                                   color: whiteColor,
@@ -215,7 +217,7 @@ class RouteDetails extends StatelessWidget {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    controller.getArrCountryFlag(
+                                    controller.getCountryFlag(
                                         model.arrival?.iata ?? ''),
                                     style: const TextStyle(fontSize: 26),
                                   ),
@@ -224,7 +226,7 @@ class RouteDetails extends StatelessWidget {
                               SizedBox(height: 4.h),
                               Text(
                                 controller
-                                    .getArrCountry(model.arrival?.iata ?? ''),
+                                    .getCountryName(model.arrival?.iata ?? ''),
                                 style: const TextStyle(
                                   fontSize: 14,
                                   color: whiteColor,

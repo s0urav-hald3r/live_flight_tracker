@@ -24,7 +24,7 @@ class SettingsController extends GetxController {
   }
 
   // Variables
-  final RxBool _isPremium = false.obs;
+  final RxBool _isPremium = true.obs;
 
   final RxList<StoreProduct> _storeProduct = <StoreProduct>[].obs;
 

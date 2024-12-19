@@ -59,7 +59,7 @@ class FlightCard extends StatelessWidget {
               width: 150.w,
               color: Colors.transparent,
               child: Text(
-                model.departure?.airport ?? 'NA',
+                controller.getAirportName(model.departure?.iata ?? ''),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
@@ -82,7 +82,7 @@ class FlightCard extends StatelessWidget {
               width: 150.w,
               color: Colors.transparent,
               child: Text(
-                model.arrival?.airport ?? 'NA',
+                controller.getAirportName(model.arrival?.iata ?? ''),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.right,
@@ -147,15 +147,16 @@ class FlightCard extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              controller.getDepCountryFlag(
-                                  model.departure?.iata ?? ''),
+                              controller
+                                  .getCountryFlag(model.departure?.iata ?? ''),
                               style: const TextStyle(fontSize: 26),
                             ),
                           ),
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          controller.getDepCountry(model.departure?.iata ?? ''),
+                          controller
+                              .getCountryName(model.departure?.iata ?? ''),
                           style: const TextStyle(
                             fontSize: 14,
                             color: whiteColor,
@@ -177,14 +178,14 @@ class FlightCard extends StatelessWidget {
                           child: Center(
                             child: Text(
                               controller
-                                  .getArrCountryFlag(model.arrival?.iata ?? ''),
+                                  .getCountryFlag(model.arrival?.iata ?? ''),
                               style: const TextStyle(fontSize: 26),
                             ),
                           ),
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          controller.getArrCountry(model.arrival?.iata ?? ''),
+                          controller.getCountryName(model.arrival?.iata ?? ''),
                           style: const TextStyle(
                             fontSize: 14,
                             color: whiteColor,

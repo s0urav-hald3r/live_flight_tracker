@@ -10,8 +10,8 @@ import 'package:intl/intl.dart';
 import 'package:live_flight_tracker/airports_data.dart';
 import 'package:live_flight_tracker/config/constants.dart';
 import 'package:live_flight_tracker/config/images.dart';
-import 'package:live_flight_tracker/controllers/settings_controller.dart';
 import 'package:live_flight_tracker/country_data.dart';
+import 'package:live_flight_tracker/main.dart';
 import 'package:live_flight_tracker/models/flight_model.dart';
 import 'package:live_flight_tracker/models/place_search_model.dart';
 import 'package:live_flight_tracker/services/dio_client.dart';
@@ -210,6 +210,43 @@ class HomeController extends GetxController {
     }
   }
 
+  String getAirportName(String iata) {
+    if (iata.isEmpty) {
+      return 'NA';
+    }
+
+    return airportsData
+        .firstWhere((airport) => airport['iata_code'] == iata)['name'];
+  }
+
+  String getCountryFlag(String iata) {
+    if (iata.isEmpty) {
+      return '';
+    }
+
+    String countryCode = airportsData
+        .firstWhere((airport) => airport['iata_code'] == iata)['iso_country'];
+
+    return countryData.firstWhereOrNull((country) =>
+            country['code'] == countryCode ||
+            country['code'].contains(countryCode))?['flag'] ??
+        '';
+  }
+
+  String getCountryName(String iata) {
+    if (iata.isEmpty) {
+      return 'NA';
+    }
+
+    String countryCode = airportsData
+        .firstWhere((airport) => airport['iata_code'] == iata)['iso_country'];
+
+    return countryData.firstWhereOrNull((country) =>
+            country['code'] == countryCode ||
+            country['code'].contains(countryCode))?['name'] ??
+        '';
+  }
+
   double haversine(String depIATA, String arrIATA) {
     if (depIATA.isEmpty || arrIATA.isEmpty) {
       return 0.0;
@@ -255,46 +292,6 @@ class HomeController extends GetxController {
     }
   }
 
-  String getDepCountryFlag(String depIATA) {
-    String countryCode = airportsData.firstWhere(
-        (airport) => airport['iata_code'] == depIATA)['iso_country'];
-
-    return countryData.firstWhereOrNull((country) =>
-            country['code'] == countryCode ||
-            country['code'].contains(countryCode))?['flag'] ??
-        '';
-  }
-
-  String getArrCountryFlag(String arrIATA) {
-    String countryCode = airportsData.firstWhere(
-        (airport) => airport['iata_code'] == arrIATA)['iso_country'];
-
-    return countryData.firstWhereOrNull((country) =>
-            country['code'] == countryCode ||
-            country['code'].contains(countryCode))?['flag'] ??
-        '';
-  }
-
-  String getDepCountry(String depIATA) {
-    String countryCode = airportsData.firstWhere(
-        (airport) => airport['iata_code'] == depIATA)['iso_country'];
-
-    return countryData.firstWhereOrNull((country) =>
-            country['code'] == countryCode ||
-            country['code'].contains(countryCode))?['name'] ??
-        '';
-  }
-
-  String getArrCountry(String arrIATA) {
-    String countryCode = airportsData.firstWhere(
-        (airport) => airport['iata_code'] == arrIATA)['iso_country'];
-
-    return countryData.firstWhereOrNull((country) =>
-            country['code'] == countryCode ||
-            country['code'].contains(countryCode))?['name'] ??
-        '';
-  }
-
   double currentDistance(String depIATA, num cLat, num cLong) {
     double lat1 = double.parse(airportsData.firstWhere(
             (airport) => airport['iata_code'] == depIATA)['latitude_deg'] ??
@@ -332,7 +329,7 @@ class HomeController extends GetxController {
       final String arriveIATA = arrivingAt.text.split('-')[0].trim();
 
       String url;
-      if (SettingsController.instance.isPremium) {
+      if (FlutterConfig.get('AVIAIONSTACK_PLAN_TYPE') != PlanType.FREE.name) {
         final String selectedDate = DateFormat("yyyy-MM-dd")
             .format(DateFormat("EEE, d MMM y").parse(date.text));
 
@@ -369,7 +366,7 @@ class HomeController extends GetxController {
           '${flightCode.text.trim()}${flightNumber.text.trim()}';
 
       String url;
-      if (SettingsController.instance.isPremium) {
+      if (FlutterConfig.get('AVIAIONSTACK_PLAN_TYPE') != PlanType.FREE.name) {
         final String selectedDate = DateFormat("yyyy-MM-dd")
             .format(DateFormat("EEE, d MMM y").parse(date.text));
 

@@ -364,7 +364,7 @@ class _LivePlanesViewState extends State<LivePlanesView>
                   },
                   initialCameraPosition: CameraPosition(
                     target: initPos!,
-                    zoom: 7,
+                    zoom: 6,
                   ),
                   mapType: MapType.terrain,
                 ),

@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -17,6 +19,8 @@ import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/constants.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/services/store_config.dart';
+
+enum PlanType { FREE, BASIC, PROFESSIONAL, BUSINESS }
 
 // ignore: unused_element
 Future<void> _configureSDK() async {

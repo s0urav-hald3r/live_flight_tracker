@@ -17,6 +17,7 @@ class FlightRouteView extends StatefulWidget {
 
 class _FlightRouteViewState extends State<FlightRouteView> {
   GoogleMapController? controller;
+  late LatLng origin;
   late LatLng currentLocation;
   late LatLng destination;
   bool loadingRouteMap = true;
@@ -31,6 +32,17 @@ class _FlightRouteViewState extends State<FlightRouteView> {
   }
 
   void _initializeLatLong() {
+    double originLat = double.parse(airportsData.firstWhere((airport) =>
+            airport['iata_code'] ==
+            widget.flight.departure!.iata)['latitude_deg'] ??
+        '0.0');
+    double originLong = double.parse(airportsData.firstWhere((airport) =>
+            airport['iata_code'] ==
+            widget.flight.departure!.iata)['longitude_deg'] ??
+        '0.0');
+    origin = LatLng(originLat, originLong);
+    debugPrint('origin: $origin');
+
     double curLat = (widget.flight.live?.latitude ?? 0).toDouble();
     double curLong = (widget.flight.live?.longitude ?? 0).toDouble();
     currentLocation = LatLng(curLat, curLong);
@@ -85,7 +97,17 @@ class _FlightRouteViewState extends State<FlightRouteView> {
   void _setPolylines() {
     Set<Polyline> planePolyline = {
       Polyline(
-        polylineId: const PolylineId("dottedLine"),
+        polylineId: const PolylineId("origin current"),
+        points: [origin, currentLocation],
+        width: 3,
+        color: textColor,
+        visible: true,
+        startCap: Cap.roundCap,
+        endCap: Cap.roundCap,
+        patterns: const [PatternItem.dot],
+      ),
+      Polyline(
+        polylineId: const PolylineId("current destination"),
         points: [currentLocation, destination],
         width: 3,
         color: primaryColor,
@@ -140,7 +162,7 @@ class _FlightRouteViewState extends State<FlightRouteView> {
                     markers: markers,
                     initialCameraPosition: CameraPosition(
                       target: currentLocation,
-                      zoom: 5,
+                      zoom: 6,
                     ),
                     polylines: _polylines,
                     mapType: MapType.terrain,
