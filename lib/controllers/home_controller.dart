@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:live_flight_tracker/airports_data.dart';
 import 'package:live_flight_tracker/config/constants.dart';
 import 'package:live_flight_tracker/config/images.dart';
+import 'package:live_flight_tracker/controllers/settings_controller.dart';
 import 'package:live_flight_tracker/country_data.dart';
 import 'package:live_flight_tracker/models/flight_model.dart';
 import 'package:live_flight_tracker/models/place_search_model.dart';
@@ -136,6 +137,7 @@ class HomeController extends GetxController {
   final RxBool _havePermission = false.obs;
   final RxBool _isSearching = false.obs;
   final RxList<PlaceSearchModel> _searchedPlaces = <PlaceSearchModel>[].obs;
+  final RxList<FlightModel> _searchedFlights = <FlightModel>[].obs;
   final RxList<Map<String, dynamic>> _filteredItems =
       <Map<String, dynamic>>[].obs;
 
@@ -143,12 +145,14 @@ class HomeController extends GetxController {
   bool get havePermission => _havePermission.value;
   bool get isSearching => _isSearching.value;
   List<PlaceSearchModel> get searchedPlaces => _searchedPlaces;
+  List<FlightModel> get searchedFlights => _searchedFlights;
   List<Map<String, dynamic>> get filteredItems => _filteredItems;
 
   set loadingMap(status) => _loadingMap.value = status;
   set havePermission(status) => _havePermission.value = status;
   set isSearching(status) => _isSearching.value = status;
   set searchedPlaces(value) => _searchedPlaces.value = value;
+  set searchedFlights(value) => _searchedFlights.value = value;
   set filteredItems(value) => _filteredItems.value = value;
 
   Future<List<FlightModel>> fetchLiveFlights() async {
@@ -317,5 +321,73 @@ class HomeController extends GetxController {
     double c = 2 * atan2(sqrt(a), sqrt(1 - a));
 
     return R * c;
+  }
+
+  void searchFlightsByRoute() async {
+    final String apiKey = FlutterConfig.get('AVIAIONSTACK_API_KEY');
+    final String departIATA = departingFrom.text.split('-')[0].trim();
+    final String arriveIATA = arrivingAt.text.split('-')[0].trim();
+
+    final String selectedDate = DateFormat("yyyy-MM-dd")
+        .format(DateFormat("EEE, d MMM y").parse(date.text));
+
+    String url;
+    if (SettingsController.instance.isPremium) {
+      url =
+          'https://api.aviationstack.com/v1/flights?access_key=$apiKey&flight_date=$selectedDate&dep_iata=$departIATA&arr_iata=$arriveIATA';
+    } else {
+      url =
+          'https://api.aviationstack.com/v1/flights?access_key=$apiKey&dep_iata=$departIATA&arr_iata=$arriveIATA';
+    }
+
+    isSearching = true;
+    try {
+      final temp = <FlightModel>[];
+      final response = await _dioClient.get(url);
+
+      for (var flight in response.data['data']) {
+        temp.add(FlightModel.fromJson(flight));
+      }
+
+      searchedFlights = temp;
+      isSearching = false;
+    } on DioException catch (e) {
+      debugPrint('DioException Error: $e');
+      isSearching = false;
+    } catch (e) {
+      debugPrint('Unknown Error: $e');
+      isSearching = false;
+    }
+  }
+
+  void searchFlightsByCode() async {
+    final String apiKey = FlutterConfig.get('AVIAIONSTACK_API_KEY');
+    final String flightIATA =
+        '${flightCode.text.trim()} + ${flightNumber.text.trim()}';
+
+    final String selectedDate = DateFormat("YYYY-MM-DD")
+        .format(DateFormat("EEE, d MMM y").parse(date.text));
+
+    final String url =
+        'https://api.aviationstack.com/v1/flights?access_key=$apiKey&flight_date=$selectedDate&flight_iata=$flightIATA';
+
+    isSearching = true;
+    try {
+      final temp = <FlightModel>[];
+      final response = await _dioClient.get(url);
+
+      for (var flight in response.data['data']) {
+        temp.add(FlightModel.fromJson(flight));
+      }
+
+      searchedFlights = temp;
+      isSearching = false;
+    } on DioException catch (e) {
+      debugPrint('DioException Error: $e');
+      isSearching = false;
+    } catch (e) {
+      debugPrint('Unknown Error: $e');
+      isSearching = false;
+    }
   }
 }

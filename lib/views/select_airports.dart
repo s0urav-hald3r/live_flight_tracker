@@ -83,6 +83,7 @@ class _SelectAirportsState extends State<SelectAirports> {
             margin: EdgeInsets.symmetric(horizontal: 16.w),
             child: CupertinoTextField(
               onChanged: _filterList,
+              autofocus: true,
               decoration: BoxDecoration(
                 color: const Color(0xFF323558),
                 borderRadius: BorderRadius.circular(15),
