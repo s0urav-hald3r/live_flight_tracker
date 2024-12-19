@@ -41,7 +41,9 @@ class LivePlanesViewState extends State<LivePlanesView>
   // Declare a debounce timer
   Timer? _debounce;
 
-  late MapType currentMapType;
+  MapType? currentMapType;
+
+  late String darkString;
 
   @override
   void initState() {
@@ -60,10 +62,18 @@ class LivePlanesViewState extends State<LivePlanesView>
     setState(() {
       switch (controller.selectedMapMode) {
         case MapMode.Dark:
-          currentMapType = MapType.hybrid;
+          currentMapType == null;
+          DefaultAssetBundle.of(context)
+              .loadString('assets/static/dark_mode.json')
+              .then((value) {
+            darkString = value;
+            _controller?.setMapStyle(darkString);
+          });
+
           break;
         case MapMode.Light:
           currentMapType = MapType.terrain;
+
           break;
         case MapMode.Satelite:
           currentMapType = MapType.satellite;
@@ -131,6 +141,10 @@ class LivePlanesViewState extends State<LivePlanesView>
   _onMapCreated(GoogleMapController controller) {
     setState(() {
       _controller = controller;
+
+      if (HomeController.instance.selectedMapMode == MapMode.Dark) {
+        _controller!.setMapStyle(darkString);
+      }
     });
   }
 
@@ -372,26 +386,46 @@ class LivePlanesViewState extends State<LivePlanesView>
               }
 
               return Expanded(
-                child: GoogleMap(
-                  zoomControlsEnabled: true,
-                  myLocationEnabled: true,
-                  buildingsEnabled: true,
-                  myLocationButtonEnabled: false,
-                  compassEnabled: false,
-                  indoorViewEnabled: true,
-                  zoomGesturesEnabled: true,
-                  onMapCreated: _onMapCreated,
-                  markers: markers,
-                  onCameraMove: (CameraPosition pos) async {
-                    locationController.add(pos.target);
-                    initPos = pos.target;
-                  },
-                  initialCameraPosition: CameraPosition(
-                    target: initPos!,
-                    zoom: 6,
-                  ),
-                  mapType: currentMapType,
-                ),
+                child: currentMapType == null
+                    ? GoogleMap(
+                        zoomControlsEnabled: true,
+                        myLocationEnabled: true,
+                        buildingsEnabled: true,
+                        myLocationButtonEnabled: false,
+                        compassEnabled: false,
+                        indoorViewEnabled: true,
+                        zoomGesturesEnabled: true,
+                        onMapCreated: _onMapCreated,
+                        markers: markers,
+                        onCameraMove: (CameraPosition pos) async {
+                          locationController.add(pos.target);
+                          initPos = pos.target;
+                        },
+                        initialCameraPosition: CameraPosition(
+                          target: initPos!,
+                          zoom: 6,
+                        ),
+                      )
+                    : GoogleMap(
+                        zoomControlsEnabled: true,
+                        myLocationEnabled: true,
+                        buildingsEnabled: true,
+                        myLocationButtonEnabled: false,
+                        compassEnabled: false,
+                        indoorViewEnabled: true,
+                        zoomGesturesEnabled: true,
+                        onMapCreated: _onMapCreated,
+                        markers: markers,
+                        onCameraMove: (CameraPosition pos) async {
+                          locationController.add(pos.target);
+                          initPos = pos.target;
+                        },
+                        initialCameraPosition: CameraPosition(
+                          target: initPos!,
+                          zoom: 6,
+                        ),
+                        mapType: currentMapType!,
+                      ),
               );
             })
           ]),

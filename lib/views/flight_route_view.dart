@@ -23,7 +23,9 @@ class _FlightRouteViewState extends State<FlightRouteView> {
   late LatLng destination;
   bool loadingRouteMap = true;
 
-  late MapType currentMapType;
+  MapType? currentMapType;
+
+  late String darkString;
 
   Set<Polyline> _polylines = {};
   Set<Marker> markers = {};
@@ -40,10 +42,16 @@ class _FlightRouteViewState extends State<FlightRouteView> {
     setState(() {
       switch (HomeController.instance.selectedMapMode) {
         case MapMode.Dark:
-          currentMapType = MapType.hybrid;
+          DefaultAssetBundle.of(context)
+              .loadString('assets/static/dark_mode.json')
+              .then((value) {
+            darkString = value;
+          });
+
           break;
         case MapMode.Light:
           currentMapType = MapType.terrain;
+
           break;
         case MapMode.Satelite:
           currentMapType = MapType.satellite;
@@ -149,6 +157,9 @@ class _FlightRouteViewState extends State<FlightRouteView> {
   _onMapCreated(GoogleMapController mapController) async {
     setState(() {
       controller = mapController;
+      if (HomeController.instance.selectedMapMode == MapMode.Dark) {
+        controller!.setMapStyle(darkString);
+      }
     });
   }
 
@@ -171,23 +182,40 @@ class _FlightRouteViewState extends State<FlightRouteView> {
                 )
               : SizedBox(
                   height: MediaQuery.of(context).size.height * 0.6,
-                  child: GoogleMap(
-                    zoomControlsEnabled: true,
-                    myLocationEnabled: true,
-                    buildingsEnabled: true,
-                    myLocationButtonEnabled: false,
-                    compassEnabled: false,
-                    indoorViewEnabled: true,
-                    zoomGesturesEnabled: true,
-                    onMapCreated: _onMapCreated,
-                    markers: markers,
-                    initialCameraPosition: CameraPosition(
-                      target: currentLocation,
-                      zoom: 6,
-                    ),
-                    polylines: _polylines,
-                    mapType: currentMapType,
-                  ),
+                  child: currentMapType == null
+                      ? GoogleMap(
+                          zoomControlsEnabled: true,
+                          myLocationEnabled: true,
+                          buildingsEnabled: true,
+                          myLocationButtonEnabled: false,
+                          compassEnabled: false,
+                          indoorViewEnabled: true,
+                          zoomGesturesEnabled: true,
+                          onMapCreated: _onMapCreated,
+                          markers: markers,
+                          initialCameraPosition: CameraPosition(
+                            target: currentLocation,
+                            zoom: 6,
+                          ),
+                          polylines: _polylines,
+                        )
+                      : GoogleMap(
+                          zoomControlsEnabled: true,
+                          myLocationEnabled: true,
+                          buildingsEnabled: true,
+                          myLocationButtonEnabled: false,
+                          compassEnabled: false,
+                          indoorViewEnabled: true,
+                          zoomGesturesEnabled: true,
+                          onMapCreated: _onMapCreated,
+                          markers: markers,
+                          initialCameraPosition: CameraPosition(
+                            target: currentLocation,
+                            zoom: 6,
+                          ),
+                          polylines: _polylines,
+                          mapType: currentMapType!,
+                        ),
                 ),
           Positioned(bottom: 0, child: RouteDetails(model: widget.flight))
         ]),
