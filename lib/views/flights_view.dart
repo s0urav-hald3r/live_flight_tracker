@@ -60,13 +60,21 @@ class FlightsView extends StatelessWidget {
               }
 
               if (controller.searchedFlights.isEmpty) {
-                return const Expanded(
-                  child: Center(
-                    child: Text(
-                      'No flights found on this route.',
-                      style: TextStyle(color: whiteColor),
-                    ),
-                  ),
+                return Expanded(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(myFlightsPlane),
+                        SizedBox(height: 20.h),
+                        const Text(
+                          'No Results',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 22,
+                            color: textColor,
+                          ),
+                        ),
+                      ]),
                 );
               }
 
