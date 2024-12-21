@@ -56,7 +56,7 @@ void main() async {
     );
   }
 
-  // await _configureSDK();
+  await _configureSDK();
 
   // Dependency injection
   Get.lazyPut(() => HomeController());

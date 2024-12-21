@@ -12,7 +12,7 @@ const String entitlementID = 'premium_access';
 const String monthlyPlanIndentifier = '';
 
 // TO DO: add the Apple API key for your app from the RevenueCat dashboard: https://app.revenuecat.com
-const String appleApiKey = '';
+const String appleApiKey = 'appl_JTRuGmjAxxYLXxCOcAcEJSWLlOx';
 
 // Required urls
 const String shareText = '';

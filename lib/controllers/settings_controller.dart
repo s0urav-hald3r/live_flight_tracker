@@ -12,11 +12,11 @@ import 'package:live_flight_tracker/views/premium_view.dart';
 class SettingsController extends GetxController {
   static SettingsController get instance => Get.find();
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   callAPIs();
-  // }
+  @override
+  void onInit() {
+    super.onInit();
+    callAPIs();
+  }
 
   Future<void> callAPIs() async {
     await checkSubscriptionStatus();
@@ -24,7 +24,7 @@ class SettingsController extends GetxController {
   }
 
   // Variables
-  final RxBool _isPremium = true.obs;
+  final RxBool _isPremium = false.obs;
 
   final RxList<StoreProduct> _storeProduct = <StoreProduct>[].obs;
 

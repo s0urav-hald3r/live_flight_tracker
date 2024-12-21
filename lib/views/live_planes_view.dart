@@ -175,6 +175,7 @@ class LivePlanesViewState extends State<LivePlanesView>
 
     if (permission == LocationPermission.denied) {
       await showPermissionBox();
+      return;
     }
 
     Position position = await Geolocator.getCurrentPosition();
