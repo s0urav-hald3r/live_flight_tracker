@@ -1,4 +1,4 @@
-package com.example.live_flight_tracker
+package com.flighttrackapp.planetrackz
 
 import io.flutter.embedding.android.FlutterActivity
 
