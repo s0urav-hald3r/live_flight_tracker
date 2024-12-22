@@ -38,14 +38,94 @@ class HomeController extends GetxController {
     turnOnCompass = LocalStorage.getData(isTurnOnCompass, KeyType.BOOL);
     setMapType();
     setPlaneIndex();
+    setSpeed();
+    setDistance();
+    setAltitude();
+  }
+
+  void setAltitude() {
+    String altitude = LocalStorage.getData(altitudeFactor, KeyType.STR);
+    debugPrint('initial altitude: $altitude');
+
+    if (altitude.isEmpty) {
+      selectedAltitude = Altitude.METER;
+      return;
+    }
+
+    if (altitude == Altitude.FEET.name) {
+      selectedAltitude = Altitude.FEET;
+      return;
+    }
+
+    if (altitude == Altitude.METER.name) {
+      selectedAltitude = Altitude.METER;
+      return;
+    }
+  }
+
+  void setDistance() {
+    String distance = LocalStorage.getData(distanceFactor, KeyType.STR);
+    debugPrint('initial distance: $distance');
+
+    if (distance.isEmpty) {
+      selectedDistance = Distance.KM;
+      return;
+    }
+
+    if (distance == Distance.MILES.name) {
+      selectedDistance = Distance.MILES;
+      return;
+    }
+
+    if (distance == Distance.KM.name) {
+      selectedDistance = Distance.KM;
+      return;
+    }
+
+    if (distance == Distance.NM.name) {
+      selectedDistance = Distance.NM;
+      return;
+    }
+  }
+
+  void setSpeed() {
+    String speed = LocalStorage.getData(speedFactor, KeyType.STR);
+    debugPrint('initial speed: $speed');
+
+    if (speed.isEmpty) {
+      selectedSpeed = Speed.KPH;
+      return;
+    }
+
+    if (speed == Speed.MPH.name) {
+      selectedSpeed = Speed.MPH;
+      return;
+    }
+
+    if (speed == Speed.KPH.name) {
+      selectedSpeed = Speed.KPH;
+      return;
+    }
+
+    if (speed == Speed.KNOTS.name) {
+      selectedSpeed = Speed.KNOTS;
+      return;
+    }
   }
 
   void setPlaneIndex() {
     selectedPlaneIndex = LocalStorage.getData(planeIndex, KeyType.INT);
+    debugPrint('initial marker index: $selectedPlaneIndex');
   }
 
   void setMapType() {
     String map = LocalStorage.getData(mapMode, KeyType.STR);
+    debugPrint('initial mapType: $map');
+
+    if (map.isEmpty) {
+      selectedMapMode = MapMode.Light;
+      return;
+    }
 
     if (map == MapMode.Dark.name) {
       selectedMapMode = MapMode.Dark;
@@ -61,8 +141,6 @@ class HomeController extends GetxController {
       selectedMapMode = MapMode.Satelite;
       return;
     }
-
-    selectedMapMode = MapMode.Light;
   }
 
   final pageController = PageController();
@@ -216,6 +294,8 @@ class HomeController extends GetxController {
   }
 
   num calculatedSpeed(num speed) {
+    setSpeed();
+
     // as upcoming speed by default KPH
     switch (selectedSpeed) {
       case Speed.MPH:
@@ -228,6 +308,8 @@ class HomeController extends GetxController {
   }
 
   num calculatedAltitude(num altitude) {
+    setAltitude();
+
     // as upcoming altitude by default METER
     switch (selectedAltitude) {
       case Altitude.FEET:
@@ -275,6 +357,8 @@ class HomeController extends GetxController {
   }
 
   double haversine(String depIATA, String arrIATA) {
+    setDistance();
+
     if (depIATA.isEmpty || arrIATA.isEmpty) {
       return 0.0;
     }

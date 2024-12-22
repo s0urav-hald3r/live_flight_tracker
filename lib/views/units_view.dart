@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:live_flight_tracker/config/colors.dart';
+import 'package:live_flight_tracker/config/constants.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/controllers/settings_controller.dart';
+import 'package:live_flight_tracker/services/local_storage.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/views/premium_view.dart';
 
 class UnitsView extends StatelessWidget {
-  const UnitsView({super.key});
+  UnitsView({super.key});
+
+  final controller = HomeController.instance;
+  final settingsController = SettingsController.instance;
 
   @override
   Widget build(BuildContext context) {
-    final controller = HomeController.instance;
-
     return Scaffold(
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
@@ -47,12 +50,23 @@ class UnitsView extends StatelessWidget {
                         color: whiteColor,
                       ),
                     ),
-                    const Text(
-                      'Save',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        color: primaryColor,
+                    InkWell(
+                      onTap: () async {
+                        await LocalStorage.addData(
+                            speedFactor, controller.selectedSpeed.name);
+                        await LocalStorage.addData(
+                            distanceFactor, controller.selectedDistance.name);
+                        await LocalStorage.addData(
+                            altitudeFactor, controller.selectedAltitude.name);
+                        NavigatorKey.pop();
+                      },
+                      child: const Text(
+                        'Save',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          color: primaryColor,
+                        ),
                       ),
                     ),
                   ]),
@@ -106,8 +120,8 @@ class UnitsView extends StatelessWidget {
         else
           InkWell(
             onTap: () {
-              if (SettingsController.instance.isPremium) {
-                HomeController.instance.selectedSpeed = cValue;
+              if (settingsController.isPremium) {
+                controller.selectedSpeed = cValue;
                 return;
               }
               NavigatorKey.push(const PremiumView());
@@ -151,8 +165,8 @@ class UnitsView extends StatelessWidget {
         else
           InkWell(
             onTap: () {
-              if (SettingsController.instance.isPremium) {
-                HomeController.instance.selectedDistance = cValue;
+              if (settingsController.isPremium) {
+                controller.selectedDistance = cValue;
                 return;
               }
               NavigatorKey.push(const PremiumView());
@@ -196,8 +210,8 @@ class UnitsView extends StatelessWidget {
         else
           InkWell(
             onTap: () {
-              if (SettingsController.instance.isPremium) {
-                HomeController.instance.selectedAltitude = cValue;
+              if (settingsController.isPremium) {
+                controller.selectedAltitude = cValue;
                 return;
               }
               NavigatorKey.push(const PremiumView());
@@ -227,7 +241,7 @@ class UnitsView extends StatelessWidget {
             color: whiteColor,
           ),
         ),
-        if (!SettingsController.instance.isPremium)
+        if (!settingsController.isPremium)
           SizedBox(
             width: 24,
             height: 24,

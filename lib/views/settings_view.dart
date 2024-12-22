@@ -68,6 +68,7 @@ class SettingsView extends StatelessWidget {
                   'Maps',
                   SvgPicture.asset(rightArrow),
                   () {
+                    HomeController.instance.setMapType();
                     NavigatorKey.push(MapsView(callBack: map));
                   },
                 ),
@@ -76,6 +77,7 @@ class SettingsView extends StatelessWidget {
                   'Planes',
                   SvgPicture.asset(rightArrow),
                   () {
+                    HomeController.instance.setPlaneIndex();
                     NavigatorKey.push(PlanesView(callBack: marker));
                   },
                 ),
@@ -84,7 +86,7 @@ class SettingsView extends StatelessWidget {
                   'Units',
                   SvgPicture.asset(rightArrow),
                   () {
-                    NavigatorKey.push(const UnitsView());
+                    NavigatorKey.push(UnitsView());
                   },
                 ),
                 _items(
