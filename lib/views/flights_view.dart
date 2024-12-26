@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:live_flight_tracker/components/flight_card.dart';
+import 'package:live_flight_tracker/components/search_flight_card.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
@@ -67,7 +67,7 @@ class FlightsView extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   itemCount: controller.searchedFlights.length,
                   itemBuilder: (context, index) {
-                    return FlightCard(
+                    return SearchFlightCard(
                       model: controller.searchedFlights[index],
                     );
                   }),

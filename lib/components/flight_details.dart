@@ -101,12 +101,12 @@ class FlightDetails extends StatelessWidget {
               child: Column(children: [
                 SizedBox(height: 16.h),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4.w),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          width: 150.w,
+                          width: 130.w,
                           color: Colors.transparent,
                           child: Text(
                             controller
@@ -121,16 +121,16 @@ class FlightDetails extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const Text(
-                          '|',
-                          style: TextStyle(
-                            color: whiteColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
+                        // const Text(
+                        //   '|',
+                        //   style: TextStyle(
+                        //     color: whiteColor,
+                        //     fontSize: 20,
+                        //     fontWeight: FontWeight.w400,
+                        //   ),
+                        // ),
                         Container(
-                          width: 150.w,
+                          width: 130.w,
                           color: Colors.transparent,
                           child: Text(
                             controller

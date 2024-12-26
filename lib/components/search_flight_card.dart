@@ -7,9 +7,9 @@ import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
 import 'package:live_flight_tracker/views/flight_route_view.dart';
 
-class FlightCard extends StatelessWidget {
+class SearchFlightCard extends StatelessWidget {
   final FlightModel model;
-  const FlightCard({super.key, required this.model});
+  const SearchFlightCard({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class FlightCard extends StatelessWidget {
           SizedBox(height: 8.h),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Container(
-              width: 150.w,
+              width: 130.w,
               color: Colors.transparent,
               child: Text(
                 controller.getAirportName(model.departure?.iata ?? ''),
@@ -70,16 +70,16 @@ class FlightCard extends StatelessWidget {
                 ),
               ),
             ),
-            const Text(
-              '|',
-              style: TextStyle(
-                color: whiteColor,
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            // const Text(
+            //   '|',
+            //   style: TextStyle(
+            //     color: whiteColor,
+            //     fontSize: 20,
+            //     fontWeight: FontWeight.w400,
+            //   ),
+            // ),
             Container(
-              width: 150.w,
+              width: 130.w,
               color: Colors.transparent,
               child: Text(
                 controller.getAirportName(model.arrival?.iata ?? ''),

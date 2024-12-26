@@ -16,6 +16,7 @@ import 'package:live_flight_tracker/models/flight_model.dart';
 import 'package:live_flight_tracker/models/place_search_model.dart';
 import 'package:live_flight_tracker/services/dio_client.dart';
 import 'package:live_flight_tracker/services/local_storage.dart';
+import 'package:live_flight_tracker/services/navigator_key.dart';
 
 enum Plan { WEEKLY, MONTHLY, YEARLY }
 
@@ -196,6 +197,7 @@ class HomeController extends GetxController {
   ];
 
   // Private variables
+  final RxBool _isLoading = false.obs;
   final RxInt _onboardingIndex = 0.obs;
   final RxInt _homeIndex = 0.obs;
   final RxInt _selectedPlaneIndex = 0.obs;
@@ -206,10 +208,11 @@ class HomeController extends GetxController {
   final Rx<Altitude> _selectedAltitude = Altitude.METER.obs;
   final Rx<MapMode> _selectedMapMode = MapMode.Light.obs;
   final RxBool _turnOnCompass = true.obs;
-
+  final RxList<FlightModel> _savedFlights = <FlightModel>[].obs;
   final RxList<DateTime> _selectedDates = <DateTime>[].obs;
 
   // Getters
+  bool get isLoading => _isLoading.value;
   int get onboardingIndex => _onboardingIndex.value;
   int get homeIndex => _homeIndex.value;
   int get selectedPlaneIndex => _selectedPlaneIndex.value;
@@ -220,10 +223,11 @@ class HomeController extends GetxController {
   Altitude get selectedAltitude => _selectedAltitude.value;
   MapMode get selectedMapMode => _selectedMapMode.value;
   bool get turnOnCompass => _turnOnCompass.value;
-
+  List<FlightModel> get savedFlights => _savedFlights;
   List<DateTime> get selectedDates => _selectedDates;
 
   // Setters
+  set isLoading(status) => _isLoading.value = status;
   set onboardingIndex(value) => _onboardingIndex.value = value;
   set homeIndex(value) => _homeIndex.value = value;
   set selectedPlaneIndex(value) => _selectedPlaneIndex.value = value;
@@ -234,8 +238,18 @@ class HomeController extends GetxController {
   set selectedAltitude(value) => _selectedAltitude.value = value;
   set selectedMapMode(value) => _selectedMapMode.value = value;
   set turnOnCompass(value) => _turnOnCompass.value = value;
-
+  set savedFlights(value) => _savedFlights.value = value;
   set selectedDates(value) => _selectedDates.value = value;
+
+  addToMyFlights(FlightModel model) {
+    savedFlights.add(model);
+    // pop the route view from stack
+    NavigatorKey.pop();
+    // pop the modal sheet of home view from stack
+    NavigatorKey.pop();
+    homeIndex = 1;
+    pageController.jumpToPage(1);
+  }
 
   /// [----------------------------------------------------------------]
 

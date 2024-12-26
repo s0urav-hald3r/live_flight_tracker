@@ -4,7 +4,6 @@ import 'package:live_flight_tracker/components/distance_indicator.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/models/flight_model.dart';
-import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
 
 class RouteDetails extends StatelessWidget {
@@ -99,12 +98,12 @@ class RouteDetails extends StatelessWidget {
               child: Column(children: [
                 SizedBox(height: 16.h),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4.w),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          width: 150.w,
+                          width: 130.w,
                           color: Colors.transparent,
                           child: Text(
                             controller
@@ -119,16 +118,16 @@ class RouteDetails extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const Text(
-                          '|',
-                          style: TextStyle(
-                            color: whiteColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
+                        // const Text(
+                        //   '|',
+                        //   style: TextStyle(
+                        //     color: whiteColor,
+                        //     fontSize: 20,
+                        //     fontWeight: FontWeight.w400,
+                        //   ),
+                        // ),
                         Container(
-                          width: 150.w,
+                          width: 130.w,
                           color: Colors.transparent,
                           child: Text(
                             controller
@@ -289,8 +288,7 @@ class RouteDetails extends StatelessWidget {
               ),
               child: ElevatedButton(
                 child: const Text(
-                  // 'Add to My Flights',
-                  'Back',
+                  'Add to My Flights',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -298,7 +296,7 @@ class RouteDetails extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  NavigatorKey.pop();
+                  controller.addToMyFlights(model);
                 },
               ),
             ),
