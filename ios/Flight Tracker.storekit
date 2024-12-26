@@ -10,7 +10,9 @@
     "_applicationInternalID" : "6739735155",
     "_developerTeamID" : "QMFJ48V58D",
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 756493662.23597503,
+    "_lastSynchronizedDate" : 756892111.17784703,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
     "_storeKitErrors" : [
       {
         "current" : null,
@@ -60,7 +62,100 @@
     ]
   },
   "subscriptionGroups" : [
+    {
+      "id" : "21611512",
+      "localizations" : [
 
+      ],
+      "name" : "premium_access",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "49.99",
+          "familyShareable" : false,
+          "groupNumber" : 3,
+          "internalID" : "6739863449",
+          "introductoryOffer" : {
+            "internalID" : "698629C8",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P3D"
+          },
+          "localizations" : [
+            {
+              "description" : "get premium features access over the year",
+              "displayName" : "Annual Plan",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "ft_4999_1y_3d0",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Annual Plan, 3-days free",
+          "subscriptionGroupID" : "21611512",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "12.99",
+          "familyShareable" : false,
+          "groupNumber" : 2,
+          "internalID" : "6739863627",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "get premium features access over the month",
+              "displayName" : "Monthly Plan",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "ft_1299_1m_0d0",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Monthly Plan",
+          "subscriptionGroupID" : "21611512",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "4.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6739863622",
+          "introductoryOffer" : {
+            "internalID" : "A18A81D8",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P3D"
+          },
+          "localizations" : [
+            {
+              "description" : "get premium features access over the week",
+              "displayName" : "Weekly Plan",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "ft_499_1w_3d0",
+          "recurringSubscriptionPeriod" : "P1W",
+          "referenceName" : "Weekly Plan, 3-days free",
+          "subscriptionGroupID" : "21611512",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
   ],
   "version" : {
     "major" : 3,

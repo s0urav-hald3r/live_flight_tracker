@@ -20,57 +20,47 @@ class UnitsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: bgColor,
+        iconTheme: const IconThemeData(color: whiteColor),
+        title: const Text(
+          'Units',
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 18,
+            color: whiteColor,
+          ),
+        ),
+        actions: [
+          InkWell(
+            onTap: () async {
+              await LocalStorage.addData(
+                  speedFactor, controller.selectedSpeed.name);
+              await LocalStorage.addData(
+                  distanceFactor, controller.selectedDistance.name);
+              await LocalStorage.addData(
+                  altitudeFactor, controller.selectedAltitude.name);
+              NavigatorKey.pop();
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: const Text(
+                'Save',
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                  color: primaryColor,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Obx(() {
           return Column(children: [
-            Container(
-              padding: EdgeInsets.only(
-                right: 16.w,
-                top: MediaQuery.of(context).padding.top,
-              ),
-              width: MediaQuery.of(context).size.width,
-              height: 48.h + MediaQuery.of(context).padding.top,
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () => NavigatorKey.pop(),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 16.w),
-                        child: SvgPicture.asset(leftArrow),
-                      ),
-                    ),
-                    const Text(
-                      'Units',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18,
-                        color: whiteColor,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () async {
-                        await LocalStorage.addData(
-                            speedFactor, controller.selectedSpeed.name);
-                        await LocalStorage.addData(
-                            distanceFactor, controller.selectedDistance.name);
-                        await LocalStorage.addData(
-                            altitudeFactor, controller.selectedAltitude.name);
-                        NavigatorKey.pop();
-                      },
-                      child: const Text(
-                        'Save',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                          color: primaryColor,
-                        ),
-                      ),
-                    ),
-                  ]),
-            ),
             Expanded(
               child: ListView(padding: EdgeInsets.zero, children: [
                 _menuHeader('Speed'),

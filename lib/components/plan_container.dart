@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:live_flight_tracker/config/colors.dart';
+import 'package:live_flight_tracker/config/constants.dart';
+import 'package:live_flight_tracker/controllers/settings_controller.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 class PlanContainer extends StatelessWidget {
   const PlanContainer({super.key});
@@ -20,21 +23,18 @@ class PlanContainer extends StatelessWidget {
         return Column(children: [
           _planItem(
             weeklyPlan,
-            '₹369.00/week',
             Plan.WEEKLY,
             controller.selectedPlan,
           ),
           SizedBox(height: 8.h),
           _planItem(
             monthlyPlan,
-            '₹999.00/month',
             Plan.MONTHLY,
             controller.selectedPlan,
           ),
           SizedBox(height: 8.h),
           _planItem(
             yearlyPlan,
-            '₹5,400.00/year',
             Plan.YEARLY,
             controller.selectedPlan,
           ),
@@ -43,66 +43,106 @@ class PlanContainer extends StatelessWidget {
     );
   }
 
-  Container _planItem(String icon, String price, Plan cValue, Plan gValue) {
-    return Container(
-      height: 64.h,
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: cValue == gValue ? primaryColor : Colors.transparent,
+  String getPlanIndentifier(Plan value) {
+    switch (value) {
+      case Plan.WEEKLY:
+        return weeklyPlanIndentifier;
+      case Plan.MONTHLY:
+        return monthlyPlanIndentifier;
+      case Plan.YEARLY:
+        return yearlyPlanIndentifier;
+    }
+  }
+
+  String getSubscriptionTenure(Plan value) {
+    switch (value) {
+      case Plan.WEEKLY:
+        return 'week';
+      case Plan.MONTHLY:
+        return 'month';
+      case Plan.YEARLY:
+        return 'year';
+    }
+  }
+
+  Widget _planItem(String icon, Plan cValue, Plan gValue) {
+    StoreProduct product = SettingsController.instance.storeProduct.firstWhere(
+        (element) => element.identifier == getPlanIndentifier(cValue));
+
+    return InkWell(
+      onTap: () {
+        HomeController.instance.selectedPlan = cValue;
+      },
+      child: Container(
+        height: 64.h,
+        padding: EdgeInsets.symmetric(horizontal: 12.w),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: cValue == gValue ? primaryColor : Colors.transparent,
+          ),
         ),
-      ),
-      child: Row(children: [
-        SvgPicture.asset(icon),
-        SizedBox(width: 16.w),
-        Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                price,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                  color: whiteColor,
-                ),
-              ),
-              const Text(
-                'Try 3 days free, cancel anytime.',
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                  color: textColor,
-                ),
-              ),
-            ]),
-        const Spacer(),
-        if (cValue == gValue)
+        child: Row(children: [
+          SvgPicture.asset(icon),
+          SizedBox(width: 16.w),
           Container(
-            width: 24.w,
-            height: 24.w,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: primaryColor, width: 7.5),
-              color: whiteColor,
-            ),
-          )
-        else
-          InkWell(
-            onTap: () {
-              HomeController.instance.selectedPlan = cValue;
-            },
-            child: Container(
+            color: Colors.transparent,
+            width: 235.w,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${product.priceString} / ${getSubscriptionTenure(cValue)}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 20,
+                      color: whiteColor,
+                    ),
+                  ),
+                  if (product.introductoryPrice != null)
+                    const Text(
+                      'Try 3 days free, cancel anytime.',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: textColor,
+                      ),
+                    )
+                  else
+                    Text(
+                      product.description,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: textColor,
+                      ),
+                    )
+                ]),
+          ),
+          const Spacer(),
+          if (cValue == gValue)
+            Container(
+              width: 24.w,
+              height: 24.w,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: primaryColor, width: 7.5),
+                color: whiteColor,
+              ),
+            )
+          else
+            Container(
               width: 24.w,
               height: 24.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: whiteColor),
               ),
-            ),
-          )
-      ]),
+            )
+        ]),
+      ),
     );
   }
 }

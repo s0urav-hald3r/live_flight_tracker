@@ -37,49 +37,22 @@ class _SelectAirportsState extends State<SelectAirports> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: bgColor,
+        iconTheme: const IconThemeData(color: whiteColor),
+        title: const Text(
+          'Search Airports',
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 18,
+            color: whiteColor,
+          ),
+        ),
+      ),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Column(children: [
-          Container(
-            padding: EdgeInsets.only(
-              right: 16.w,
-              top: MediaQuery.of(context).padding.top,
-            ),
-            width: MediaQuery.of(context).size.width,
-            height: 48.h + MediaQuery.of(context).padding.top,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                    onTap: () => NavigatorKey.pop(),
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 16.w),
-                      child: SvgPicture.asset(leftArrow),
-                    ),
-                  ),
-                  const Text(
-                    'Search Airports',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18,
-                      color: whiteColor,
-                    ),
-                  ),
-                  const Visibility.maintain(
-                    visible: false,
-                    child: Text(
-                      'Save',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        color: primaryColor,
-                      ),
-                    ),
-                  ),
-                ]),
-          ),
-          SizedBox(height: 16.h),
           Container(
             height: 45.h,
             margin: EdgeInsets.symmetric(horizontal: 16.w),

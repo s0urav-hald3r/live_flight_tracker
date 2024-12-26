@@ -7,10 +7,8 @@ import 'package:live_flight_tracker/components/flight_code_form.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
-import 'package:live_flight_tracker/controllers/settings_controller.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
-import 'package:live_flight_tracker/views/premium_view.dart';
 import 'package:live_flight_tracker/views/select_airports.dart';
 
 class RouteForm extends StatelessWidget {
@@ -109,16 +107,12 @@ class RouteForm extends StatelessWidget {
               readOnly: true,
               controller: HomeController.instance.date,
               onTap: () {
-                if (SettingsController.instance.isPremium) {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      builder: (context) {
-                        return const DatePickerWidget();
-                      });
-                } else {
-                  NavigatorKey.push(const PremiumView());
-                }
+                showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (context) {
+                      return const DatePickerWidget();
+                    });
               },
               decoration: BoxDecoration(
                 color: bgColor,

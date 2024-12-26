@@ -105,7 +105,9 @@ class _PremiumViewState extends State<PremiumView> {
                               color: whiteColor,
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            controller.purchaseProduct();
+                          },
                         );
                       }),
                     ),

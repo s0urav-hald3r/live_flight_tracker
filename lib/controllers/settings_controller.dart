@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/constants.dart';
 import 'package:live_flight_tracker/services/local_storage.dart';
-import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/services/overlay_loader.dart';
-import 'package:live_flight_tracker/views/premium_view.dart';
 
 class SettingsController extends GetxController {
   static SettingsController get instance => Get.find();
@@ -15,6 +14,7 @@ class SettingsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    isPremium = LocalStorage.getData(isPremiumUser, KeyType.BOOL);
     callAPIs();
   }
 
@@ -31,7 +31,7 @@ class SettingsController extends GetxController {
   // Getters
   bool get isPremium => _isPremium.value;
 
-  List get storeProduct => _storeProduct;
+  List<StoreProduct> get storeProduct => _storeProduct;
 
   // Setters
   set isPremium(value) => _isPremium.value = value;
@@ -41,45 +41,39 @@ class SettingsController extends GetxController {
   // Functions
   Future fetchProducts() async {
     try {
-      final offerings = await Purchases.getOfferings();
-      Offering? offering = offerings.current;
-      if (offering != null) {
-        // Look for the package with a trial period
-        Package? weeklyPlan = offering.getPackage('\$rc_monthly');
-        debugPrint('weeklyPlan: $weeklyPlan');
+      final products = await Purchases.getProducts([
+        weeklyPlanIndentifier,
+        monthlyPlanIndentifier,
+        yearlyPlanIndentifier,
+      ]);
+      debugPrint('store products: $products');
 
-        if (weeklyPlan != null) {
-          StoreProduct storeProduct = weeklyPlan.storeProduct;
-          _storeProduct.add(storeProduct);
-
-          debugPrint(
-              'Free Product title: ${storeProduct.introductoryPrice?.price}');
-          debugPrint(
-              'Free Product price: ${storeProduct.introductoryPrice?.priceString}');
-          debugPrint(
-              'Free Product duration: ${storeProduct.introductoryPrice?.period}'); // Should show 3 days
-        }
-
-        // Don't redirect if user is not complete onboarding process yet
-        if (!LocalStorage.getData(isOnboardingDone, KeyType.BOOL)) return;
-
-        // Don't redirect if user is already subscribed
-        if (isPremium) return;
-
-        // Don't redirect if there is no purchase product
-        if (storeProduct.isEmpty) return;
-
-        NavigatorKey.push(const PremiumView());
-      }
+      storeProduct = products;
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
-  Future purchaseProduct(StoreProduct storeProduct) async {
+  String getPlanIndentifier() {
+    switch (HomeController.instance.selectedPlan) {
+      case Plan.WEEKLY:
+        return weeklyPlanIndentifier;
+      case Plan.MONTHLY:
+        return monthlyPlanIndentifier;
+      case Plan.YEARLY:
+        return yearlyPlanIndentifier;
+    }
+  }
+
+  StoreProduct getProduct() {
+    return SettingsController.instance.storeProduct
+        .firstWhere((element) => element.identifier == getPlanIndentifier());
+  }
+
+  Future purchaseProduct() async {
     OverlayLoader.show();
     try {
-      final customerInfo = await Purchases.purchaseStoreProduct(storeProduct);
+      final customerInfo = await Purchases.purchaseStoreProduct(getProduct());
 
       // Access customer information to verify the active subscriptions
       if (customerInfo.activeSubscriptions.isNotEmpty) {
@@ -114,6 +108,8 @@ class SettingsController extends GetxController {
       if (errorCode != PurchasesErrorCode.purchaseCancelledError) {
         debugPrint('PurchasesErrorCode.purchaseCancelledError');
       }
+      isPremium = false;
+      LocalStorage.addData(isPremiumUser, false);
     }
   }
 
@@ -126,12 +122,12 @@ class SettingsController extends GetxController {
 
       // Check if the user has the required entitlement
       isPremium = customerInfo.entitlements.active.containsKey(entitlementID);
+      LocalStorage.addData(isPremiumUser, isPremium);
 
       if (isPremium) {
         OverlayLoader.hide();
         // Grant access to premium features
         // (e.g., update UI or store the entitlement state locally)
-        LocalStorage.addData(isPremiumUser, true);
         Get.back();
         Get.snackbar('', '',
             icon: const Icon(Icons.done),
@@ -174,6 +170,8 @@ class SettingsController extends GetxController {
       if (errorCode == PurchasesErrorCode.missingReceiptFileError) {
         debugPrint('PurchasesErrorCode.missingReceiptFileError');
       }
+      isPremium = false;
+      LocalStorage.addData(isPremiumUser, false);
     }
   }
 

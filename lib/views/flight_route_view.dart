@@ -195,7 +195,7 @@ class _FlightRouteViewState extends State<FlightRouteView> {
                           markers: markers,
                           initialCameraPosition: CameraPosition(
                             target: currentLocation,
-                            zoom: 6,
+                            zoom: 5,
                           ),
                           polylines: _polylines,
                         )
@@ -211,7 +211,7 @@ class _FlightRouteViewState extends State<FlightRouteView> {
                           markers: markers,
                           initialCameraPosition: CameraPosition(
                             target: currentLocation,
-                            zoom: 6,
+                            zoom: 5,
                           ),
                           polylines: _polylines,
                           mapType: currentMapType!,
