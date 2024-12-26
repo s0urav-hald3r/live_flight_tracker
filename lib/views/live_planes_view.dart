@@ -20,6 +20,7 @@ import 'package:live_flight_tracker/services/map_repository.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
 import 'package:live_flight_tracker/views/premium_view.dart';
+import 'package:live_flight_tracker/views/search_flights_view.dart';
 
 class LivePlanesView extends StatefulWidget {
   const LivePlanesView({super.key});
@@ -47,12 +48,16 @@ class LivePlanesViewState extends State<LivePlanesView>
   @override
   void initState() {
     super.initState();
-    getCurrentLoc();
-    fetchLiveFlights();
-    changeMapType();
+    callFutureFunctions();
   }
 
-  changeMarkerIcon() async {
+  Future<void> callFutureFunctions() async {
+    await getCurrentLoc();
+    await fetchLiveFlights();
+    await changeMapType();
+  }
+
+  Future<void> changeMarkerIcon() async {
     debugPrint('called changeMarkerIcon function');
     final updatedMarkerIcon = await BitmapDescriptor.asset(
       const ImageConfiguration(size: Size(36, 36)),
@@ -97,7 +102,7 @@ class LivePlanesViewState extends State<LivePlanesView>
     });
   }
 
-  void fetchLiveFlights() async {
+  Future<void> fetchLiveFlights() async {
     List<FlightModel> flights = [];
     if (kReleaseMode) {
       flights = await controller.fetchLiveFlights();
@@ -163,7 +168,7 @@ class LivePlanesViewState extends State<LivePlanesView>
     });
   }
 
-  getCurrentLoc() async {
+  Future<void> getCurrentLoc() async {
     LocationPermission permission;
     controller.loadingMap = true;
 
@@ -283,48 +288,6 @@ class LivePlanesViewState extends State<LivePlanesView>
                     }),
                   ]),
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
-              width: MediaQuery.of(context).size.width,
-              height: 48.h,
-              child: CupertinoTextField(
-                onChanged: (value) {
-                  controller.isSearching = value.isNotEmpty;
-
-                  // Cancel the previous timer if it exists
-                  if (_debounce?.isActive ?? false) _debounce!.cancel();
-
-                  // Set up a new timer
-                  _debounce =
-                      Timer(const Duration(milliseconds: 300), () async {
-                    if (controller.isSearching) {
-                      controller.searchedPlaces =
-                          await MapRepository.getAutocomplete(value);
-                    }
-                  });
-                },
-                decoration: BoxDecoration(
-                  color: const Color(0xFF323558),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                padding: EdgeInsets.only(left: 0.w),
-                prefix: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: SvgPicture.asset(search, color: textColor),
-                ),
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: whiteColor,
-                ),
-                placeholder: 'Search Places',
-                placeholderStyle: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: textColor,
-                ),
-              ),
-            ),
             Obx(() {
               if (controller.loadingMap) {
                 return const Expanded(
@@ -402,46 +365,100 @@ class LivePlanesViewState extends State<LivePlanesView>
               }
 
               return Expanded(
-                child: currentMapType == null
-                    ? GoogleMap(
-                        zoomControlsEnabled: true,
-                        myLocationEnabled: true,
-                        buildingsEnabled: true,
-                        myLocationButtonEnabled: false,
-                        compassEnabled: false,
-                        indoorViewEnabled: true,
-                        zoomGesturesEnabled: true,
-                        onMapCreated: _onMapCreated,
-                        markers: markers,
-                        onCameraMove: (CameraPosition pos) async {
-                          locationController.add(pos.target);
-                          initPos = pos.target;
-                        },
-                        initialCameraPosition: CameraPosition(
-                          target: initPos!,
-                          zoom: 6,
+                child: Stack(children: [
+                  currentMapType == null
+                      ? GoogleMap(
+                          zoomControlsEnabled: true,
+                          myLocationEnabled: true,
+                          buildingsEnabled: true,
+                          myLocationButtonEnabled: false,
+                          compassEnabled: false,
+                          indoorViewEnabled: true,
+                          zoomGesturesEnabled: true,
+                          onMapCreated: _onMapCreated,
+                          markers: markers,
+                          onCameraMove: (CameraPosition pos) async {
+                            locationController.add(pos.target);
+                            initPos = pos.target;
+                          },
+                          initialCameraPosition: CameraPosition(
+                            target: initPos!,
+                            zoom: 6,
+                          ),
+                        )
+                      : GoogleMap(
+                          zoomControlsEnabled: true,
+                          myLocationEnabled: true,
+                          buildingsEnabled: true,
+                          myLocationButtonEnabled: false,
+                          compassEnabled: false,
+                          indoorViewEnabled: true,
+                          zoomGesturesEnabled: true,
+                          onMapCreated: _onMapCreated,
+                          markers: markers,
+                          onCameraMove: (CameraPosition pos) async {
+                            locationController.add(pos.target);
+                            initPos = pos.target;
+                          },
+                          initialCameraPosition: CameraPosition(
+                            target: initPos!,
+                            zoom: 5,
+                          ),
+                          mapType: currentMapType!,
                         ),
-                      )
-                    : GoogleMap(
-                        zoomControlsEnabled: true,
-                        myLocationEnabled: true,
-                        buildingsEnabled: true,
-                        myLocationButtonEnabled: false,
-                        compassEnabled: false,
-                        indoorViewEnabled: true,
-                        zoomGesturesEnabled: true,
-                        onMapCreated: _onMapCreated,
-                        markers: markers,
-                        onCameraMove: (CameraPosition pos) async {
-                          locationController.add(pos.target);
-                          initPos = pos.target;
-                        },
-                        initialCameraPosition: CameraPosition(
-                          target: initPos!,
-                          zoom: 5,
-                        ),
-                        mapType: currentMapType!,
+                  Positioned(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                        vertical: 16.h,
                       ),
+                      width: MediaQuery.of(context).size.width,
+                      height: 48.h,
+                      child: CupertinoTextField(
+                        onChanged: (value) {
+                          controller.isSearching = value.isNotEmpty;
+
+                          // Cancel the previous timer if it exists
+                          if (_debounce?.isActive ?? false) _debounce!.cancel();
+
+                          // Set up a new timer
+                          _debounce = Timer(const Duration(milliseconds: 300),
+                              () async {
+                            if (controller.isSearching) {
+                              controller.searchedPlaces =
+                                  await MapRepository.getAutocomplete(value);
+                            }
+                          });
+                        },
+                        // for v1
+                        readOnly: true,
+                        onTap: () {
+                          NavigatorKey.push(const SearchFlightsView());
+                        },
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF323558),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        padding: EdgeInsets.only(left: 0.w),
+                        prefix: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: SvgPicture.asset(search, color: textColor),
+                        ),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: whiteColor,
+                        ),
+                        placeholder: 'Search Planes',
+                        placeholderStyle: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: textColor,
+                        ),
+                      ),
+                    ),
+                  )
+                ]),
               );
             })
           ]),
