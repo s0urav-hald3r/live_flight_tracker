@@ -128,7 +128,13 @@ class HomeController extends GetxController {
   }
 
   void setPlaneIndex() {
-    selectedPlaneIndex = LocalStorage.getData(planeIndex, KeyType.INT);
+    int value = LocalStorage.getData(planeIndex, KeyType.INT);
+
+    if (value == 0) {
+      selectedPlaneIndex = 3;
+    } else {
+      selectedPlaneIndex = value;
+    }
     debugPrint('initial marker index: $selectedPlaneIndex');
   }
 
@@ -137,7 +143,7 @@ class HomeController extends GetxController {
     debugPrint('initial mapType: $map');
 
     if (map.isEmpty) {
-      selectedMapMode = MapMode.Light;
+      selectedMapMode = MapMode.Dark;
       return;
     }
 
@@ -213,13 +219,13 @@ class HomeController extends GetxController {
   final RxBool _isLoading = false.obs;
   final RxInt _onboardingIndex = 0.obs;
   final RxInt _homeIndex = 0.obs;
-  final RxInt _selectedPlaneIndex = 0.obs;
+  final RxInt _selectedPlaneIndex = 3.obs;
   final RxInt _searchToggleIndex = 0.obs;
   final Rx<Plan> _selectedPlan = Plan.WEEKLY.obs;
   final Rx<Speed> _selectedSpeed = Speed.KPH.obs;
   final Rx<Distance> _selectedDistance = Distance.KM.obs;
   final Rx<Altitude> _selectedAltitude = Altitude.METER.obs;
-  final Rx<MapMode> _selectedMapMode = MapMode.Light.obs;
+  final Rx<MapMode> _selectedMapMode = MapMode.Dark.obs;
   final RxBool _turnOnCompass = true.obs;
   final RxList<FlightModel> _savedFlights = <FlightModel>[].obs;
   final RxList<DateTime> _selectedDates = <DateTime>[].obs;
