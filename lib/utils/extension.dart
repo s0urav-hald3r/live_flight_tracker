@@ -13,3 +13,10 @@ extension SizeExtensions on num {
       (MediaQueryData.fromView(WidgetsBinding.instance.window).size.height /
           812);
 }
+
+extension DateTimeExtensions on DateTime {
+  bool get isToday {
+    final now = DateTime.now();
+    return year == now.year && month == now.month && day == now.day;
+  }
+}

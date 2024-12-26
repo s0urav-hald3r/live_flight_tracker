@@ -17,6 +17,7 @@ import 'package:live_flight_tracker/models/place_search_model.dart';
 import 'package:live_flight_tracker/services/dio_client.dart';
 import 'package:live_flight_tracker/services/local_storage.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
+import 'package:live_flight_tracker/utils/extension.dart';
 
 enum Plan { WEEKLY, MONTHLY, YEARLY }
 
@@ -217,6 +218,7 @@ class HomeController extends GetxController {
 
   // Private variables
   final RxBool _isLoading = false.obs;
+  final RxBool _isFetching = false.obs;
   final RxInt _onboardingIndex = 0.obs;
   final RxInt _homeIndex = 0.obs;
   final RxInt _selectedPlaneIndex = 3.obs;
@@ -232,6 +234,7 @@ class HomeController extends GetxController {
 
   // Getters
   bool get isLoading => _isLoading.value;
+  bool get isFetching => _isFetching.value;
   int get onboardingIndex => _onboardingIndex.value;
   int get homeIndex => _homeIndex.value;
   int get selectedPlaneIndex => _selectedPlaneIndex.value;
@@ -247,6 +250,7 @@ class HomeController extends GetxController {
 
   // Setters
   set isLoading(status) => _isLoading.value = status;
+  set isFetching(status) => _isFetching.value = status;
   set onboardingIndex(value) => _onboardingIndex.value = value;
   set homeIndex(value) => _homeIndex.value = value;
   set selectedPlaneIndex(value) => _selectedPlaneIndex.value = value;
@@ -542,6 +546,42 @@ class HomeController extends GetxController {
     } catch (e) {
       debugPrint('Unknown Error: $e');
       isSearching = false;
+    }
+  }
+
+  Future<FlightModel?> checkCurrentStatus(FlightModel demo) async {
+    isFetching = true;
+    try {
+      final String apiKey = FlutterConfig.get('AVIAIONSTACK_API_KEY');
+      final String depIata = demo.departure?.iata ?? '';
+      final String arrIata = demo.arrival?.iata ?? '';
+      final String flightIata = demo.flight?.iata ?? '';
+
+      String url =
+          'https://api.aviationstack.com/v1/flights?access_key=$apiKey&dep_iata=$depIata&arr_iata=$arrIata&flight_iata=$flightIata';
+
+      final temp = <FlightModel>[];
+      final response = await _dioClient.get(url);
+
+      for (var flight in response.data['data']) {
+        final value = FlightModel.fromJson(flight);
+        if (value.flightDate!.isToday) {
+          temp.add(value);
+        }
+      }
+
+      isFetching = false;
+      return temp.first;
+    } on DioException catch (e, st) {
+      debugPrint('DioException Error: $e');
+      debugPrint('DioException Stack: $st');
+      isFetching = false;
+      return null;
+    } catch (e, st) {
+      debugPrint('Unknown Error: $e');
+      debugPrint('Unknown Stack: $st');
+      isFetching = false;
+      return null;
     }
   }
 }
