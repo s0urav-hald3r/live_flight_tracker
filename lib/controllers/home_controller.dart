@@ -8,6 +8,7 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:live_flight_tracker/airports_data.dart';
+import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/constants.dart';
 import 'package:live_flight_tracker/config/images.dart';
 import 'package:live_flight_tracker/country_data.dart';
@@ -282,7 +283,9 @@ class HomeController extends GetxController {
 
   removeFromMyFlights(int index) {
     savedFlights.removeAt(index);
-    NavigatorKey.pop();
+    if (NavigatorKey.canPop()) {
+      NavigatorKey.pop();
+    }
 
     // saving to local stoage
     List<Map<String, dynamic>> jsonList =
@@ -589,6 +592,23 @@ class HomeController extends GetxController {
       isFetching = false;
       return null;
     } catch (e, st) {
+      Get.snackbar(
+        '',
+        '',
+        icon: const Icon(Icons.error),
+        shouldIconPulse: true,
+        titleText: const Text(
+          'Failed',
+          style: TextStyle(
+              fontSize: 16, color: whiteColor, fontWeight: FontWeight.bold),
+        ),
+        messageText: const Text(
+          'This flight has been already completed it journey.\nSlide to remove from saved list.',
+          style: TextStyle(fontSize: 14, color: whiteColor),
+        ),
+        backgroundColor: primaryColor,
+        snackPosition: SnackPosition.BOTTOM,
+      );
       debugPrint('Unknown Error: $e');
       debugPrint('Unknown Stack: $st');
       isFetching = false;

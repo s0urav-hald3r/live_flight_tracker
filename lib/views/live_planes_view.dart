@@ -47,6 +47,7 @@ class LivePlanesViewState extends State<LivePlanesView>
   void initState() {
     super.initState();
     getCurrentLoc();
+    changeMapType();
     fetchLiveFlights();
   }
 
@@ -179,8 +180,6 @@ class LivePlanesViewState extends State<LivePlanesView>
     Position position = await Geolocator.getCurrentPosition();
 
     initPos = LatLng(position.latitude, position.longitude);
-
-    await changeMapType();
 
     controller.loadingMap = false;
     controller.havePermission = true;

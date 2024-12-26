@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:live_flight_tracker/components/save_flight_card.dart';
@@ -121,9 +122,25 @@ class MyFlightsView extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       itemCount: controller.savedFlights.length,
                       itemBuilder: (context, index) {
-                        return SaveFlightCard(
-                          model: controller.savedFlights[index],
-                          index: index,
+                        return Slidable(
+                          endActionPane: ActionPane(
+                              motion: const ScrollMotion(),
+                              children: [
+                                SlidableAction(
+                                  onPressed: (context) {
+                                    controller.removeFromMyFlights(index);
+                                  },
+                                  autoClose: true,
+                                  backgroundColor: bgColor,
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.delete,
+                                  label: 'Remove',
+                                ),
+                              ]),
+                          child: SaveFlightCard(
+                            model: controller.savedFlights[index],
+                            index: index,
+                          ),
                         );
                       }),
                 );
