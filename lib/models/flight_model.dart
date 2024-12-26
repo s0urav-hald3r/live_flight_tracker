@@ -36,6 +36,18 @@ class FlightModel {
       live: json["live"] == null ? null : Live.fromJson(json["live"]),
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        "flight_date":
+            "${flightDate?.year.toString().padLeft(4)}-${flightDate?.month.toString().padLeft(2)}-${flightDate?.day.toString().padLeft(2)}",
+        "flight_status": flightStatus,
+        "departure": departure?.toJson(),
+        "arrival": arrival?.toJson(),
+        "airline": airline?.toJson(),
+        "flight": flight?.toJson(),
+        "aircraft": aircraft?.toJson(),
+        "live": live?.toJson(),
+      };
 }
 
 class Aircraft {
@@ -59,6 +71,13 @@ class Aircraft {
       icao24: json["icao24"],
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        "registration": registration,
+        "iata": iata,
+        "icao": icao,
+        "icao24": icao24,
+      };
 }
 
 class Airline {
@@ -79,6 +98,12 @@ class Airline {
       icao: json["icao"],
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "iata": iata,
+        "icao": icao,
+      };
 }
 
 class Arrival {
@@ -129,6 +154,22 @@ class Arrival {
       actualRunway: DateTime.tryParse(json["actual_runway"] ?? ""),
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        "airport": airport,
+        "timezone": timezone,
+        "iata": iata,
+        "icao": icao,
+        "terminal": terminal,
+        "gate": gate,
+        "baggage": baggage,
+        "delay": delay,
+        "scheduled": scheduled?.toIso8601String(),
+        "estimated": estimated?.toIso8601String(),
+        "actual": actual?.toIso8601String(),
+        "estimated_runway": estimatedRunway?.toIso8601String(),
+        "actual_runway": actualRunway?.toIso8601String(),
+      };
 }
 
 class Flight {
@@ -152,6 +193,13 @@ class Flight {
       codeshared: json["codeshared"],
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        "number": number,
+        "iata": iata,
+        "icao": icao,
+        "codeshared": codeshared,
+      };
 }
 
 class Live {
@@ -187,4 +235,15 @@ class Live {
       isGround: json["is_ground"],
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        "updated": updated?.toIso8601String(),
+        "latitude": latitude,
+        "longitude": longitude,
+        "altitude": altitude,
+        "direction": direction,
+        "speed_horizontal": speedHorizontal,
+        "speed_vertical": speedVertical,
+        "is_ground": isGround,
+      };
 }

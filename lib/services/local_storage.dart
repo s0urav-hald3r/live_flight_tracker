@@ -2,7 +2,7 @@
 
 import 'package:get_storage/get_storage.dart';
 
-enum KeyType { BOOL, INT, DOUBLE, STR }
+enum KeyType { BOOL, INT, DOUBLE, STR, DYNAMIC }
 
 class LocalStorage {
   LocalStorage._();
@@ -23,6 +23,8 @@ class LocalStorage {
         return storage.read(key) ?? 0.0;
       case KeyType.STR:
         return storage.read(key) ?? '';
+      case KeyType.DYNAMIC:
+        return storage.read(key);
     }
   }
 

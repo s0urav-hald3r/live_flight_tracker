@@ -37,11 +37,24 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     turnOnCompass = LocalStorage.getData(isTurnOnCompass, KeyType.BOOL);
+    retriveLocalFlights();
     setMapType();
     setPlaneIndex();
     setSpeed();
     setDistance();
     setAltitude();
+  }
+
+  void retriveLocalFlights() {
+    final jsonList = LocalStorage.getData(savedLocalFlights, KeyType.DYNAMIC);
+
+    if ((jsonList ?? '').isNotEmpty) {
+      savedFlights.clear();
+
+      for (var json in jsonList) {
+        _savedFlights.add(FlightModel.fromJson(json));
+      }
+    }
   }
 
   void setAltitude() {
@@ -249,6 +262,12 @@ class HomeController extends GetxController {
     NavigatorKey.pop();
     homeIndex = 1;
     pageController.jumpToPage(1);
+
+    // saving to local stoage
+    List<Map<String, dynamic>> jsonList =
+        savedFlights.map((flight) => flight.toJson()).toList();
+
+    LocalStorage.addData(savedLocalFlights, jsonList);
   }
 
   /// [----------------------------------------------------------------]

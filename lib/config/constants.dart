@@ -3,6 +3,7 @@ const String isOnboardingDone = 'isOnboardingDone';
 const String isPremiumUser = 'isPremiumUser';
 const String isTurnOnCompass = 'isTurnOnCompass';
 
+const String savedLocalFlights = 'savedLocalFlights';
 const String mapMode = 'mapMode';
 const String planeIndex = 'planeIndex';
 const String speedFactor = 'speedFactor';
