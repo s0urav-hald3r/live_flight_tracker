@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:live_flight_tracker/airports_data.dart';
 import 'package:live_flight_tracker/components/route_details.dart';
 import 'package:live_flight_tracker/config/colors.dart';
+import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/config/images.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/models/flight_model.dart';
+import 'package:live_flight_tracker/services/navigator_key.dart';
 
 class FlightRouteView extends StatefulWidget {
   final FlightModel flight;
@@ -217,6 +220,19 @@ class _FlightRouteViewState extends State<FlightRouteView> {
                           mapType: currentMapType!,
                         ),
                 ),
+          Positioned(
+            top: MediaQuery.of(context).padding.top,
+            child: InkWell(
+              onTap: () => NavigatorKey.pop(),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: SvgPicture.asset(
+                  leftArrow,
+                  color: bgColor,
+                ),
+              ),
+            ),
+          ),
           Positioned(bottom: 0, child: RouteDetails(model: widget.flight))
         ]),
       ),
