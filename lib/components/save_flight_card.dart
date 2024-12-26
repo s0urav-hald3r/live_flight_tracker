@@ -9,7 +9,8 @@ import 'package:live_flight_tracker/views/flight_route_view.dart';
 
 class SaveFlightCard extends StatelessWidget {
   final FlightModel model;
-  const SaveFlightCard({super.key, required this.model});
+  final int index;
+  const SaveFlightCard({super.key, required this.model, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class SaveFlightCard extends StatelessWidget {
       onTap: () async {
         FlightModel? value = await controller.checkCurrentStatus(model);
         if (value != null) {
-          NavigatorKey.push(FlightRouteView(flight: value));
+          NavigatorKey.push(FlightRouteView(flight: value, index: index));
         }
       },
       child: Container(
@@ -78,7 +79,7 @@ class SaveFlightCard extends StatelessWidget {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(width: 8.w),
+                  // SizedBox(width: 8.w),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -102,7 +103,7 @@ class SaveFlightCard extends StatelessWidget {
                         ),
                         SizedBox(height: 2.h),
                         Text(
-                          DateFormat("EE dd-MM-yy").format(
+                          DateFormat("dd-MM-yy").format(
                               model.arrival?.scheduled ?? DateTime.now()),
                           style: const TextStyle(
                             fontWeight: FontWeight.w400,
@@ -111,7 +112,7 @@ class SaveFlightCard extends StatelessWidget {
                           ),
                         )
                       ]),
-                  SizedBox(width: 4.h),
+                  SizedBox(width: 4.w),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -131,17 +132,23 @@ class SaveFlightCard extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 4.h),
-                        Text(
-                          controller
-                              .getCountryName(model.departure?.iata ?? ''),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: whiteColor,
-                            fontWeight: FontWeight.w400,
+                        Container(
+                          color: Colors.transparent,
+                          width: 80.w,
+                          child: Text(
+                            controller
+                                .getCountryName(model.departure?.iata ?? ''),
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: whiteColor,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         )
                       ]),
-                  SizedBox(width: 4.h),
+                  // SizedBox(width: 4.w),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -161,16 +168,23 @@ class SaveFlightCard extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 4.h),
-                        Text(
-                          controller.getCountryName(model.arrival?.iata ?? ''),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: whiteColor,
-                            fontWeight: FontWeight.w400,
+                        Container(
+                          color: Colors.transparent,
+                          width: 80.w,
+                          child: Text(
+                            controller
+                                .getCountryName(model.arrival?.iata ?? ''),
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: whiteColor,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         )
                       ]),
-                  SizedBox(width: 4.h),
+                  SizedBox(width: 4.w),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -194,7 +208,7 @@ class SaveFlightCard extends StatelessWidget {
                         ),
                         SizedBox(height: 2.h),
                         Text(
-                          DateFormat("EE dd-MM-yy").format(
+                          DateFormat("dd-MM-yy").format(
                               model.arrival?.scheduled ?? DateTime.now()),
                           style: const TextStyle(
                             fontWeight: FontWeight.w400,
@@ -203,7 +217,7 @@ class SaveFlightCard extends StatelessWidget {
                           ),
                         )
                       ]),
-                  SizedBox(width: 8.w),
+                  // SizedBox(width: 8.w),
                 ]),
           ),
         ]),

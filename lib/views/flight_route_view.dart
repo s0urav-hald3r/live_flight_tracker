@@ -6,20 +6,23 @@ import 'package:live_flight_tracker/airports_data.dart';
 import 'package:live_flight_tracker/components/route_details.dart';
 import 'package:live_flight_tracker/config/colors.dart';
 import 'package:live_flight_tracker/config/icons.dart';
-import 'package:live_flight_tracker/config/images.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:live_flight_tracker/models/flight_model.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
+import 'package:live_flight_tracker/utils/extension.dart';
 
 class FlightRouteView extends StatefulWidget {
   final FlightModel flight;
-  const FlightRouteView({super.key, required this.flight});
+  final int? index;
+  const FlightRouteView({super.key, required this.flight, this.index});
 
   @override
   State<FlightRouteView> createState() => _FlightRouteViewState();
 }
 
 class _FlightRouteViewState extends State<FlightRouteView> {
+  final hController = HomeController.instance;
+
   GoogleMapController? controller;
   late LatLng origin;
   late LatLng currentLocation;
@@ -37,7 +40,6 @@ class _FlightRouteViewState extends State<FlightRouteView> {
   void initState() {
     super.initState();
     _initializeLatLong();
-    changeMapType();
   }
 
   changeMapType() {
@@ -63,7 +65,7 @@ class _FlightRouteViewState extends State<FlightRouteView> {
     });
   }
 
-  void _initializeLatLong() {
+  Future<void> _initializeLatLong() async {
     double originLat = double.parse(airportsData.firstWhere((airport) =>
             airport['iata_code'] ==
             widget.flight.departure!.iata)['latitude_deg'] ??
@@ -91,17 +93,18 @@ class _FlightRouteViewState extends State<FlightRouteView> {
     destination = LatLng(desLat, desLong);
     debugPrint('destination: $destination');
 
+    changeMapType();
+    await _serMarker();
+
     setState(() {
       loadingRouteMap = false;
     });
-
-    _serMarker();
   }
 
-  void _serMarker() async {
+  Future<void> _serMarker() async {
     final BitmapDescriptor planeIcon = await BitmapDescriptor.asset(
       const ImageConfiguration(size: Size(36, 36)),
-      whitePlane,
+      hController.flightDetails[hController.selectedPlaneIndex]['flightImage'],
     );
 
     Set<Marker> planeMarker = {
@@ -224,16 +227,25 @@ class _FlightRouteViewState extends State<FlightRouteView> {
             top: MediaQuery.of(context).padding.top,
             child: InkWell(
               onTap: () => NavigatorKey.pop(),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: SvgPicture.asset(
-                  leftArrow,
-                  color: bgColor,
+              child: Container(
+                width: 50.w,
+                height: 50.w,
+                margin: EdgeInsets.only(left: 16.w),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: bgColor.withOpacity(.6),
                 ),
+                child: Center(child: SvgPicture.asset(leftArrow)),
               ),
             ),
           ),
-          Positioned(bottom: 0, child: RouteDetails(model: widget.flight))
+          Positioned(
+            bottom: 0,
+            child: RouteDetails(
+              model: widget.flight,
+              index: widget.index,
+            ),
+          )
         ]),
       ),
     );

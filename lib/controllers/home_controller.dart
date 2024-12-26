@@ -280,6 +280,17 @@ class HomeController extends GetxController {
     LocalStorage.addData(savedLocalFlights, jsonList);
   }
 
+  removeFromMyFlights(int index) {
+    savedFlights.removeAt(index);
+    NavigatorKey.pop();
+
+    // saving to local stoage
+    List<Map<String, dynamic>> jsonList =
+        savedFlights.map((flight) => flight.toJson()).toList();
+
+    LocalStorage.addData(savedLocalFlights, jsonList);
+  }
+
   /// [----------------------------------------------------------------]
 
   final RxBool _loadingMap = false.obs;

@@ -8,7 +8,8 @@ import 'package:live_flight_tracker/utils/extension.dart';
 
 class RouteDetails extends StatelessWidget {
   final FlightModel model;
-  const RouteDetails({super.key, required this.model});
+  final int? index;
+  const RouteDetails({super.key, required this.model, this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -287,16 +288,20 @@ class RouteDetails extends StatelessWidget {
                 color: primaryColor,
               ),
               child: ElevatedButton(
-                child: const Text(
-                  'Add to My Flights',
-                  style: TextStyle(
+                child: Text(
+                  index != null
+                      ? 'Remove from My Flights'
+                      : 'Add to My Flights',
+                  style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: whiteColor,
                   ),
                 ),
                 onPressed: () {
-                  controller.addToMyFlights(model);
+                  index != null
+                      ? controller.removeFromMyFlights(index!)
+                      : controller.addToMyFlights(model);
                 },
               ),
             ),

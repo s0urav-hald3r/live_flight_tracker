@@ -123,6 +123,7 @@ class MyFlightsView extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return SaveFlightCard(
                           model: controller.savedFlights[index],
+                          index: index,
                         );
                       }),
                 );

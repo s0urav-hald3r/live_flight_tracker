@@ -46,13 +46,8 @@ class LivePlanesViewState extends State<LivePlanesView>
   @override
   void initState() {
     super.initState();
-    callFutureFunctions();
-  }
-
-  Future<void> callFutureFunctions() async {
-    await getCurrentLoc();
-    await fetchLiveFlights();
-    await changeMapType();
+    getCurrentLoc();
+    fetchLiveFlights();
   }
 
   Future<void> changeMarkerIcon() async {
@@ -184,6 +179,8 @@ class LivePlanesViewState extends State<LivePlanesView>
     Position position = await Geolocator.getCurrentPosition();
 
     initPos = LatLng(position.latitude, position.longitude);
+
+    await changeMapType();
 
     controller.loadingMap = false;
     controller.havePermission = true;

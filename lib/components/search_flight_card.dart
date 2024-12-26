@@ -101,7 +101,7 @@ class SearchFlightCard extends StatelessWidget {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(width: 8.w),
+                  // SizedBox(width: 8.w),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -125,7 +125,7 @@ class SearchFlightCard extends StatelessWidget {
                         ),
                         SizedBox(height: 2.h),
                         Text(
-                          DateFormat("EE dd-MM-yy").format(
+                          DateFormat("dd-MM-yy").format(
                               model.arrival?.scheduled ?? DateTime.now()),
                           style: const TextStyle(
                             fontWeight: FontWeight.w400,
@@ -134,7 +134,7 @@ class SearchFlightCard extends StatelessWidget {
                           ),
                         )
                       ]),
-                  SizedBox(width: 4.h),
+                  SizedBox(width: 4.w),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -154,17 +154,23 @@ class SearchFlightCard extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 4.h),
-                        Text(
-                          controller
-                              .getCountryName(model.departure?.iata ?? ''),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: whiteColor,
-                            fontWeight: FontWeight.w400,
+                        Container(
+                          color: Colors.transparent,
+                          width: 80.w,
+                          child: Text(
+                            controller
+                                .getCountryName(model.departure?.iata ?? ''),
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: whiteColor,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         )
                       ]),
-                  SizedBox(width: 4.h),
+                  // SizedBox(width: 4.h),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -184,16 +190,23 @@ class SearchFlightCard extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 4.h),
-                        Text(
-                          controller.getCountryName(model.arrival?.iata ?? ''),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: whiteColor,
-                            fontWeight: FontWeight.w400,
+                        Container(
+                          color: Colors.transparent,
+                          width: 80.w,
+                          child: Text(
+                            controller
+                                .getCountryName(model.arrival?.iata ?? ''),
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: whiteColor,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         )
                       ]),
-                  SizedBox(width: 4.h),
+                  SizedBox(width: 4.w),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -217,7 +230,7 @@ class SearchFlightCard extends StatelessWidget {
                         ),
                         SizedBox(height: 2.h),
                         Text(
-                          DateFormat("EE dd-MM-yy").format(
+                          DateFormat("dd-MM-yy").format(
                               model.arrival?.scheduled ?? DateTime.now()),
                           style: const TextStyle(
                             fontWeight: FontWeight.w400,
@@ -226,7 +239,7 @@ class SearchFlightCard extends StatelessWidget {
                           ),
                         )
                       ]),
-                  SizedBox(width: 8.w),
+                  // SizedBox(width: 8.w),
                 ]),
           ),
         ]),
