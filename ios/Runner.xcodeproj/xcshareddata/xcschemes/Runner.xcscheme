@@ -96,6 +96,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "Flight Tracker"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

@@ -26,18 +26,21 @@ class SettingsController extends GetxController {
   // Variables
   final RxBool _isPremium = false.obs;
   final RxBool _isLoading = true.obs;
+  final RxBool _showAppbar = false.obs;
 
   final RxList<StoreProduct> _storeProduct = <StoreProduct>[].obs;
 
   // Getters
   bool get isPremium => _isPremium.value;
   bool get isLoading => _isLoading.value;
+  bool get showAppbar => _showAppbar.value;
 
   List<StoreProduct> get storeProduct => _storeProduct;
 
   // Setters
   set isPremium(value) => _isPremium.value = value;
   set isLoading(value) => _isLoading.value = value;
+  set showAppbar(value) => _showAppbar.value = value;
 
   set storeProduct(value) => _storeProduct.value = value;
 

@@ -66,8 +66,9 @@ class PlanContainer extends StatelessWidget {
   }
 
   Widget _planItem(String icon, Plan cValue, Plan gValue) {
-    StoreProduct product = SettingsController.instance.storeProduct.firstWhere(
-        (element) => element.identifier == getPlanIndentifier(cValue));
+    StoreProduct? product = SettingsController.instance.storeProduct
+        .firstWhereOrNull(
+            (element) => element.identifier == getPlanIndentifier(cValue));
 
     return InkWell(
       onTap: () {
@@ -93,14 +94,14 @@ class PlanContainer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '${product.priceString} / ${getSubscriptionTenure(cValue)}',
+                    '${product?.priceString ?? ''} / ${getSubscriptionTenure(cValue)}',
                     style: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 20,
                       color: whiteColor,
                     ),
                   ),
-                  if (product.introductoryPrice != null)
+                  if (product?.introductoryPrice != null)
                     const Text(
                       'Try 3 days free, cancel anytime.',
                       style: TextStyle(
@@ -111,7 +112,7 @@ class PlanContainer extends StatelessWidget {
                     )
                   else
                     Text(
-                      product.description,
+                      product?.description ?? '',
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontWeight: FontWeight.w400,

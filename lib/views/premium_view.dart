@@ -19,7 +19,6 @@ class PremiumView extends StatefulWidget {
 }
 
 class _PremiumViewState extends State<PremiumView> {
-  bool _showAppbar = false;
   final controller = SettingsController.instance;
 
   @override
@@ -27,10 +26,14 @@ class _PremiumViewState extends State<PremiumView> {
     super.initState();
 
     Future.delayed(const Duration(seconds: 3), () {
-      setState(() {
-        _showAppbar = true;
-      });
+      controller.showAppbar = true;
     });
+  }
+
+  @override
+  void dispose() {
+    controller.showAppbar = false;
+    super.dispose();
   }
 
   @override
@@ -62,40 +65,38 @@ class _PremiumViewState extends State<PremiumView> {
             margin: EdgeInsets.symmetric(horizontal: 24.w),
             width: size.width,
             height: size.height,
-            child: SafeArea(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (_showAppbar) const PremiumAppBar(),
-                    const Spacer(),
-                    SizedBox(height: 16.h),
-                    const Text(
-                      'Choose Your Plan',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: whiteColor,
+            child: Obx(() {
+              return SafeArea(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (controller.showAppbar) const PremiumAppBar(),
+                      const Spacer(),
+                      SizedBox(height: 16.h),
+                      const Text(
+                        'Choose Your Plan',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: whiteColor,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 8.h),
-                    const Text(
-                      'Go Beyond Limits!  Unlimited access, personalized tracking, and seamless searches',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: textColor,
+                      SizedBox(height: 8.h),
+                      const Text(
+                        'Go Beyond Limits!  Unlimited access, personalized tracking, and seamless searches',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: textColor,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 8.h),
-                    Obx(() {
-                      return Skeletonizer(
+                      SizedBox(height: 8.h),
+                      Skeletonizer(
                         enabled: controller.isLoading,
                         child: const PlanContainer(),
-                      );
-                    }),
-                    Obx(() {
-                      return Container(
+                      ),
+                      Container(
                         width: MediaQuery.of(context).size.width,
                         height: 48.h,
                         decoration: BoxDecoration(
@@ -121,29 +122,29 @@ class _PremiumViewState extends State<PremiumView> {
                             ),
                           ),
                         ),
-                      );
-                    }),
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(verified),
-                            SizedBox(width: 8.w),
-                            const Text(
-                              'No Payment Now',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                                color: whiteColor,
-                              ),
-                            )
-                          ]),
-                    ),
-                    const PremiumLinks(),
-                    SizedBox(height: 16.h)
-                  ]),
-            ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(verified),
+                              SizedBox(width: 8.w),
+                              const Text(
+                                'No Payment Now',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: whiteColor,
+                                ),
+                              )
+                            ]),
+                      ),
+                      const PremiumLinks(),
+                      SizedBox(height: 16.h)
+                    ]),
+              );
+            }),
           )
         ]),
       ),
