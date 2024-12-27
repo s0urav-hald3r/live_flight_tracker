@@ -9,6 +9,7 @@ import 'package:live_flight_tracker/utils/extension.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/config/images.dart';
 import 'package:live_flight_tracker/controllers/settings_controller.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class PremiumView extends StatefulWidget {
   const PremiumView({super.key});
@@ -87,30 +88,41 @@ class _PremiumViewState extends State<PremiumView> {
                       ),
                     ),
                     SizedBox(height: 8.h),
-                    const PlanContainer(),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 48.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: primaryColor,
-                      ),
-                      child: Obx(() {
-                        return ElevatedButton(
+                    Obx(() {
+                      return Skeletonizer(
+                        enabled: controller.isLoading,
+                        child: const PlanContainer(),
+                      );
+                    }),
+                    Obx(() {
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 48.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: controller.isLoading
+                              ? primaryColor.withOpacity(.5)
+                              : primaryColor,
+                        ),
+                        child: ElevatedButton(
+                          onPressed: controller.isLoading
+                              ? null
+                              : () {
+                                  controller.purchaseProduct();
+                                },
                           child: Text(
                             controller.isPremium ? 'Subscribed' : 'Continue ≻',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
-                              color: whiteColor,
+                              color: controller.isLoading
+                                  ? whiteColor.withOpacity(.5)
+                                  : whiteColor,
                             ),
                           ),
-                          onPressed: () {
-                            controller.purchaseProduct();
-                          },
-                        );
-                      }),
-                    ),
+                        ),
+                      );
+                    }),
                     Padding(
                       padding: const EdgeInsets.all(16),
                       child: Row(

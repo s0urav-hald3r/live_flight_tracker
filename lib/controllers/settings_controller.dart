@@ -25,21 +25,26 @@ class SettingsController extends GetxController {
 
   // Variables
   final RxBool _isPremium = false.obs;
+  final RxBool _isLoading = true.obs;
 
   final RxList<StoreProduct> _storeProduct = <StoreProduct>[].obs;
 
   // Getters
   bool get isPremium => _isPremium.value;
+  bool get isLoading => _isLoading.value;
 
   List<StoreProduct> get storeProduct => _storeProduct;
 
   // Setters
   set isPremium(value) => _isPremium.value = value;
+  set isLoading(value) => _isLoading.value = value;
 
   set storeProduct(value) => _storeProduct.value = value;
 
   // Functions
   Future fetchProducts() async {
+    isLoading = true;
+
     try {
       final products = await Purchases.getProducts([
         weeklyPlanIndentifier,
@@ -49,8 +54,11 @@ class SettingsController extends GetxController {
       debugPrint('store products: $products');
 
       storeProduct = products;
-    } catch (e) {
-      debugPrint(e.toString());
+      isLoading = false;
+    } catch (e, st) {
+      isLoading = false;
+      debugPrint('fetchProducts error: $e');
+      debugPrint('fetchProducts stack: $st');
     }
   }
 
