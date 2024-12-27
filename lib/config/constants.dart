@@ -21,7 +21,9 @@ const String yearlyPlanIndentifier = 'ft_4999_1y_3d0';
 const String appleApiKey = 'appl_JTRuGmjAxxYLXxCOcAcEJSWLlOx';
 
 // Required urls
-const String shareText = '';
-const String privacyPolicyUrl = '';
-const String termsOfUseUrl = '';
-const String supportUrl = '';
+const String shareText =
+    'Look what i use to track all my flights:\nhttps://apps.apple.com/app/id6739735155';
+const String privacyPolicyUrl = 'https://sites.google.com/view/flight-rack';
+const String termsOfUseUrl =
+    'https://sites.google.com/view/flight-rack/terms-of-use';
+const String supportUrl = 'https://sites.google.com/view/flight-rack/support';
