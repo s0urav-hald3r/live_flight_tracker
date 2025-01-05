@@ -171,8 +171,13 @@ class LivePlanesViewState extends State<LivePlanesView>
     }
 
     permission = await Geolocator.checkPermission();
+    debugPrint('initial-permission: $permission');
 
     if (permission == LocationPermission.denied) {
+      await showPermissionBox();
+      return;
+    }
+    if (permission == LocationPermission.deniedForever) {
       await showPermissionBox();
       return;
     }
@@ -185,6 +190,56 @@ class LivePlanesViewState extends State<LivePlanesView>
     controller.havePermission = true;
   }
 
+  void showMessage(String msg) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: whiteColor,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 24.h),
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                Text(
+                  msg,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                    color: textColor,
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                Container(
+                  width: 160.w,
+                  height: 48.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: bgColor,
+                  ),
+                  child: ElevatedButton(
+                    child: const Text(
+                      'Close',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: whiteColor,
+                      ),
+                    ),
+                    onPressed: () {
+                      NavigatorKey.pop();
+                    },
+                  ),
+                )
+              ]),
+            ),
+          );
+        });
+  }
+
   Future<void> showPermissionBox() async {
     showModalBottomSheet(
         context: context,
@@ -194,17 +249,27 @@ class LivePlanesViewState extends State<LivePlanesView>
             controller.loadingMap = false;
             controller.havePermission = false;
             NavigatorKey.pop();
+            showMessage(
+                'You can manage your location preferences anytime in your device settings.');
           }, allow: () async {
             LocationPermission permission;
             permission = await Geolocator.requestPermission();
+            debugPrint('box-permission: $permission');
+
             if (permission == LocationPermission.denied) {
               controller.loadingMap = false;
               controller.havePermission = false;
+              NavigatorKey.pop();
+              showMessage(
+                  'Your location permission is disable, Please turn on from device settings.');
               return Future.error('Location permissions are denied');
             }
             if (permission == LocationPermission.deniedForever) {
               controller.loadingMap = false;
               controller.havePermission = false;
+              NavigatorKey.pop();
+              showMessage(
+                  'Your location permission is permanently disable, Please turn on from device settings.');
               return Future.error(
                   'Location permissions are permanently denied, we cannot request permissions.');
             }

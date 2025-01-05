@@ -40,11 +40,11 @@ class LocationBox extends StatelessWidget {
         ),
         SizedBox(height: 16.h),
         const Text(
-          'Before we start we will need to access your location so we can track your location while you are using the app. ',
+          'To provide personalized services, we need access to your location while you use the app. You can choose to grant access now or later.',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.w400,
-            fontSize: 16,
+            fontSize: 14,
             color: textColor,
           ),
         ),
@@ -80,7 +80,7 @@ class LocationBox extends StatelessWidget {
             ),
             child: ElevatedButton(
               child: const Text(
-                'Allow',
+                'Next',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
