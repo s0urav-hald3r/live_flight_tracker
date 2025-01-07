@@ -29,11 +29,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Flight Tracker needs access to your location to display nearby flights accurately. You can choose to grant access now or later. Your location data will only be used while you are using the app, ensuring a personalized and seamless experience. You can manage your location settings anytime in your device settings.</string>
+	<string>Flight Tracker needs access to your location to display nearby flights accurately. You can choose to grant access now or later. Your location data will only be used while you are using the app.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Flight Tracker needs access to your location to display nearby flights accurately. You can choose to grant access now or later. Your location data will only be used while you are using the app, ensuring a personalized and seamless experience. You can manage your location settings anytime in your device settings.</string>
+	<string>Flight Tracker needs access to your location to display nearby flights accurately. You can choose to grant access now or later. Your location data will only be used while you are using the app.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Flight Tracker needs access to your location to display nearby flights accurately. You can choose to grant access now or later. Your location data will only be used while you are using the app, ensuring a personalized and seamless experience. You can manage your location settings anytime in your device settings.</string>
+	<string>Flight Tracker needs access to your location to display nearby flights accurately. You can choose to grant access now or later. Your location data will only be used while you are using the app.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

@@ -40,7 +40,7 @@ class LocationBox extends StatelessWidget {
         ),
         SizedBox(height: 16.h),
         const Text(
-          'To provide personalized services, we need access to your location while you use the app. You can choose to grant access now or later.',
+          'This app needs access to your location to display nearby flights accurately. You can choose to grant access now or later. Your location data will only be used while you are using the app.',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.w400,
@@ -49,50 +49,50 @@ class LocationBox extends StatelessWidget {
           ),
         ),
         SizedBox(height: 24.h),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Container(
-            width: 160.w,
-            height: 48.h,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: whiteColor,
-            ),
-            child: ElevatedButton(
-              child: const Text(
-                'Not Now',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: bgColor,
-                ),
-              ),
-              onPressed: () {
-                notnow();
-              },
-            ),
+        // Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        // Container(
+        //   width: 160.w,
+        //   height: 48.h,
+        //   decoration: BoxDecoration(
+        //     borderRadius: BorderRadius.circular(50),
+        //     color: whiteColor,
+        //   ),
+        //   child: ElevatedButton(
+        //     child: const Text(
+        //       'Not Now',
+        //       style: TextStyle(
+        //         fontSize: 16,
+        //         fontWeight: FontWeight.w500,
+        //         color: bgColor,
+        //       ),
+        //     ),
+        //     onPressed: () {
+        //       notnow();
+        //     },
+        //   ),
+        // ),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: 48.h,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: primaryColor,
           ),
-          Container(
-            width: 160.w,
-            height: 48.h,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: primaryColor,
-            ),
-            child: ElevatedButton(
-              child: const Text(
-                'Next',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: whiteColor,
-                ),
+          child: ElevatedButton(
+            child: const Text(
+              'Continue',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: whiteColor,
               ),
-              onPressed: () {
-                allow();
-              },
             ),
+            onPressed: () {
+              allow();
+            },
           ),
-        ])
+        ),
+        // ])
       ]),
     );
   }
