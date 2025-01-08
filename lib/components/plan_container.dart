@@ -8,35 +8,51 @@ import 'package:live_flight_tracker/utils/extension.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-class PlanContainer extends StatelessWidget {
+class PlanContainer extends StatefulWidget {
   const PlanContainer({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final controller = HomeController.instance;
+  State<PlanContainer> createState() => _PlanContainerState();
+}
 
+class _PlanContainerState extends State<PlanContainer> {
+  final controller = HomeController.instance;
+  final settingsController = SettingsController.instance;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 16.h),
       width: MediaQuery.of(context).size.width,
       child: Obx(() {
         return Column(children: [
-          _planItem(
-            weeklyPlan,
-            Plan.WEEKLY,
-            controller.selectedPlan,
+          Skeletonizer(
+            enabled: settingsController.isLoading,
+            child: _planItem(
+              weeklyPlan,
+              Plan.WEEKLY,
+              controller.selectedPlan,
+            ),
           ),
           SizedBox(height: 8.h),
-          _planItem(
-            monthlyPlan,
-            Plan.MONTHLY,
-            controller.selectedPlan,
+          Skeletonizer(
+            enabled: settingsController.isLoading,
+            child: _planItem(
+              monthlyPlan,
+              Plan.MONTHLY,
+              controller.selectedPlan,
+            ),
           ),
           SizedBox(height: 8.h),
-          _planItem(
-            yearlyPlan,
-            Plan.YEARLY,
-            controller.selectedPlan,
+          Skeletonizer(
+            enabled: settingsController.isLoading,
+            child: _planItem(
+              yearlyPlan,
+              Plan.YEARLY,
+              controller.selectedPlan,
+            ),
           ),
         ]);
       }),
@@ -66,9 +82,8 @@ class PlanContainer extends StatelessWidget {
   }
 
   Widget _planItem(String icon, Plan cValue, Plan gValue) {
-    StoreProduct? product = SettingsController.instance.storeProduct
-        .firstWhereOrNull(
-            (element) => element.identifier == getPlanIndentifier(cValue));
+    StoreProduct? product = settingsController.storeProduct.firstWhereOrNull(
+        (element) => element.identifier == getPlanIndentifier(cValue));
 
     return InkWell(
       onTap: () {

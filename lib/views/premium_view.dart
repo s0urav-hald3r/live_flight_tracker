@@ -9,7 +9,6 @@ import 'package:live_flight_tracker/utils/extension.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/config/images.dart';
 import 'package:live_flight_tracker/controllers/settings_controller.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class PremiumView extends StatefulWidget {
   const PremiumView({super.key});
@@ -92,10 +91,7 @@ class _PremiumViewState extends State<PremiumView> {
                         ),
                       ),
                       SizedBox(height: 8.h),
-                      Skeletonizer(
-                        enabled: controller.isLoading,
-                        child: const PlanContainer(),
-                      ),
+                      const PlanContainer(),
                       Container(
                         width: MediaQuery.of(context).size.width,
                         height: 48.h,
