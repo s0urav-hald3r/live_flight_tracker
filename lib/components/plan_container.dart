@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -116,25 +117,45 @@ class _PlanContainerState extends State<PlanContainer> {
                       color: whiteColor,
                     ),
                   ),
-                  if (product?.introductoryPrice != null)
-                    const Text(
-                      'Try 3 days free, cancel anytime.',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: textColor,
-                      ),
-                    )
-                  else
-                    Text(
-                      product?.description ?? '',
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: textColor,
-                      ),
-                    )
+                  // if (product?.introductoryPrice != null)
+                  //   const Text(
+                  //     'Try 3 days free, cancel anytime.',
+                  //     style: TextStyle(
+                  //       fontWeight: FontWeight.w400,
+                  //       fontSize: 14,
+                  //       color: textColor,
+                  //     ),
+                  //   )
+                  // else
+                  //   Text(
+                  //     product?.description ?? '',
+                  //     overflow: TextOverflow.ellipsis,
+                  //     style: const TextStyle(
+                  //       fontWeight: FontWeight.w400,
+                  //       fontSize: 14,
+                  //       color: textColor,
+                  //     ),
+                  //   ),
+                  DefaultTextStyle(
+                    maxLines: 1,
+                    style: const TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w400,
+                      color: textColor,
+                    ),
+                    child: AnimatedTextKit(
+                      animatedTexts: [
+                        TyperAnimatedText(
+                          'Get unlimited acces to all features.',
+                        ),
+                        if (product?.introductoryPrice != null)
+                          TyperAnimatedText(
+                            'Try 3 days free, cancel anytime.',
+                          ),
+                      ],
+                      repeatForever: true,
+                    ),
+                  ),
                 ]),
           ),
           const Spacer(),

@@ -10,14 +10,18 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:live_flight_tracker/components/flight_details.dart';
 import 'package:live_flight_tracker/components/location_box.dart';
 import 'package:live_flight_tracker/config/colors.dart';
+import 'package:live_flight_tracker/config/constants.dart';
 import 'package:live_flight_tracker/config/icons.dart';
 import 'package:live_flight_tracker/controllers/home_controller.dart';
+import 'package:live_flight_tracker/controllers/settings_controller.dart';
 import 'package:live_flight_tracker/flights_data.dart';
 import 'package:live_flight_tracker/models/flight_model.dart';
 import 'package:live_flight_tracker/models/place_model.dart';
+import 'package:live_flight_tracker/services/local_storage.dart';
 import 'package:live_flight_tracker/services/map_repository.dart';
 import 'package:live_flight_tracker/services/navigator_key.dart';
 import 'package:live_flight_tracker/utils/extension.dart';
+import 'package:live_flight_tracker/views/premium_view.dart';
 import 'package:live_flight_tracker/views/search_flights_view.dart';
 
 class LivePlanesView extends StatefulWidget {
@@ -131,13 +135,20 @@ class LivePlanesViewState extends State<LivePlanesView>
               rotation: (live.direction ?? 0).toDouble(),
               anchor: const Offset(0.5, 0.5),
               onTap: () {
-                showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    useSafeArea: true,
-                    builder: (context) {
-                      return FlightDetails(model: flight);
-                    });
+                int count = LocalStorage.getData(checkCount, KeyType.INT);
+                if (SettingsController.instance.isPremium || count < 2) {
+                  count++;
+                  LocalStorage.addData(checkCount, count);
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      useSafeArea: true,
+                      builder: (context) {
+                        return FlightDetails(model: flight);
+                      });
+                } else {
+                  NavigatorKey.push(const PremiumView());
+                }
               },
             );
           }
