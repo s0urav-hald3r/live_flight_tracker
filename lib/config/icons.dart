@@ -27,3 +27,5 @@ const String mapTick = 'assets/icons/map_tick.svg';
 
 const String myFlightsPlane = 'assets/icons/my_flights_plane.svg';
 const String calendar = 'assets/icons/calendar.svg';
+
+const String subscription = 'assets/icons/subscription.json';
