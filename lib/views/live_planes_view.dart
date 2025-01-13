@@ -337,25 +337,42 @@ class LivePlanesViewState extends State<LivePlanesView>
 
           if (!controller.havePermission) {
             return Center(
-              child: Container(
-                height: 48.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: primaryColor,
-                ),
-                child: ElevatedButton(
-                  child: const Text(
-                    'Allow Location Permission',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: whiteColor,
-                    ),
-                  ),
-                  onPressed: () {
-                    showPermissionBox();
-                  },
-                ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'App needs access to your location to display nearby flights accurately. You can choose to grant access now or later. Your location data will only be used while you are using the app.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          color: textColor,
+                        ),
+                      ),
+                      SizedBox(height: 20.h),
+                      Container(
+                        height: 48.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: primaryColor,
+                        ),
+                        child: ElevatedButton(
+                          child: const Text(
+                            'Allow Location Permission',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: whiteColor,
+                            ),
+                          ),
+                          onPressed: () {
+                            showPermissionBox();
+                          },
+                        ),
+                      ),
+                    ]),
               ),
             );
           }
